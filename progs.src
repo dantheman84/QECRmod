@@ -42,6 +42,8 @@ triggers.qc
 plats.qc
 misc.qc
 
+addon_mapcycler.qc  //JPS map cycler
+
 //ogre.qc
 //demon.qc
 //shambler.qc
