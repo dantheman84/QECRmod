@@ -631,7 +631,7 @@ string (float mapnum) strings_get_mapname =
 	if (mapnum == 7)
             return "ultrav";
 	if (mapnum == 8)
-            return "q3dm6ish";   
+            return "q3dm6qw";   
 	if (mapnum == 9)
             return "aggressr";                                                            
         return "";

@@ -28,13 +28,13 @@ string motd_bottom;
 //
 void () motd_init_world =
 {
-    motd_top1 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\n";
+    motd_top1 = "Clan Ring Mod v4.0\n";
     motd_top2 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\n\n";
     motd_top3 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\nBug reports   crbug@mpog.com \n\n";
     motd_top4 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\nhttp://www.mpog.com/clanring/crmod\nBug reports   crbug@mpog.com \n\n";
     motd_top5 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\n       and Παυμ Βαλες   pbaker@mpog.com\nhttp://www.mpog.com/clanring/crmod\nBug reports   crbug@mpog.com \n\n";
     motd_top6 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\nWritten by Κ®Π® Ηςοσσναξ jpg@ai.mit.edu\n       and Παυμ Βαλες   pbaker@mpog.com\nhttp://www.mpog.com/clanring/crmod\nBug reports   crbug@mpog.com \n\n";
-    motd_top7_1 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\n\nWritten by Κ®Π® Ηςοσσναξ jpg@ai.mit.edu\n       and Παυμ Βαλες   pbaker@mpog.com\nhttp://www.mpog.com/clanring/crmod\nBug reports   crbug@mpog.com \n\n";
+    motd_top7_1 = "€‚ΓμαξÒιξη ΓÒΝοδ«« Φ–®’€‚\n\nWritten by JP Grossman jpg@ai.mit.edu\n       and Παυμ Βαλες   pbaker@mpog.com\nhttp://www.mpog.com/clanring/crmod\nBug reports   crbug@mpog.com \n\n";
     motd_top7_2 = "€‚ClanRing CRMod++ Φ΄®°€‚\n\nWritten by κ.π. ηÒ’σσν–ξ jpgΐai.mit.edu\n       and ΠΑΥΜ ΒΑΛΕÒ   pbaker@mpog.com\nhttpΊ――www.mpog.com/clanring/crmod\nBug reports  ­crbug@mpog.com­\n\n";
     motd_top7_3 = "€‚ClanRing ΓÒΝοδ«« V4®0€‚\n\nWritten by Κπ. ης’Σσν–ξ jpgΐai.mit.edu\n       and P–υl B–λ•r   pbakerΐmpog.com\nhttpΊ――www®mpog®com/clanring/crmod\nBug reports  άcrbug@mpog.com―\n\n";
     motd_top7_4 = "€‚ΐΜ–Ξς“ΞΗ CRMod++ Φ–®’€‚\n\nWritten by κ.Π ης’σΣν–ξ jpgΐai®mit®edu\n       and p–ΥL b–Λ•R   pbakerΐmpog®com\nhttpΊ――www®mpog®com―clanring―crmod\nBug reports  Ιcrbug@mpog.comΙ\n\n";
