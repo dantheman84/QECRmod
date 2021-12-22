@@ -43,7 +43,7 @@ buttons.qc
 triggers.qc
 plats.qc
 misc.qc
-
+spawn.qc
 addon_mapcycler.qc  //JPS map cycler
 
 //ogre.qc

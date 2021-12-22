@@ -1,4 +1,4 @@
-
+void () place_my_items;
 void() InitBodyQue;
 
 
@@ -337,6 +337,9 @@ void() worldspawn =
 
 	// 63 testing
 	lightstyle(63, "a");
+	
+	
+	place_my_items (); //spawn stuff
 
     // ELOHIM_MOD - do elohim specific stuff
     elohim_init_world();
