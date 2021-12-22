@@ -4,8 +4,10 @@ Crmod v4 ported to Quake Enhanced
 # What is it?
 
 Crmod port.
-https://docs.google.com/document/d/1ZufD9oo8IP4dla9Zy7cbv0q5zwi8AJHP2qStlEFtbOw/edit#   Quake Enhanced Specific documentation
-http://www.crmod.com/manual.html          Original Website manual
+# Quake Enhanced Specific documentation: 
+https://docs.google.com/document/d/1ZufD9oo8IP4dla9Zy7cbv0q5zwi8AJHP2qStlEFtbOw/edit#   
+# Original Website manual: 
+http://www.crmod.com/manual.html        
 
 # How to install
 Go to your 'Saved games' quake folder, NOT THE STEAM FOLDER. You can go to it by pressing Windows+R and typing: %userprofile%\Saved Games\Nightdive Studios\Quake\Id1
