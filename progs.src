@@ -1,4 +1,4 @@
-../progs.dat
+build/progs.dat
 
 defs.qc
 maps.qc
@@ -8,7 +8,6 @@ maps.qc
 array.qc    // elohim mod
 userdefs.qc // elohim mod
 elodefs.qc  // elohim mod
-qetweaks.qc
 hotspots.qc // crmod
 
 utils.qc    // elohim mod
@@ -27,6 +26,8 @@ match.qc    // elohim mod
 admin.qc    // elohim mod
 console.qc  // elohim mod
 options.qc  // elohim mod
+
+hud.qc // hud mod
 
 subs.qc
 //fight.qc

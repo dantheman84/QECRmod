@@ -1201,6 +1201,9 @@ void() PlayerPreThink =
     // - do periodic checks
     // - moved CheckWaterJump to WaterMove
 
+	// Recalculate/redraw player HUD
+	HudThink(self);
+
     if (gameover)
     {
         if (intermission_running)
