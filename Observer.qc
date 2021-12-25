@@ -453,8 +453,9 @@ void () observer_start =
     else
         observer_walk_start();
 
-    if (self.style & ELOHIM_HEADS_UP)
-        stuffcmd(self, "viewsize 120\n");
+    // BROKEN
+    // if (self.style & ELOHIM_HEADS_UP)
+    //     stuffcmd(self, "viewsize 120\n");
 
     // Check to see if anyone was observing this client
     observer_disconnect_notify(self);
@@ -477,8 +478,9 @@ void () observer_end =
     observer_check_demo_end();
     stuffcmd(self, "sm0\n");		// CRMOD - smoothing off
     stuffcmd(self, "v_centerspeed 500\n");
-    if (self.style & ELOHIM_HEADS_UP)
-	    stuffcmd(self, "viewsize 100\n");
+    // BROKEN
+    // if (self.style & ELOHIM_HEADS_UP)
+	//     stuffcmd(self, "viewsize 100\n");
     if (!(elohim_playmode & ELOHIM_MATCH_MODE))
         centerprint(self, "Observer mode off");
 
@@ -1793,13 +1795,15 @@ void () observer_heads_up =
     {
         self.style = self.style - ELOHIM_HEADS_UP;
         sprint(self, "Heads up display disabled\n");
-        stuffcmd(self, "viewsize 100\n");
+        // BROKEN
+        // stuffcmd(self, "viewsize 100\n");
     }
     else
     {
         self.style = self.style | ELOHIM_HEADS_UP;
         sprint(self, "Heads up display enabled\n");
-        stuffcmd(self, "viewsize 120\n");
+        // BROKEN
+        // stuffcmd(self, "viewsize 120\n");
     }
     self.delay = 0;
 };
