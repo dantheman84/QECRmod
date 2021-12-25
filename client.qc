@@ -1463,6 +1463,11 @@ void() PlayerPostThink =
         observer_post_think();
         return;
     }
+	else
+	{
+        // Recalculate/redraw player HUD
+        hud_update();
+	}
 
     if (self.impulse)
     {
