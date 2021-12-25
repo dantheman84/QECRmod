@@ -1201,9 +1201,6 @@ void() PlayerPreThink =
     // - do periodic checks
     // - moved CheckWaterJump to WaterMove
 
-	// Recalculate/redraw player HUD
-	HudThink(self);
-
     if (gameover)
     {
         if (intermission_running)
@@ -1466,6 +1463,11 @@ void() PlayerPostThink =
         observer_post_think();
         return;
     }
+	else
+	{
+		// Recalculate/redraw player HUD
+		hud_update();
+	}
 
     if (self.impulse)
     {

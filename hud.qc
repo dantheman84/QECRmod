@@ -1,53 +1,123 @@
-// Next time to update hud
-float hud_next_think;
-
-// Think function for game timer
-void HudThink(entity client) =
+// Update player HUD with match timer, current score, weapon and ammo count info
+void hud_update() =
 {
     // Let the welcome message print, CRmod takes about 16-17 seconds
 	if (time < 17)
 		return;
 
-	// Only update once per second
-	if (time < hud_next_think)
+	// Only update after delay time has been reached
+	if (time < self.delay)
 	{
         return;
     }
 
-    // Set next think time
-    hud_next_think = time + 0.1;
+    // Only update every 0.1 seconds
+    self.delay = time + 0.1;
 
     // Calculate time values for display
-    local float cur_sec = elohim_match_timer.count;
-    local float cur_min = elohim_match_timer.lip;
+    local float cur_sec;
+    local float cur_min;
+
+    // Print different timer values based on what's interesting
+    if (elohim_state & ELOHIM_TIMER_STARTED)
+    {
+        cur_sec = elohim_match_timer.count;
+        cur_min = elohim_match_timer.lip;
+    }
+    else if (timelimit != 0)
+    {
+        cur_sec = floor(timelimit - time) % 60;
+        cur_min = floor(floor(timelimit - time) / 60);
+    }
+    else
+    {
+        cur_sec = floor(time) % 60;
+        cur_min = floor(floor(time) / 60);
+    }
 
 	// Reminder: centerprint can do 7 strings, 40 lines, 50 characters wide
-    msg_entity = client;
+    msg_entity = self;
     WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
     // 1 base(?) + 1 format string + 18 format parameters
     WriteShort (MSG_ONE, 20); // QE reserved
 
-    // Print 17 newlines to push hud to bottom of screen
+    // Print newlines to push hud to bottom of screen
+    local float newlines;
+    if (cvar("cl_hud") == 3) // Quake HUD full
+    {
+        if (cvar("scr_usekfont") == 0)
+        {
+            newlines = 19;
+        }
+        else
+        {
+            newlines = 15;
+        }
+    }
+    else if (cvar("cl_hud") == 2) // Quake HUD standard
+    {
+        if (cvar("scr_usekfont") == 0)
+        {
+            newlines = 20;
+        }
+        else
+        {
+            newlines = 16;
+        }
+    }
+    else if (cvar("cl_hud") == 0) // Quake HUD off
+    {
+        if (cvar("scr_usekfont") == 0)
+        {
+            newlines = 21;
+        }
+        else
+        {
+            newlines = 17;
+        }
+    }
+    else // Quake HUD or minimal
+    {
+        newlines = 17;
+    }
     local float i;
-    for(i = 0; i < 17; i = i + 1)
+    for(i = 0; i < newlines; i = i + 1)
     {
         WriteByte (MSG_ONE, '\n');
     }
 
     // Write format string
-    WriteString(MSG_ONE,
-    // Timer
-    "\x10{}{}:{}{}\x11                                          \n"
-    // Frags, Cells
-    "\x10   {}{}\x11                                   {}\x10{}{}\x11\n"
-    // Rockets
-    "                                           {}\x10{}{}\x11\n"
-    // Nails
-    "                                           {}\x10{}{}\x11\n"
-    // Shells
-    "                                           {}\x10{}{}\x11\n"
-    );
+    if (cvar("scr_usekfont") == 0)
+    {
+        WriteString(MSG_ONE,
+            // Timer
+            "\x10{}{}:{}{}\x11                                          \n"
+            // Frags, Cells
+            "\x10   {}{}\x11                                   {}\x10{}{}\x11\n"
+            // Rockets
+            "                                           {}\x10{}{}\x11\n"
+            // Nails
+            "                                           {}\x10{}{}\x11\n"
+            // Shells
+            "                                           {}\x10{}{}\x11\n"
+        );
+    }
+    else
+    {
+        WriteString(MSG_ONE,
+            // Timer
+            " {}{}:{}{}                                         \n"
+            // Frags, Cells
+            "    {}{}                                 {} {}{} \n"
+            // Rockets
+            "                                        {} {}{} \n"
+            // Nails
+            "                                        {} {}{} \n"
+            // Shells
+            "                                        {} {}{} \n"
+        );
+    }
 
     // Timer
     // Padding
@@ -81,19 +151,19 @@ void HudThink(entity client) =
 
     // Frags/Score
     // Padding
-    if (client.frags < -9)
+    if (self.frags < -9)
     {
         WriteString(MSG_ONE, "");
     }
-    else if (client.frags < 0)
+    else if (self.frags < 0)
     {
         WriteString(MSG_ONE, " ");
     }
-    else if (client.frags < 10)
+    else if (self.frags < 10)
     {
         WriteString(MSG_ONE, "  ");
     }
-    else if (client.frags < 100)
+    else if (self.frags < 100)
     {
         WriteString(MSG_ONE, " ");
     }
@@ -102,23 +172,30 @@ void HudThink(entity client) =
         WriteString(MSG_ONE, "");
     }
     // Value
-    WriteString(MSG_ONE, ftos(client.frags));
+    WriteString(MSG_ONE, ftos(self.frags));
 
     // LG, Cells
     if (self.items & IT_LIGHTNING)
     {
-        WriteString(MSG_ONE, " \xec"); // red l
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xec"); // red l
+        }
+        else
+        {
+            WriteString(MSG_ONE, " l"); // white l
+        }
     }
     else
     {
         WriteString(MSG_ONE, "  ");
     }
     // Padding
-    if (client.ammo_cells < 10)
+    if (self.ammo_cells < 10)
     {
         WriteString(MSG_ONE, "  ");
     }
-    else if (client.ammo_cells < 100)
+    else if (self.ammo_cells < 100)
     {
         WriteString(MSG_ONE, " ");
     }
@@ -127,31 +204,52 @@ void HudThink(entity client) =
         WriteString(MSG_ONE, "");
     }
     // Value
-    WriteString(MSG_ONE, ftos(client.ammo_cells));
+    WriteString(MSG_ONE, ftos(self.ammo_cells));
 
     // RL/GL, Rockets
-    if ((client.items & IT_GRENADE_LAUNCHER) && (client.items & IT_ROCKET_LAUNCHER))
+    if ((self.items & IT_GRENADE_LAUNCHER) && (self.items & IT_ROCKET_LAUNCHER))
     {
-        WriteString(MSG_ONE, "\xe7\xf2"); // red gl
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, "\xe7\xf2"); // red gl
+        }
+        else
+        {
+            WriteString(MSG_ONE, "gl"); // white gl
+        }
     }
-    else if (client.items & IT_GRENADE_LAUNCHER)
+    else if (self.items & IT_GRENADE_LAUNCHER)
     {
-        WriteString(MSG_ONE, " \xe7"); // red g
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xe7"); // red g
+        }
+        else
+        {
+            WriteString(MSG_ONE, " g"); // white g
+        }
     }
-    else if (client.items & IT_ROCKET_LAUNCHER)
+    else if (self.items & IT_ROCKET_LAUNCHER)
     {
-        WriteString(MSG_ONE, " \xf2"); // red r
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xf2"); // red r
+        }
+        else
+        {
+            WriteString(MSG_ONE, " r"); // white r
+        }
     }
     else
     {
         WriteString(MSG_ONE, "  ");
     }
     // Padding
-    if (client.ammo_rockets < 10)
+    if (self.ammo_rockets < 10)
     {
         WriteString(MSG_ONE, "  ");
     }
-    else if (client.ammo_rockets < 100)
+    else if (self.ammo_rockets < 100)
     {
         WriteString(MSG_ONE, " ");
     }
@@ -160,31 +258,52 @@ void HudThink(entity client) =
         WriteString(MSG_ONE, "");
     }
     // Value
-    WriteString(MSG_ONE, ftos(client.ammo_rockets));
+    WriteString(MSG_ONE, ftos(self.ammo_rockets));
 
     // NG/SNG, Nails
-    if ((client.items & IT_NAILGUN) && (client.items & IT_SUPER_NAILGUN))
+    if ((self.items & IT_NAILGUN) && (self.items & IT_SUPER_NAILGUN))
     {
-        WriteString(MSG_ONE, "\xee\xf3"); // red ns
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, "\xee\xf3"); // red ns
+        }
+        else
+        {
+            WriteString(MSG_ONE, "ns"); // white ns
+        }
     }
-    else if (client.items & IT_NAILGUN)
+    else if (self.items & IT_NAILGUN)
     {
-        WriteString(MSG_ONE, " \xee"); //red n
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xee"); //red n
+        }
+        else
+        {
+            WriteString(MSG_ONE, " n"); //white n
+        }
     }
-    else if (client.items & IT_SUPER_NAILGUN)
+    else if (self.items & IT_SUPER_NAILGUN)
     {
-        WriteString(MSG_ONE, " \xf3"); // red s
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xf3"); // red s
+        }
+        else
+        {
+            WriteString(MSG_ONE, " s"); // white s
+        }
     }
     else
     {
         WriteString(MSG_ONE, "  ");
     }
     // Padding
-    if (client.ammo_nails < 10)
+    if (self.ammo_nails < 10)
     {
         WriteString(MSG_ONE, "  ");
     }
-    else if (client.ammo_nails < 100)
+    else if (self.ammo_nails < 100)
     {
         WriteString(MSG_ONE, " ");
     }
@@ -193,31 +312,52 @@ void HudThink(entity client) =
         WriteString(MSG_ONE, "");
     }
     // Value
-    WriteString(MSG_ONE, ftos(client.ammo_nails));
+    WriteString(MSG_ONE, ftos(self.ammo_nails));
 
     // SG/SSG, Shells
-    if ((client.items & IT_SHOTGUN) && (client.items & IT_SUPER_SHOTGUN))
+    if ((self.items & IT_SHOTGUN) && (self.items & IT_SUPER_SHOTGUN))
     {
-        WriteString(MSG_ONE, "\xf3\xf3"); // red ss
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, "\xf3\xf3"); // red ss
+        }
+        else
+        {
+            WriteString(MSG_ONE, "ss"); // white ss
+        }
     }
-    else if (client.items & IT_SHOTGUN)
+    else if (self.items & IT_SHOTGUN)
     {
-        WriteString(MSG_ONE, " \xf3"); //red s
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xf3"); //red s
+        }
+        else
+        {
+            WriteString(MSG_ONE, " s"); //white s
+        }
     }
-    else if (client.items & IT_SUPER_SHOTGUN)
+    else if (self.items & IT_SUPER_SHOTGUN)
     {
-        WriteString(MSG_ONE, " \xf3"); // red s
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, " \xf3"); // red s
+        }
+        else
+        {
+            WriteString(MSG_ONE, " s"); // white s
+        }
     }
     else
     {
         WriteString(MSG_ONE, "  ");
     }
     // Padding
-    if (client.ammo_shells < 10)
+    if (self.ammo_shells < 10)
     {
         WriteString(MSG_ONE, "  ");
     }
-    else if (client.ammo_shells < 100)
+    else if (self.ammo_shells < 100)
     {
         WriteString(MSG_ONE, " ");
     }
@@ -226,7 +366,7 @@ void HudThink(entity client) =
         WriteString(MSG_ONE, "");
     }
     // Value
-    WriteString(MSG_ONE, ftos(client.ammo_shells));
+    WriteString(MSG_ONE, ftos(self.ammo_shells));
 
     // Everything after the format string parameters gets eaten
 
