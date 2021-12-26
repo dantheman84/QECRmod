@@ -629,15 +629,19 @@ void () match_start_timer =
     elohim_match_timer = spawn();
     elohim_match_timer.classname = "elohim_match_timer";
     elohim_match_timer.think = match_timer_think1;
-    elohim_match_timer.nextthink = time + 30;
-    elohim_match_timer.count = 30;
+    elohim_match_timer.nextthink = floor(time) + 2;
+    //elohim_match_timer.nextthink = time + 30;
+    //elohim_match_timer.count = 30;
+    
+    
 
     elohim_teamfrags1 = 0;
     elohim_teamfrags2 = 0;
     elohim_state = elohim_state | ELOHIM_TIMER_STARTED;
     elohim_state = elohim_state - (elohim_state & ELOHIM_MATCH_OVER);
     match_show_timelimit();
-    bprint("Match begins in 1 minute\n");
+    elohim_match_timer.count = 19;
+    bprint("Match begins in 20 seconds\n");
     bprint("Timelimit is ");
     utils_bprint_float(elohim_timelimit);
 };
