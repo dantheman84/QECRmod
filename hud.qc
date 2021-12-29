@@ -35,12 +35,28 @@ void hud_update() =
         cur_min = floor(floor(time) / 60);
     }
 
+    // Team scores if a match is in progress
+    local float my_team_score;
+    local float their_team_score;
+
+    // Always print my team's score on the left
+    if (self.height == elohim_team2)
+    {
+        my_team_score = elohim_teamfrags2;
+        their_team_score = elohim_teamfrags1;
+    }
+    else
+    {
+        my_team_score = elohim_teamfrags1;
+        their_team_score = elohim_teamfrags2;
+    }
+
 	// Reminder: centerprint can do 7 strings, 40 lines, 50 characters wide
     msg_entity = self;
     WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
-    // 1 base(?) + 1 format string + 18 format parameters
-    WriteShort (MSG_ONE, 20); // QE reserved
+    // 1 base(?) + 1 format string + 21 format parameters
+    WriteShort (MSG_ONE, 23); // QE reserved
 
     // Print newlines to push hud to bottom of screen
     local float newlines;
@@ -92,9 +108,9 @@ void hud_update() =
     {
         WriteString(MSG_ONE,
             // Timer
-            "\x10{}{}:{}{}\x11                                          \n"
+            "\x10  {}{}:{}{}\x11                                        \n"
             // Frags, Cells
-            "\x10   {}{}\x11                                   {}\x10{}{}\x11\n"
+            "\x10{}{}{}{}{}\x11                                 {}\x10{}{}\x11\n"
             // Rockets
             "                                           {}\x10{}{}\x11\n"
             // Nails
@@ -107,9 +123,9 @@ void hud_update() =
     {
         WriteString(MSG_ONE,
             // Timer
-            " {}{}:{}{}                                         \n"
+            "    {}{}:{}{}                                        \n"
             // Frags, Cells
-            "    {}{}                                 {} {}{} \n"
+            " {}{}{}{}{}                               {} {}{} \n"
             // Rockets
             "                                        {} {}{} \n"
             // Nails
@@ -150,36 +166,105 @@ void hud_update() =
     WriteString(MSG_ONE, ftos(cur_sec));
 
     // Frags/Score
-    // Padding
-    if (self.frags < -9)
+    // Non-match version
+    if (!(elohim_state & ELOHIM_TIMER_STARTED))
     {
-        WriteString(MSG_ONE, "");
-    }
-    else if (self.frags < 0)
-    {
-        WriteString(MSG_ONE, " ");
-    }
-    else if (self.frags < 10)
-    {
+        // Spacing before score
         WriteString(MSG_ONE, "  ");
-    }
-    else if (self.frags < 100)
-    {
         WriteString(MSG_ONE, " ");
+        WriteString(MSG_ONE, "  ");
+        // 3-digit score padding
+        if (self.frags < -9)
+        {
+            WriteString(MSG_ONE, "");
+        }
+        else if (self.frags < 0)
+        {
+            WriteString(MSG_ONE, " ");
+        }
+        else if (self.frags < 10)
+        {
+            WriteString(MSG_ONE, "  ");
+        }
+        else if (self.frags < 100)
+        {
+            WriteString(MSG_ONE, " ");
+        }
+        else // >= 100
+        {
+            WriteString(MSG_ONE, "");
+        }
+        // Value
+        WriteString(MSG_ONE, ftos(self.frags));
     }
-    else // >= 100
+    // Match version
+    else
     {
-        WriteString(MSG_ONE, "");
+        // 3-digit score padding
+        if (my_team_score < -9)
+        {
+            WriteString(MSG_ONE, "");
+        }
+        else if (my_team_score < 0)
+        {
+            WriteString(MSG_ONE, " ");
+        }
+        else if (my_team_score < 10)
+        {
+            WriteString(MSG_ONE, "  ");
+        }
+        else if (my_team_score < 100)
+        {
+            WriteString(MSG_ONE, " ");
+        }
+        else // >= 100
+        {
+            WriteString(MSG_ONE, "");
+        }
+        // My Team Score Value
+        WriteString(MSG_ONE, ftos(my_team_score));
+
+        // Inter-Team-Score Brackets
+        if (cvar("scr_usekfont") == 0)
+        {
+            WriteString(MSG_ONE, "\x11\x10");
+        }
+        else
+        {
+            WriteString(MSG_ONE, "  ");
+        }
+
+        // 3-digit score padding
+        if (their_team_score < -9)
+        {
+            WriteString(MSG_ONE, "");
+        }
+        else if (their_team_score < 0)
+        {
+            WriteString(MSG_ONE, " ");
+        }
+        else if (their_team_score < 10)
+        {
+            WriteString(MSG_ONE, "  ");
+        }
+        else if (their_team_score < 100)
+        {
+            WriteString(MSG_ONE, " ");
+        }
+        else // >= 100
+        {
+            WriteString(MSG_ONE, "");
+        }
+        // Second Team Score Value
+        WriteString(MSG_ONE, ftos(their_team_score));
     }
-    // Value
-    WriteString(MSG_ONE, ftos(self.frags));
 
     // LG, Cells
     if (self.items & IT_LIGHTNING)
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \bl"); // bronze l
+            WriteString(MSG_ONE, " \sl"); // bronze l
         }
         else
         {
@@ -211,7 +296,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, "\bgr"); // bronze gr
+            WriteString(MSG_ONE, "\sgr"); // bronze gr
         }
         else
         {
@@ -222,7 +307,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \bg"); // bronze g
+            WriteString(MSG_ONE, " \sg"); // bronze g
         }
         else
         {
@@ -233,7 +318,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \br"); // bronze r
+            WriteString(MSG_ONE, " \sr"); // bronze r
         }
         else
         {
@@ -265,7 +350,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, "\bns"); // bronze ns
+            WriteString(MSG_ONE, "\sns"); // bronze ns
         }
         else
         {
@@ -276,7 +361,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \bn"); // bronze n
+            WriteString(MSG_ONE, " \sn"); // bronze n
         }
         else
         {
@@ -287,7 +372,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \bs"); // bronze s
+            WriteString(MSG_ONE, " \ss"); // bronze s
         }
         else
         {
@@ -319,7 +404,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, "\bss"); // bronze ss
+            WriteString(MSG_ONE, "\sss"); // bronze ss
         }
         else
         {
@@ -330,7 +415,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \bs"); //bronze s
+            WriteString(MSG_ONE, " \ss"); //bronze s
         }
         else
         {
@@ -341,7 +426,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \bs"); // bronze s
+            WriteString(MSG_ONE, " \ss"); // bronze s
         }
         else
         {
