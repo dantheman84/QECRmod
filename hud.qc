@@ -179,7 +179,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xec"); // red l
+            WriteString(MSG_ONE, " \bl"); // bronze l
         }
         else
         {
@@ -211,18 +211,18 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, "\xe7\xf2"); // red gl
+            WriteString(MSG_ONE, "\bgr"); // bronze gr
         }
         else
         {
-            WriteString(MSG_ONE, "gl"); // white gl
+            WriteString(MSG_ONE, "gr"); // white gr
         }
     }
     else if (self.items & IT_GRENADE_LAUNCHER)
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xe7"); // red g
+            WriteString(MSG_ONE, " \bg"); // bronze g
         }
         else
         {
@@ -233,7 +233,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xf2"); // red r
+            WriteString(MSG_ONE, " \br"); // bronze r
         }
         else
         {
@@ -265,7 +265,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, "\xee\xf3"); // red ns
+            WriteString(MSG_ONE, "\bns"); // bronze ns
         }
         else
         {
@@ -276,7 +276,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xee"); //red n
+            WriteString(MSG_ONE, " \bn"); // bronze n
         }
         else
         {
@@ -287,7 +287,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xf3"); // red s
+            WriteString(MSG_ONE, " \bs"); // bronze s
         }
         else
         {
@@ -319,7 +319,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, "\xf3\xf3"); // red ss
+            WriteString(MSG_ONE, "\bss"); // bronze ss
         }
         else
         {
@@ -330,7 +330,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xf3"); //red s
+            WriteString(MSG_ONE, " \bs"); //bronze s
         }
         else
         {
@@ -341,7 +341,7 @@ void hud_update() =
     {
         if (cvar("scr_usekfont") == 0)
         {
-            WriteString(MSG_ONE, " \xf3"); // red s
+            WriteString(MSG_ONE, " \bs"); // bronze s
         }
         else
         {
