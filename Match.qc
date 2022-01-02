@@ -361,9 +361,9 @@ void () match_timer_think2 =
 			match_bprint_score();
 		}
 	}
-    else if (self.count == 30)
+    else if (self.count == 15)
     {
-        bprint("Match ends in 30 seconds\n");
+        bprint("Match ends in 15 seconds\n");
         if (elohim_overtime)
         {
             temp = ftos(elohim_overtime);
