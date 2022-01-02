@@ -59,44 +59,7 @@ void hud_update() =
     WriteShort (MSG_ONE, 23); // QE reserved
 
     // Print newlines to push hud to bottom of screen
-    local float newlines;
-    if (cvar("cl_hud") == 3) // Quake HUD full
-    {
-        if (cvar("scr_usekfont") == 0)
-        {
-            newlines = 19;
-        }
-        else
-        {
-            newlines = 15;
-        }
-    }
-    else if (cvar("cl_hud") == 2) // Quake HUD standard
-    {
-        if (cvar("scr_usekfont") == 0)
-        {
-            newlines = 20;
-        }
-        else
-        {
-            newlines = 16;
-        }
-    }
-    else if (cvar("cl_hud") == 0) // Quake HUD off
-    {
-        if (cvar("scr_usekfont") == 0)
-        {
-            newlines = 21;
-        }
-        else
-        {
-            newlines = 17;
-        }
-    }
-    else // Quake HUD or minimal
-    {
-        newlines = 17;
-    }
+    local float newlines = 17;
     local float i;
     for(i = 0; i < newlines; i = i + 1)
     {
@@ -104,36 +67,18 @@ void hud_update() =
     }
 
     // Write format string
-    if (cvar("scr_usekfont") == 0)
-    {
-        WriteString(MSG_ONE,
-            // Timer
-            "\x10  {}{}:{}{}\x11                                        \n"
-            // Frags, Cells
-            "\x10{}{}{}{}{}\x11                                 {}\x10{}{}\x11\n"
-            // Rockets
-            "                                           {}\x10{}{}\x11\n"
-            // Nails
-            "                                           {}\x10{}{}\x11\n"
-            // Shells
-            "                                           {}\x10{}{}\x11\n"
-        );
-    }
-    else
-    {
-        WriteString(MSG_ONE,
-            // Timer
-            "    {}{}:{}{}                                        \n"
-            // Frags, Cells
-            " {}{}{}{}{}                               {} {}{} \n"
-            // Rockets
-            "                                        {} {}{} \n"
-            // Nails
-            "                                        {} {}{} \n"
-            // Shells
-            "                                        {} {}{} \n"
-        );
-    }
+    WriteString(MSG_ONE,
+        // Timer
+        "\x10  {}{}:{}{}\x11                                        \n"
+        // Frags, Cells
+        "\x10{}{}{}{}{}\x11                                 {}\x10{}{}\x11\n"
+        // Rockets
+        "                                           {}\x10{}{}\x11\n"
+        // Nails
+        "                                           {}\x10{}{}\x11\n"
+        // Shells
+        "                                           {}\x10{}{}\x11\n"
+    );
 
     // Timer
     // Padding
@@ -225,14 +170,7 @@ void hud_update() =
         WriteString(MSG_ONE, ftos(my_team_score));
 
         // Inter-Team-Score Brackets
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, "\x11\x10");
-        }
-        else
-        {
-            WriteString(MSG_ONE, "  ");
-        }
+        WriteString(MSG_ONE, "\x11\x10");
 
         // 3-digit score padding
         if (their_team_score < -9)
@@ -262,14 +200,7 @@ void hud_update() =
     // LG, Cells
     if (self.items & IT_LIGHTNING)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, " \sl"); // bronze l
-        }
-        else
-        {
-            WriteString(MSG_ONE, " l"); // white l
-        }
+        WriteString(MSG_ONE, " \sl"); // bronze l
     }
     else
     {
@@ -294,36 +225,15 @@ void hud_update() =
     // RL/GL, Rockets
     if ((self.items & IT_GRENADE_LAUNCHER) && (self.items & IT_ROCKET_LAUNCHER))
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, "\sgr"); // bronze gr
-        }
-        else
-        {
-            WriteString(MSG_ONE, "gr"); // white gr
-        }
+        WriteString(MSG_ONE, "\sgr"); // bronze gr
     }
     else if (self.items & IT_GRENADE_LAUNCHER)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, " \sg"); // bronze g
-        }
-        else
-        {
-            WriteString(MSG_ONE, " g"); // white g
-        }
+        WriteString(MSG_ONE, " \sg"); // bronze g
     }
     else if (self.items & IT_ROCKET_LAUNCHER)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, " \sr"); // bronze r
-        }
-        else
-        {
-            WriteString(MSG_ONE, " r"); // white r
-        }
+        WriteString(MSG_ONE, " \sr"); // bronze r
     }
     else
     {
@@ -348,36 +258,15 @@ void hud_update() =
     // NG/SNG, Nails
     if ((self.items & IT_NAILGUN) && (self.items & IT_SUPER_NAILGUN))
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, "\sns"); // bronze ns
-        }
-        else
-        {
-            WriteString(MSG_ONE, "ns"); // white ns
-        }
+        WriteString(MSG_ONE, "\sns"); // bronze ns
     }
     else if (self.items & IT_NAILGUN)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
             WriteString(MSG_ONE, " \sn"); // bronze n
-        }
-        else
-        {
-            WriteString(MSG_ONE, " n"); //white n
-        }
     }
     else if (self.items & IT_SUPER_NAILGUN)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, " \ss"); // bronze s
-        }
-        else
-        {
-            WriteString(MSG_ONE, " s"); // white s
-        }
+        WriteString(MSG_ONE, " \ss"); // bronze s
     }
     else
     {
@@ -402,36 +291,15 @@ void hud_update() =
     // SG/SSG, Shells
     if ((self.items & IT_SHOTGUN) && (self.items & IT_SUPER_SHOTGUN))
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, "\sss"); // bronze ss
-        }
-        else
-        {
-            WriteString(MSG_ONE, "ss"); // white ss
-        }
+        WriteString(MSG_ONE, "\sss"); // bronze ss
     }
     else if (self.items & IT_SHOTGUN)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, " \ss"); //bronze s
-        }
-        else
-        {
-            WriteString(MSG_ONE, " s"); //white s
-        }
+        WriteString(MSG_ONE, " \ss"); //bronze s
     }
     else if (self.items & IT_SUPER_SHOTGUN)
     {
-        if (cvar("scr_usekfont") == 0)
-        {
-            WriteString(MSG_ONE, " \ss"); // bronze s
-        }
-        else
-        {
-            WriteString(MSG_ONE, " s"); // white s
-        }
+        WriteString(MSG_ONE, " \ss"); // bronze s
     }
     else
     {
