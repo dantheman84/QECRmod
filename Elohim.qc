@@ -455,21 +455,9 @@ void () elohim_init_think =
 	// test for binds 
     stuffcmd(self, "ignorethis\n");                     // CRMOD
 
-    // Notify the client if they didn't turn off cl_filterstuffcmds
-    if (cvar("cl_filterstuffcmd") == 1)
-    {
-      sprint(self, "cl_filterstuffcmd is 1\n");
-    }
-    else
-    {
-      sprint(self, "Trying to disable unicode fonts...\n");
-      // Disable unicode font (allow quake characters/red letters)
-      stuffcmd(self, "scr_usekfont 0\n");
-      if (cvar("scr_usekfont") == 1)
-      {
-        sprint(self, "scr_usekfont is 1\n");
-      }
-    }
+    sprint(self, "Trying to disable unicode font...\n");
+    // Disable unicode font (allow quake characters/red letters)
+    stuffcmd(self, "scr_usekfont 0\n");
 
     self = temp;
     self.think = elohim_pre_set_aliases;
