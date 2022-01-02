@@ -361,9 +361,9 @@ void () match_timer_think2 =
 			match_bprint_score();
 		}
 	}
-    else if (self.count == 15)
+    else if (self.count == 30)
     {
-        bprint("Match ends in 15 seconds\n");
+        bprint("Match ends in 30 seconds\n");
         if (elohim_overtime)
         {
             temp = ftos(elohim_overtime);
@@ -470,9 +470,22 @@ void () match_timer_think1 =
 {
     local string temp;
 
-    if (self.count == 30)
+    if (self.count == 20)
     {
-        // respawn all items
+    	
+    	elohim_maxsize = utils_max(elohim_teamsize1, elohim_teamsize2);
+        temp = ftos(elohim_maxsize);
+        bprint5("Match is currently ", temp, "v", temp, "\n");
+        bprint("Match begins in 20 seconds\n");
+
+        self.count = 10;
+        self.nextthink = time + 10;
+        
+
+    }
+    else if (self.count == 15)
+    {
+	// respawn all items
         utils_do_items(SUB_regen);
         if (elohim_playmode & ELOHIM_NO_QUAD)
             utils_do_item(admin_disable_item, "item_artifact_super_damage");
@@ -482,20 +495,10 @@ void () match_timer_think1 =
             utils_do_item(admin_disable_item, "item_artifact_invisibility");
 
         bprint("All items have respawned\n");
-        bprint("Match begins in 30 seconds\n");
-
-        self.count = 20;
-        self.nextthink = time + 10;
-    }
-    else if (self.count == 20)
-    {
-        elohim_maxsize = utils_max(elohim_teamsize1, elohim_teamsize2);
-        temp = ftos(elohim_maxsize);
-        bprint5("Match is currently ", temp, "v", temp, "\n");
-        bprint("Match begins in 20 seconds\n");
+        bprint("Match begins in 15 seconds\n");
 
         self.count = 10;
-        self.nextthink = time + 10;
+        self.nextthink = time + 5;
     }
     else if (self.count > 1)
     {
