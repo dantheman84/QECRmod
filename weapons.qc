@@ -276,7 +276,7 @@ void() W_FireShotgun =
 
 	sound (self, CHAN_WEAPON, "weapons/guncock.wav", 1, ATTN_NORM);	
 
-	self.punchangle_x = -2;
+	//self.punchangle_x = -2;
 
     // ELOHIM_MOD - infinite ammo in practice mode
     if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
@@ -306,7 +306,7 @@ void() W_FireSuperShotgun =
 		
 	sound (self ,CHAN_WEAPON, "weapons/shotgn2.wav", 1, ATTN_NORM);	
 
-	self.punchangle_x = -4;
+	//self.punchangle_x = -4;
 	
     // ELOHIM_MOD - infinite ammo in practice mode
     if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
@@ -447,7 +447,7 @@ void() W_FireRocket =
 	
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
-	self.punchangle_x = -2;
+	//self.punchangle_x = -2;
 
 	missile = spawn ();
 	missile.owner = self;
@@ -565,7 +565,7 @@ void() W_FireLightning =
 		sound (self, CHAN_WEAPON, "weapons/lhit.wav", 1, ATTN_NORM);
 		self.t_width = time + 0.6;
 	}
-	self.punchangle_x = -2;
+	//self.punchangle_x = -2;
 
     // ELOHIM_MOD - infinite ammo in practice mode
     if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
@@ -643,7 +643,7 @@ void() W_FireGrenade =
 	
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
 
-	self.punchangle_x = -2;
+	//self.punchangle_x = -2;
 
 	missile = spawn ();
 	missile.owner = self;
@@ -737,7 +737,7 @@ void() W_FireSuperSpikes =
 	newmis.touch = superspike_touch;
 	setmodel (newmis, "progs/s_spike.mdl");
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);		
-	self.punchangle_x = -2;
+	//self.punchangle_x = -2;
 };
 
 void(float ox) W_FireSpikes =
@@ -776,7 +776,7 @@ void(float ox) W_FireSpikes =
     if (self.super_damage_finished > time)                     // CRMOD - stats
     	self.crmod_qdwep_y = self.crmod_qdwep_y + 36;              // CRMOD - stats
 
-	self.punchangle_x = -2;
+	//self.punchangle_x = -2;
 };
 
 
