@@ -390,8 +390,9 @@ void () elohim_set_aliases =
     stuffcmd(self, "alias score impulse 128\n");
     stuffcmd(self, "alias help-match impulse 129\n");
     stuffcmd(self, "alias lock impulse 130\n");
-	  stuffcmd(self, "alias +teamscores impulse 131\"\n");
-	  stuffcmd(self, "alias -teamscores impulse 132\"\n");
+    // Disabled because they result in aliases containing incomplete quotes
+	  // stuffcmd(self, "alias +teamscores impulse 131\"\n");
+	  // stuffcmd(self, "alias -teamscores impulse 132\"\n");
     stuffcmd(self, "alias observer impulse 140\n");
     stuffcmd(self, "alias walk impulse 141\n");
     stuffcmd(self, "alias flyme impulse 142\n");
