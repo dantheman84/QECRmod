@@ -390,8 +390,9 @@ void () elohim_set_aliases =
     stuffcmd(self, "alias score impulse 128\n");
     stuffcmd(self, "alias help-match impulse 129\n");
     stuffcmd(self, "alias lock impulse 130\n");
-	  stuffcmd(self, "alias +teamscores impulse 131\"\n");
-	  stuffcmd(self, "alias -teamscores impulse 132\"\n");
+    // Disabled because they result in aliases containing incomplete quotes
+	  // stuffcmd(self, "alias +teamscores impulse 131\"\n");
+	  // stuffcmd(self, "alias -teamscores impulse 132\"\n");
     stuffcmd(self, "alias observer impulse 140\n");
     stuffcmd(self, "alias walk impulse 141\n");
     stuffcmd(self, "alias flyme impulse 142\n");
@@ -455,21 +456,9 @@ void () elohim_init_think =
 	// test for binds 
     stuffcmd(self, "ignorethis\n");                     // CRMOD
 
-    // Notify the client if they didn't turn off cl_filterstuffcmds
-    if (cvar("cl_filterstuffcmd") == 1)
-    {
-      sprint(self, "cl_filterstuffcmd is 1\n");
-    }
-    else
-    {
-      sprint(self, "Trying to disable unicode fonts...\n");
-      // Disable unicode font (allow quake characters/red letters)
-      stuffcmd(self, "scr_usekfont 0\n");
-      if (cvar("scr_usekfont") == 1)
-      {
-        sprint(self, "scr_usekfont is 1\n");
-      }
-    }
+    sprint(self, "Trying to disable unicode font...\n");
+    // Disable unicode font (allow quake characters/red letters)
+    stuffcmd(self, "scr_usekfont 0\n");
 
     self = temp;
     self.think = elohim_pre_set_aliases;
