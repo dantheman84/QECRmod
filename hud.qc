@@ -19,10 +19,18 @@ void hud_update() =
     local float cur_min;
 
     // Print different timer values based on what's interesting
-    if (elohim_state & ELOHIM_TIMER_STARTED)
+    if (elohim_playmode & ELOHIM_MATCH_MODE)
     {
-        cur_sec = elohim_match_timer.count;
-        cur_min = elohim_match_timer.lip;
+        if (elohim_state & ELOHIM_MATCH_OVER)
+        {
+            cur_sec = 0;
+            cur_min = 0;
+        }
+        else
+        {
+            cur_sec = elohim_match_timer.count;
+            cur_min = elohim_match_timer.lip;
+        }
     }
     else if (timelimit != 0)
     {
@@ -112,7 +120,7 @@ void hud_update() =
 
     // Frags/Score
     // Non-match version
-    if (!(elohim_state & ELOHIM_TIMER_STARTED))
+    if (!(elohim_playmode & ELOHIM_MATCH_MODE))
     {
         // Spacing before score
         WriteString(MSG_ONE, "  ");
