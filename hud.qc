@@ -50,11 +50,11 @@ void hud_update() =
     msg_entity = self;
     WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
-    // 1 base(?) + 1 format string + 61 format parameters
-    WriteShort (MSG_ONE, 63); // QE reserved
+    // 1 base(?) + 1 format string + 62 format parameters
+    WriteShort (MSG_ONE, 64); // QE reserved
 
     // Print newlines to push hud to bottom of screen
-    local float newlines = 9;
+    local float newlines = 8;
     local float i;
     for(i = 0; i < newlines; i = i + 1)
     {
@@ -74,8 +74,10 @@ void hud_update() =
         "                                           {}{}{}{}{}\n"
         // Timer
         "\x10  {}{}:{}{}\x11                                        \n"
-        // Frags, Cells
-        "\x10{}{}{}{}{}\x11                                 {}\x10{}{}\x11\n"
+        // Frags
+        "\x10{}{}{}{}{}\x11                                        \n"
+        // 10-character Team name, Cells
+        "{}                                 {}\x10{}{}\x11\n"
         // Rockets
         "                                           {}\x10{}{}\x11\n"
         // Nails
@@ -484,6 +486,45 @@ void hud_update() =
         }
         // Second Team Score Value
         WriteString(MSG_ONE, ftos(their_team_score));
+    }
+
+    // Team name
+    // Non-match version
+    if (!(elohim_playmode & ELOHIM_MATCH_MODE))
+    {
+        WriteString(MSG_ONE, "          ");
+    }
+    // Match version
+    else
+    {
+        if (self.height == 1)
+            WriteString(MSG_ONE, "\sBrown     ");
+        else if (self.height == 2)
+            WriteString(MSG_ONE, "\sLight Blue");
+        else if (self.height == 3)
+            WriteString(MSG_ONE, "\sGreen     ");
+        else if (self.height == 4)
+            WriteString(MSG_ONE, "\sRed       ");
+        else if (self.height == 5)
+            WriteString(MSG_ONE, "\sOlive     ");
+        else if (self.height == 6)
+            WriteString(MSG_ONE, "\sGold      ");
+        else if (self.height == 7)
+            WriteString(MSG_ONE, "\sFlesh     ");
+        else if (self.height == 8)
+            WriteString(MSG_ONE, "\sLavender  ");
+        else if (self.height == 9)
+            WriteString(MSG_ONE, "\sPurple    ");
+        else if (self.height == 10)
+            WriteString(MSG_ONE, "\sBeige     ");
+        else if (self.height == 11)
+            WriteString(MSG_ONE, "\sAqua      ");
+        else if (self.height == 12)
+            WriteString(MSG_ONE, "\sYellow    ");
+        else if (self.height == 13)
+            WriteString(MSG_ONE, "\sBlue      ");
+        else
+            WriteString(MSG_ONE, "          ");
     }
 
     // LG, Cells
