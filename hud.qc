@@ -17,6 +17,11 @@ void hud_update() =
         {
             cur_sec = elohim_match_timer.count;
             cur_min = elohim_match_timer.lip;
+            // Handle weird between-match cases
+            if (cur_sec > 59)
+            {
+                cur_sec = 0;
+            }
         }
     }
     else if (timelimit != 0)
