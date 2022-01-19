@@ -1465,8 +1465,19 @@ void() PlayerPostThink =
     }
 	else
 	{
-		// Recalculate/redraw player HUD
-		hud_update();
+		// Let the welcome message print without trying to print a HUD over it
+		if (!(self.style & ELOHIM_MOTD))
+		{
+			// Only update after delay time has been reached
+			if (time >= self.delay)
+			{
+				// Only update every 0.1 seconds
+				self.delay = time + 0.1;
+
+				// Recalculate/redraw player HUD
+				hud_update();
+			}
+		}
 	}
 
     if (self.impulse)
