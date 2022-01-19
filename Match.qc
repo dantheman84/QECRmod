@@ -1059,14 +1059,15 @@ void () match_show_not_ready =
     {
         local entity player;
 
-        sprint(self, "The following players are not ready:\n");
+        // Name and shame with broadcast print to all players
+        bprint("The following players are not ready:\n");
 
         player = find(world, classname, "player");
         while (player)
         {
             if (!(player.style & (ELOHIM_OBSERVER | ELOHIM_READY)) && 
 				(player.style & ELOHIM_CONNECTED))
-                sprint3(self, " ", player.netname, "\n");
+                bprint3(" ", player.netname, "\n");
             player = find(player, classname, "player");
         }
     }
