@@ -55,11 +55,11 @@ void hud_update() =
     msg_entity = self;
     WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
-    // 1 base(?) + 1 format string + 62 format parameters
-    WriteShort (MSG_ONE, 64); // QE reserved
+    // 1 base(?) + 1 format string + 63 format parameters
+    WriteShort (MSG_ONE, 66); // QE reserved
 
     // Print newlines to push hud to bottom of screen
-    local float newlines = 8;
+    local float newlines = 6;
     local float i;
     for(i = 0; i < newlines; i = i + 1)
     {
@@ -77,6 +77,10 @@ void hud_update() =
         "                                           {}{}{}{}{}\n"
         "                                           {}{}{}{}{}\n"
         "                                           {}{}{}{}{}\n"
+        // Target name for observer mode
+        "{}\n"
+        // Player name for observer mode
+        "{}\n"
         // Timer
         "\x10  {}{}:{}{}\x11                                        \n"
         // Frags
@@ -374,6 +378,25 @@ void hud_update() =
         WriteString(MSG_ONE, "");
         // Close bracket
         WriteString(MSG_ONE, " ");
+    }
+
+    /* Target Name */
+    if ((self.style & ELOHIM_OBSERVER) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
+    {
+        WriteString(MSG_ONE, self.crmod_othertarget.netname);
+    }
+    else
+    {
+        WriteString(MSG_ONE, "");
+    }
+
+    /* Player Name */
+    if ((self.style & ELOHIM_OBSERVER) && (self.movetarget)) {
+        WriteString(MSG_ONE, self.movetarget.netname);
+    }
+    else
+    {
+        WriteString(MSG_ONE, "");
     }
 
     // Timer
