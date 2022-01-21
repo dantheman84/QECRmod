@@ -639,35 +639,35 @@ string (float mapnum) strings_get_mapname =
     if (mapnum < 20)
     {
         if (mapnum == 11)
-            return "e1m1";
+            return "cmt3";
         if (mapnum == 12)
             return "e1m2";
         if (mapnum == 13)
-            return "e1m3";
+            return "cmt4";
         if (mapnum == 14)
-            return "e1m4";
+            return "schloss";
         if (mapnum == 15)
-            return "e1m5";
+            return "skull";
         if (mapnum == 16)
-            return "e1m6";
+            return "bravado";
         if (mapnum == 17)
-            return "e1m7";
+            return "cmt5b";
         if (mapnum == 18)
-            return "e1m8";
+            return "cmt2";
         return "";
     }
     if (mapnum < 30)
     {
         if (mapnum == 21)
-            return "e2m1";
+            return "cmt1";
         if (mapnum == 22)
-            return "e2m2";
+            return "dm3rev";
         if (mapnum == 23)
-            return "e2m3";
+            return "1bsp1";
         if (mapnum == 24)
-            return "e2m4";
+            return "rock";
         if (mapnum == 25)
-            return "e2m5";
+            return "baldm8";
         if (mapnum == 26)
             return "e2m6";
         if (mapnum == 27)
