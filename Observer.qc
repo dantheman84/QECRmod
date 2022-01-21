@@ -34,6 +34,7 @@ void () observer_get_target;
 void () WaterMove;
 void () CheckWaterJump;
 void (entity player) match_disconnect_notify;
+void hud_update();
 
 //
 //  F I N D  T E L E P O R T
@@ -1368,7 +1369,15 @@ void () observer_update_display =
 	player = self.movetarget;
 	if ((player != world) && (player.classname == "elohim_camera"))
 		player = player.movetarget;
-    
+
+    // New HUD
+    hud_update();
+
+    // Skip old observer hud stuff below
+    return;
+
+    // TODO come back and see if there's more to re-enable from this
+
     if (!player)
     {
 		if (elohim_state & ELOHIM_MATCH_STARTED)

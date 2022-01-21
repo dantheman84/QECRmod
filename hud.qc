@@ -1,19 +1,6 @@
 // Update player HUD with match timer, current score, weapon and ammo count info
 void hud_update() =
 {
-    // Let the welcome message print, CRmod takes about 16-17 seconds
-	if (time < 17)
-		return;
-
-	// Only update after delay time has been reached
-	if (time < self.delay)
-	{
-        return;
-    }
-
-    // Only update every 0.1 seconds
-    self.delay = time + 0.1;
-
     // Calculate time values for display
     local float cur_sec;
     local float cur_min;
@@ -30,6 +17,11 @@ void hud_update() =
         {
             cur_sec = elohim_match_timer.count;
             cur_min = elohim_match_timer.lip;
+            // Handle weird between-match cases
+            if (cur_sec > 59)
+            {
+                cur_sec = 0;
+            }
         }
     }
     else if (timelimit != 0)
@@ -63,11 +55,11 @@ void hud_update() =
     msg_entity = self;
     WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
-    // 1 base(?) + 1 format string + 21 format parameters
-    WriteShort (MSG_ONE, 23); // QE reserved
+    // 1 base(?) + 1 format string + 63 format parameters
+    WriteShort (MSG_ONE, 66); // QE reserved
 
     // Print newlines to push hud to bottom of screen
-    local float newlines = 17;
+    local float newlines = 6;
     local float i;
     for(i = 0; i < newlines; i = i + 1)
     {
@@ -76,10 +68,25 @@ void hud_update() =
 
     // Write format string
     WriteString(MSG_ONE,
+        // Item timers for observer mode
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        "                                           {}{}{}{}{}\n"
+        // Target name for observer mode
+        "{}\n"
+        // Player name for observer mode
+        "{}\n"
         // Timer
         "\x10  {}{}:{}{}\x11                                        \n"
-        // Frags, Cells
-        "\x10{}{}{}{}{}\x11                                 {}\x10{}{}\x11\n"
+        // Frags
+        "\x10{}{}{}{}{}\x11                                        \n"
+        // 10-character Team name, Cells
+        "{}                                 {}\x10{}{}\x11\n"
         // Rockets
         "                                           {}\x10{}{}\x11\n"
         // Nails
@@ -87,6 +94,310 @@ void hud_update() =
         // Shells
         "                                           {}\x10{}{}\x11\n"
     );
+
+    local entity item;
+    local float item_slots = 8;
+    local float item_count;
+    local float item_time;
+    item_count = 0;
+
+    /* Only print item timers for observer HUD */
+    if (self.style & ELOHIM_OBSERVER)
+    {
+        /* Quad */
+        item = find(world, classname, "item_artifact_super_damage");
+        while (item && (item_count < item_slots))
+        {
+            WriteString(MSG_ONE, "\sqd");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_artifact_super_damage");
+        }
+        /* Pentagram */
+        item = find(world, classname, "item_artifact_invulnerability");
+        while (item && (item_count < item_slots))
+        {
+            WriteString(MSG_ONE, "\spe");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_artifact_invulnerability");
+        }
+        /* Ring of Shadows (Eyes) */
+        item = find(world, classname, "item_artifact_invisibility");
+        while (item && (item_count < item_slots))
+        {
+            WriteString(MSG_ONE, "\sey");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_artifact_invisibility");
+        }
+        /* Red Armor */
+        item = find(world, classname, "item_armorInv");
+        while (item && (item_count < item_slots))
+        {
+            WriteString(MSG_ONE, "\sra");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_armorInv");
+        }
+        /* Mega */
+        item = find(world, classname, "item_health");
+        while (item && (item_count < item_slots))
+        {
+            /* Skip health items that aren't mega */
+            if (!(item.spawnflags & 2))
+            {
+                item = find(item, classname, "item_health");
+                continue;
+            }
+
+            WriteString(MSG_ONE, "\smh");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_health");
+        }
+        /* Yellow Armor */
+        item = find(world, classname, "item_armor2");
+        while (item && (item_count < item_slots))
+        {
+            WriteString(MSG_ONE, "\sya");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_armor2");
+        }
+        /* Green Armor */
+        item = find(world, classname, "item_armor1");
+        while (item && (item_count < item_slots))
+        {
+            WriteString(MSG_ONE, "\sga");
+            WriteString(MSG_ONE, "\x10");
+            if (item.nextthink == 0)
+            {
+                WriteString(MSG_ONE, " ");
+                WriteString(MSG_ONE, "up");
+            }
+            else
+            {
+                item_time = floor(item.nextthink - time);
+                if (item_time < 0)
+                {
+                    item_time = 0;
+                }
+                if (item_time < 10)
+                {
+                    WriteString(MSG_ONE, "  ");
+                }
+                else if (item_time < 100)
+                {
+                    WriteString(MSG_ONE, " ");
+                }
+                else // >= 100
+                {
+                    WriteString(MSG_ONE, "");
+                }       
+                WriteString(MSG_ONE, ftos(item_time));
+            }
+            WriteString(MSG_ONE, "\x11");
+            item_count = item_count + 1;
+            item = find(item, classname, "item_armor1");
+        }
+    }
+
+    /* Eat up extra item format string parameters */
+    for(i = 0; i < (item_slots - item_count); i = i + 1)
+    {
+        // Outside (usually 2 red characters)
+        WriteString(MSG_ONE, "  ");
+        // Open bracket
+        WriteString(MSG_ONE, " ");
+        // Padding
+        WriteString(MSG_ONE, "   ");
+        // Number
+        WriteString(MSG_ONE, "");
+        // Close bracket
+        WriteString(MSG_ONE, " ");
+    }
+
+    /* Target Name */
+    if ((self.style & ELOHIM_OBSERVER) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
+    {
+        WriteString(MSG_ONE, self.crmod_othertarget.netname);
+    }
+    else
+    {
+        WriteString(MSG_ONE, "");
+    }
+
+    /* Player Name */
+    if ((self.style & ELOHIM_OBSERVER) && (self.movetarget)) {
+        WriteString(MSG_ONE, self.movetarget.netname);
+    }
+    else
+    {
+        WriteString(MSG_ONE, "");
+    }
 
     // Timer
     // Padding
@@ -203,6 +514,45 @@ void hud_update() =
         }
         // Second Team Score Value
         WriteString(MSG_ONE, ftos(their_team_score));
+    }
+
+    // Team name
+    // Non-match version
+    if (!(elohim_playmode & ELOHIM_MATCH_MODE))
+    {
+        WriteString(MSG_ONE, "          ");
+    }
+    // Match version
+    else
+    {
+        if (self.height == 1)
+            WriteString(MSG_ONE, "\sBrown     ");
+        else if (self.height == 2)
+            WriteString(MSG_ONE, "\sLight Blue");
+        else if (self.height == 3)
+            WriteString(MSG_ONE, "\sGreen     ");
+        else if (self.height == 4)
+            WriteString(MSG_ONE, "\sRed       ");
+        else if (self.height == 5)
+            WriteString(MSG_ONE, "\sOlive     ");
+        else if (self.height == 6)
+            WriteString(MSG_ONE, "\sGold      ");
+        else if (self.height == 7)
+            WriteString(MSG_ONE, "\sFlesh     ");
+        else if (self.height == 8)
+            WriteString(MSG_ONE, "\sLavender  ");
+        else if (self.height == 9)
+            WriteString(MSG_ONE, "\sPurple    ");
+        else if (self.height == 10)
+            WriteString(MSG_ONE, "\sBeige     ");
+        else if (self.height == 11)
+            WriteString(MSG_ONE, "\sAqua      ");
+        else if (self.height == 12)
+            WriteString(MSG_ONE, "\sYellow    ");
+        else if (self.height == 13)
+            WriteString(MSG_ONE, "\sBlue      ");
+        else
+            WriteString(MSG_ONE, "          ");
     }
 
     // LG, Cells
