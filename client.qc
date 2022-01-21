@@ -474,8 +474,12 @@ void() respawn =
 
     if (deathmatch)
 	{
-		// make a copy of the dead body for appearances sake
-		CopyToBodyQue (self);
+		// Don't leave bodies around in match mode
+		if (!(elohim_playmode & ELOHIM_MATCH_MODE))
+		{
+			// make a copy of the dead body for appearances sake
+			CopyToBodyQue (self);
+		}
 
         // ELOHIM_MOD - changed SetNewParms to SetNewParms2
 		// set default spawn parms
