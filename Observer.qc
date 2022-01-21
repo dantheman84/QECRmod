@@ -169,10 +169,11 @@ void () observer_walk_start =
     self.movetype = MOVETYPE_WALK;
     self.flags = self.flags - self.flags & FL_ONGROUND;
     self.view_ofs = '0 0 22';
-    if (self.style & ELOHIM_FOUND_BINDINGS)  // CRMOD - don't send sm0 if they don't have that alias
-        stuffcmd(self, "sm0\n");		// CRMOD - smoothing off
-    else
-    	stuffcmd(self, "cl_nolerp 0\n");	// CRMOD - send the real thing instead
+
+    sprint(self, "disabling 'smooth' mode\n");
+    stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
+    stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
+
     stuffcmd(self, "v_centerspeed 500\n");
     sprint(self, "walk mode - help-walk for help\n");
     if (!(self.style & ELOHIM_HEADS_UP))
@@ -191,7 +192,11 @@ void () observer_fly_start =
     self.view_ofs = '0 0 22';
     self.flags = self.flags | FL_ONGROUND;
 	self.waterlevel = 0;
-    stuffcmd(self, "sm0\n");		// CRMOD - smoothing off
+
+    sprint(self, "disabling 'smooth' mode\n");
+    stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
+    stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
+
     stuffcmd(self, "v_centerspeed 500\n");
     sprint(self, "fly mode - help-fly for help\n");
     if (!(self.style & ELOHIM_HEADS_UP))
@@ -314,7 +319,10 @@ void () observer_chase_start =
     
     if (!(self.style & ELOHIM_HEADS_UP))
         sprint(self, "type 'headsup' for fullscreen display\n");
-	sprint(self, "type 'smooth' to eliminate choppines\n");
+
+    sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
+    stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
+    stuffcmd(self, "cl_predict 0\n");		// CRMOD - client prediction off
 };
 
 //
@@ -356,7 +364,10 @@ void () observer_demo_start =
     sprint(self, "eyecam mode - help-chase for help\n");
     if (!(self.style & ELOHIM_HEADS_UP))
         sprint(self, "type 'headsup' for fullscreen display\n");
-	sprint(self, "type 'smooth' to eliminate choppines\n");
+
+    sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
+    stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
+    stuffcmd(self, "cl_predict 0\n");		// CRMOD - client prediction off
 
 	self.nextthink = -1;
     self.think = SUB_Null;
@@ -477,7 +488,11 @@ void () observer_end =
     self.frags = 0;
 
     observer_check_demo_end();
-    stuffcmd(self, "sm0\n");		// CRMOD - smoothing off
+
+    sprint(self, "disabling 'smooth' mode\n");
+    stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
+    stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
+
     stuffcmd(self, "v_centerspeed 500\n");
     // BROKEN
     // if (self.style & ELOHIM_HEADS_UP)
