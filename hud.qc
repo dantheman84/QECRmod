@@ -108,7 +108,7 @@ void hud_update() =
         item = find(world, classname, "item_artifact_super_damage");
         while (item && (item_count < item_slots))
         {
-            WriteString(MSG_ONE, "\sqd");
+            WriteString(MSG_ONE, " \sq");
             WriteString(MSG_ONE, "\x10");
             if (item.nextthink == 0)
             {
@@ -144,7 +144,7 @@ void hud_update() =
         item = find(world, classname, "item_artifact_invulnerability");
         while (item && (item_count < item_slots))
         {
-            WriteString(MSG_ONE, "\spe");
+            WriteString(MSG_ONE, " \sp");
             WriteString(MSG_ONE, "\x10");
             if (item.nextthink == 0)
             {
@@ -180,7 +180,7 @@ void hud_update() =
         item = find(world, classname, "item_artifact_invisibility");
         while (item && (item_count < item_slots))
         {
-            WriteString(MSG_ONE, "\sey");
+            WriteString(MSG_ONE, " \se");
             WriteString(MSG_ONE, "\x10");
             if (item.nextthink == 0)
             {

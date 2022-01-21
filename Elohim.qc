@@ -410,9 +410,11 @@ void () elohim_set_aliases =
     stuffcmd(self, "alias quaketv impulse 154\n");              // CRMOD - autocam
     stuffcmd(self, "alias autochase impulse 155\n");    // CRMOD - autochase
     stuffcmd(self, "alias help-camera impulse 156\n");  // CRMOD - camera help
-    stuffcmd(self, "alias sm1 \"echo Smoothing ON ; cl_nolerp 1 ; alias smooth sm0\"\n");       // CRMOD - smooth now uses aliases
-	stuffcmd(self, "alias sm0 \"echo Smoothing OFF ; cl_nolerp 0 ; alias smooth sm1\"\n");  // CRMOD
-	stuffcmd(self, "alias smooth sm1\n");                                                                                                   // CRMOD
+  // Disable broken multi-command alias- set cl_nolerp 1 and cl_predict 0 for chase cams (smooth on)
+  //   stuffcmd(self, "alias sm1 \"echo Smoothing ON ; cl_nolerp 1 ; alias smooth sm0\"\n"); // CRMOD - smooth now uses aliases
+  // Disable broken multi-command alias- set cl_nolerp 0 and cl_predict 1 for normal play (smooth off)
+	// stuffcmd(self, "alias sm0 \"echo Smoothing OFF ; cl_nolerp 0 ; alias smooth sm1\"\n");  // CRMOD
+	// stuffcmd(self, "alias smooth sm1\n");                                                   // CRMOD
 	stuffcmd(self, "alias init echo\n");                            // CRMOD - So clients only see 'init' once
 	
 	self.style = self.style | ELOHIM_FOUND_BINDINGS;
