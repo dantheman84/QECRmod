@@ -1006,7 +1006,8 @@ void () elohim_periodic_checks =
 	if (!(self.style & ELOHIM_CONNECTED))
 		return;
 
-	if (utils_illegal_name(self.netname))
+	/* //removed because this happens often during pub games
+  if (utils_illegal_name(self.netname))
 	{
 		// Let's be fairly draconian about this
 		bprint("Player kicked for illegal name\n");
@@ -1014,6 +1015,7 @@ void () elohim_periodic_checks =
 		elohim_kick_player(self);
 		return;
 	}
+  */
 
     if (self.style & ELOHIM_OBSERVER)
     {
