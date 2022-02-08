@@ -20,6 +20,7 @@
 // Prototypes:
 void () observer_chase_start;
 void () observer_camera_start;
+void () observer_demo_start;
 void () observer_set_chase_position;
 vector (vector from, vector to) angles_bestaim;
 void (vector v) angles_fixangle;
@@ -225,6 +226,17 @@ void () auto_chase_start =
 	observer_chase_start();
 };
 	
+// CRMOD
+//  A U T O  D E M O  S T A R T
+//    by CK (hacked together from Paul Baker's chase code)
+//
+//  start autochase from anywhere
+void () auto_demo_start =
+{
+	self.oflags = self.oflags | OBSERVER_GO_AUTO;
+	observer_demo_start();
+};
+
 // CRMOD
 // A U T O  C H A S E
 //   by Paul Baker

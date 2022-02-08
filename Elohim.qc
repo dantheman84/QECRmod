@@ -410,6 +410,7 @@ void () elohim_set_aliases =
     stuffcmd(self, "alias quaketv impulse 154\n");              // CRMOD - autocam
     stuffcmd(self, "alias autochase impulse 155\n");    // CRMOD - autochase
     stuffcmd(self, "alias help-camera impulse 156\n");  // CRMOD - camera help
+    stuffcmd(self, "alias autoeye impulse 157\n");      // CRMOD - autochase in eyecam/demo mode
   // Disable broken multi-command alias- set cl_nolerp 1 and cl_predict 0 for chase cams (smooth on)
   //   stuffcmd(self, "alias sm1 \"echo Smoothing ON ; cl_nolerp 1 ; alias smooth sm0\"\n"); // CRMOD - smooth now uses aliases
   // Disable broken multi-command alias- set cl_nolerp 0 and cl_predict 1 for normal play (smooth off)
