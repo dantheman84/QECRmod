@@ -1542,6 +1542,7 @@ void () observer_update_status_bar =
 		    self.weaponmodel = string_null;
 		if (self.health < 0)
 			self.health = 1000;
+        self.height = player.height; // Team
 		// CRMOD END
     }
 };
