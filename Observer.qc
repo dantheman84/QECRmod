@@ -363,7 +363,7 @@ void () observer_demo_start =
     stuffcmd(self, "v_centerspeed 0\n");
     sprint(self, "eyecam mode - help-chase for help\n");
 
-    // CRMOD - auto
+    // CRMOD - auto, tourney
     if (self.oflags & OBSERVER_GO_AUTO)
     {
         sprint(self,"Automatic Eyecam Enabled.\n");
@@ -372,6 +372,8 @@ void () observer_demo_start =
     }
     else
         sprint(self,"type 'autoeye' for automatic eyecam switching\n");
+    if (self.oflags & OBSERVER_TOURNEY)
+        sprint(self,"Tournament Mode Enabled.\n");
     // END_CRMOD
 
     if (!(self.style & ELOHIM_HEADS_UP))
@@ -1039,6 +1041,12 @@ void () observer_set_demo_position =
     // Don't move us around if we're attempting to follow world (no player to chase)
     if (self.movetarget == world)
         return;
+
+    // See if we're looking at an enemy
+    if (self.oflags & OBSERVER_TOURNEY)
+    {
+        observer_find_enemy();
+    }
 
     setorigin(self, self.movetarget.origin);
 
