@@ -138,10 +138,10 @@ void () admin_send_aliases2 =
     stuffcmd(self, "alias help-admin impulse 200\n");
 
 	// enable/disable practice mode spooging
-    stuffcmd(self, "alias setcharge impulse 224\n");		// CRMOD - spooge -> charge
+    stuffcmd(self, "alias setdm1 impulse 224\n");		// CRMOD - spooge -> charge
 
     // enable/disable mode voting
-    stuffcmd(self, "alias modevote impulse 228\n");
+    stuffcmd(self, "alias setdm3 impulse 228\n");
 
     // set options
     stuffcmd(self, "alias options impulse 229\n");
@@ -1260,6 +1260,22 @@ void () admin_help =
     sprint(self, " makecam    - add camera\n");
 };
 
+
+
+//
+//  D M S E T
+//
+void (float val) admin_dmset = 
+{
+	local string temp;
+
+	deathmatch = val;
+	temp = ftos(deathmatch);
+	localcmd3("deathmatch ", temp, "\n");
+	bprint2("deathmatch changed to ", temp);
+        cprint2("deathmatch changed to ", temp);
+};
+
 //
 //  I M P U L S E
 //
@@ -1306,9 +1322,9 @@ void () admin_impulse =
     else if (self.impulse == 214)
         match_end();
     else if (self.impulse == 224)
-        admin_set_spooge();
+        admin_dmset(1);
     else if (self.impulse == 228)
-        admin_set_mode_vote();
+       admin_dmset(3);
     else if (self.impulse == 229)
         options_start_setting();
     else if (self.impulse == 246)
@@ -1340,3 +1356,9 @@ void (entity player) admin_disconnect_notify =
 		index = index + 1;
     }
 };
+
+
+
+
+
+
