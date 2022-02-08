@@ -362,6 +362,18 @@ void () observer_demo_start =
     observer_set_demo_position();
     stuffcmd(self, "v_centerspeed 0\n");
     sprint(self, "eyecam mode - help-chase for help\n");
+
+    // CRMOD - auto
+    if (self.oflags & OBSERVER_GO_AUTO)
+    {
+        sprint(self,"Automatic Eyecam Enabled.\n");
+        self.oflags = self.oflags - OBSERVER_GO_AUTO;
+        self.oflags = self.oflags | OBSERVER_AUTO;
+    }
+    else
+        sprint(self,"type 'autoeye' for automatic eyecam switching\n");
+    // END_CRMOD
+
     if (!(self.style & ELOHIM_HEADS_UP))
         sprint(self, "type 'headsup' for fullscreen display\n");
 
@@ -451,6 +463,9 @@ void () observer_start =
 	}
     else if (self.oflags & OBSERVER_DEMO)
 	{
+		if (self.oflags & OBSERVER_AUTO)
+			self.oflags = self.oflags | OBSERVER_GO_AUTO;
+
 		// This is necessary to prevent the other player's model from being 
 		// drawn.  Don't fucking as me why!!!
 		self.nextthink = time + 0.1;
@@ -1006,6 +1021,25 @@ void () observer_set_chase_position =
 //
 void () observer_set_demo_position =
 {
+    // If we're in auto mode, see if we should pick a new target
+    if ((self.oflags & OBSERVER_AUTO) && (self.oflags & OBSERVER_DEMO))
+	{
+        local entity oldmovetarget = self.movetarget;
+        auto_chase();
+
+        // See if we need to move our viewport
+        if ((self.movetarget != world) && (self.movetarget != oldmovetarget))
+        {
+            msg_entity = self;
+            WriteByte(MSG_ONE, SVC_SETVIEWPORT);
+            WriteEntity(MSG_ONE, self.movetarget);
+        }
+    }
+
+    // Don't move us around if we're attempting to follow world (no player to chase)
+    if (self.movetarget == world)
+        return;
+
     setorigin(self, self.movetarget.origin);
 
     if (self.button0)
@@ -1245,10 +1279,12 @@ void () observer_impulse =
 			auto_camera_start();
 		else if (self.impulse == 155)
 			auto_chase_start();
+		else if (self.impulse == 157)
+			auto_demo_start();
     }
     else
     {                                                                              // CRMOD more commands to go observer
-        if ((self.impulse >= 140 && self.impulse <= 143) || self.impulse == 149 || (self.impulse >= 153 && self.impulse <= 155))
+        if ((self.impulse >= 140 && self.impulse <= 143) || self.impulse == 149 || (self.impulse >= 153 && self.impulse <= 155 || self.impulse == 157))
         {
 			if (self.impulse != 140)
 			{
@@ -1268,6 +1304,8 @@ void () observer_impulse =
 					self.oflags = self.oflags | OBSERVER_CAMERA;
 				else if (self.impulse == 154)
 					self.oflags = self.oflags | OBSERVER_CAMERA | OBSERVER_GO_AUTO;
+				else if (self.impulse == 157)
+					self.oflags = self.oflags | OBSERVER_DEMO | OBSERVER_GO_AUTO;
 				// CRMOD END
 			}
 			
