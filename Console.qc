@@ -725,6 +725,8 @@ void () console_server_flags =
 		cprint("ELOHIM_NO_GIBS\n");
 	if (elohim_playmode & ELOHIM_LOW_GIBS)
 		cprint("ELOHIM_LOW_GIBS\n");
+	if (elohim_playmode & ELOHIM_GGMOD)
+		cprint("ELOHIM_GGMOD\n");
 	if (elohim_playmode & ELOHIM_NO_QUAD)
 		cprint("ELOHIM_NO_QUAD\n");
 	if (elohim_playmode & ELOHIM_NO_PENT)

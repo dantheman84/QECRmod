@@ -86,6 +86,9 @@ void () admin_send_aliases1 =
     stuffcmd(self, "alias lowgibs impulse 226\n");
     stuffcmd(self, "alias highgibs impulse 227\n");
 
+    // alias for Kilomile's GGMod weapon adjustments
+    stuffcmd(self, "alias ggmod impulse 207\n");
+
     // playmode aliases
     stuffcmd(self, "alias normal impulse 208\n");
     stuffcmd(self, "alias practice impulse 209\n");
@@ -607,6 +610,52 @@ void () admin_disable_item =
 	self.model = string_null;
 	self.solid = SOLID_NOT;
     self.nextthink = -1;
+};
+
+
+//
+//  S E T  G G M O D
+//
+//  Enable/disable ggmod.
+//
+void () admin_set_ggmod =
+{
+    if (!(elohim_playmode & ELOHIM_GGMOD))
+    {
+        bprint("GGMod enabled\n");
+        cprint("GGMod enabled\n");
+        elohim_playmode = elohim_playmode | ELOHIM_GGMOD;
+    }
+    else
+    {
+        bprint("GGMod disabled\n");
+        cprint("GGMod disabled\n");
+        elohim_playmode = elohim_playmode - ELOHIM_GGMOD;
+    }
+};
+
+//
+//  R E Q U E S T  S E T  G G M O D
+//
+//  Request to enable/disable ggmod.
+//
+void () admin_request_set_ggmod =
+{
+    // Do it right away if we're an administrator, otherwise vote
+    if (self.style & ELOHIM_ADMINISTRATOR)
+        admin_set_ggmod();
+    else
+    {
+        local string newstate;
+
+        if (!(elohim_playmode & ELOHIM_GGMOD))
+            newstate = "enable";
+        else
+            newstate = "disable";
+
+        if (vote_init(newstate, " ggmod", admin_set_ggmod))
+            vote_yes();
+    }
 };
 
 //
@@ -1286,6 +1335,8 @@ void () admin_impulse =
     // votable commands
     if (self.impulse >= 190 && self.impulse <= 196)
         admin_init_warp(self.impulse - 190);
+    else if (self.impulse == 207)
+        admin_request_set_ggmod();
     else if (self.impulse >= 208 && self.impulse <= 210)
         admin_request_set_mode(self.impulse - 208);
 	else if (self.impulse == 211)
