@@ -62,6 +62,8 @@ void () debug_flags =
 		sprint(self, "ELOHIM_NO_GIBS\n");
 	if (elohim_playmode & ELOHIM_LOW_GIBS)
 		sprint(self, "ELOHIM_LOW_GIBS\n");
+	if (elohim_playmode & ELOHIM_GGMOD)
+		sprint(self, "ELOHIM_GGMOD\n");
 	if (elohim_playmode & ELOHIM_NO_QUAD)
 		sprint(self, "ELOHIM_NO_QUAD\n");
 	if (elohim_playmode & ELOHIM_NO_PENT)

@@ -51,7 +51,14 @@ void() W_FireAxe =
 	{
 		trace_ent.axhitme = 1;
 		SpawnBlood (org, '0 0 0', 20);
-		T_Damage (trace_ent, self, self, 20);
+		if (elohim_playmode & ELOHIM_GGMOD)
+		{
+			T_Damage (trace_ent, self, self, 125);
+		}
+		else
+		{
+			T_Damage (trace_ent, self, self, 20);
+		}
 	}
 	else
 	{	// hit wall
@@ -315,7 +322,14 @@ void() W_FireSuperShotgun =
 
     makevectors(self.v_angle); // ELOHIM_MOD - added this
 	dir = aim (self, 100000);
-	FireBullets (14, dir, '0.14 0.08 0');
+	if (elohim_playmode & ELOHIM_GGMOD)
+	{
+		FireBullets (40, dir, '0.14 0.14 0');
+	}
+	else
+	{
+		FireBullets (14, dir, '0.14 0.08 0');
+	}
 };
 
 
@@ -710,7 +724,14 @@ void(vector org, vector dir) launch_spike =
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);		
 	setorigin (newmis, org);
 
-	newmis.velocity = dir * 1000;
+	if (elohim_playmode & ELOHIM_GGMOD)
+	{
+		newmis.velocity = dir * 2750;
+	}
+	else
+	{
+		newmis.velocity = dir * 1000;
+	}
 };
 
 void() W_FireSuperSpikes =
@@ -727,7 +748,14 @@ void() W_FireSuperSpikes =
     // END_MOD
 
     makevectors(self.v_angle); // ELOHIM_MOD - added this
-	dir = aim (self, 1000);
+	if (elohim_playmode & ELOHIM_GGMOD)
+	{
+		dir = aim (self, 2750);
+	}
+	else
+	{
+		dir = aim (self, 1000);
+	}
 	launch_spike (self.origin + '0 0 16', dir);
     self.dest1_y = self.dest1_y + 18; // ELOHIM_MOD - stats
 
@@ -768,7 +796,14 @@ void(float ox) W_FireSpikes =
         self.currentammo = self.ammo_nails = self.ammo_nails - 1;
     // END_MOD
 
-	dir = aim (self, 1000);
+	if (elohim_playmode & ELOHIM_GGMOD)
+	{
+		dir = aim (self, 2750);
+	}
+	else
+	{
+		dir = aim (self, 1000);
+	}
 	launch_spike (self.origin + '0 0 16' + v_right*ox, dir);
     self.dest1_y = self.dest1_y + 9; // ELOHIM_MOD - stats
 
@@ -1023,7 +1058,14 @@ void() W_Attack =
 	{
 		player_shot1 ();
 		W_FireSuperShotgun ();
-		self.attack_finished = time + 0.7;
+		if (elohim_playmode & ELOHIM_GGMOD)
+		{
+			self.attack_finished = time + 1.2;
+		}
+		else
+		{
+			self.attack_finished = time + 0.7;
+		}
 	}
 	else if (self.weapon == IT_NAILGUN)
 	{
