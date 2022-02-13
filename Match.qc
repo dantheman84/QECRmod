@@ -1029,8 +1029,8 @@ void () match_request_lock =
 void () match_help =
 {
     sprint(self, "Match commands (for match mode only):\n");
-    sprint(self, " timelimitï¿½ï¿½ - change timelimit\n");
-    sprint(self, "         (ï¿½ï¿½ = 5, 10, 15, 20, 25, 30)\n");
+    sprint(self, " timelimitØØ - change timelimit\n");
+    sprint(self, "         (ØØ = 5, 10, 15, 20, 25, 30)\n");
     sprint(self, " ready    - commit to a team\n");
     sprint(self, " notready - uncommit yourself\n");
     sprint(self, " ready?   - find out who is not ready\n");
@@ -1105,7 +1105,7 @@ void () match_show_pause =
     WriteByte(MSG_ALL, 2);
     WriteByte(MSG_ALL, 2);
     WriteByte(MSG_ALL, 3);
-    WriteString(MSG_ALL, "\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä†\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+    WriteString(MSG_ALL, "\n„ÐÁÕÓÅÄ†\n‡ˆˆˆˆˆˆ‰");
     elohim_match_timer.nextthink = time + 0.5;
     elohim_match_timer.think = match_show_pause;
 };

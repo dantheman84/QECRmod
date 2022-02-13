@@ -4,7 +4,7 @@
 // This is the main file for CRMod++.  CRMod++ was derived from the
 // Elohim server, which is why everything is still called "elohim".
 //
-// Developed by J.P. Grossman (a.k.a. ï¿½Mephistopheles) and Paul Baker
+// Developed by J.P. Grossman (a.k.a. ùMephistopheles) and Paul Baker
 //
 // All code by J.P. Grossman unless otherwise commented.
 //
@@ -139,7 +139,7 @@ void () elohim_init_world =
     local float temp;
 
     // DO NOT EDIT THESE LINES
-    elohim_version = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ä«« Ö–ï¿½ï¿½";
+    elohim_version = "Clanring CRMod++ V4.0";
     elohim_version_info = "Clanring CRMod++ V4.0 2:34am 5/21/98";
     crmod_version_number = "4.0";   // CRMOD - string to be used throughout
 				    //         code to show version number.
@@ -377,6 +377,7 @@ void () elohim_set_aliases =
 	  stuffcmd(self, "alias aw impulse 114\n");
     stuffcmd(self, "alias vinfo impulse 117\n");
 	  stuffcmd(self, "alias ticrate impulse 118\n");
+    stuffcmd(self, "alias ignorethis impulse 119\n"); // CRMOD - matches alias init that is used in crmods pre-4.0 and turns smooth off
     stuffcmd(self, "alias yes impulse 115\n");
     stuffcmd(self, "alias no impulse 116\n");
     stuffcmd(self, "alias ready impulse 120\n");
@@ -658,8 +659,8 @@ void () elohim_help =
 
     sprint2(self, elohim_version, "\n");
     sprint(self, "http://www.mpog.com/clanring/crmod\n");
-    sprint(self, "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ crbug@mpog.com\n");
-    sprint3(self, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ", numsuicides, " ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+    sprint(self, "Âõç òåðïòôó ôï crbug@mpog.com\n");
+    sprint3(self, "ŽÍáøéíõí ", numsuicides, " óõéãéäåó ðåò ìåöåìŽ\n");
     sprint(self, "Help commands (type in console):\n");
     sprint(self, " vinfo         - server version info\n");
     sprint(self, " help-misc     - misc commands\n");
@@ -678,8 +679,8 @@ void () elohim_help =
 void () elohim_help_change =
 {
     sprint(self, "\n");
-    sprint(self, "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½\n");
-    sprint(self, "ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+    sprint(self, "Ôï ãèáîçå ìåöåìó¬ åîôåò ôèå îáíå ïæ\n");
+    sprint(self, "ôèå ìåöåì éî ôèå ãïîóïìå®\n");
 };
 
 //
@@ -720,7 +721,7 @@ void () elohim_help_misc =
 void () elohim_info =
 {
     sprint(self, "\n");
-    sprint(self, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - Literally, the shining ones.\n");
+    sprint(self, "Åìïèéí - Literally, the shining ones.\n");
     sprint(self, "         Used in ancient texts to\n");
     sprint(self, "         refer to angels.\n\n");
     sprint(self, "http://elo.home.ml.org\n\n");
@@ -734,47 +735,47 @@ void () elohim_info =
 void () elohim_commands =
 {
     // regular user commands
-    sprint(self, " vinfo | help-server |");
-    sprint(self, " help-misc | help-match |");
-    sprint(self, " help-observer | help-walk |");
-    sprint(self, " help-fly | help-chase |");
-    sprint(self, " help-camera | commands |");
-	  sprint(self, " levels | autoweapon |");
-    sprint(self, " admin | motd |");
-    sprint(self, " observer | walk |");
-    sprint(self, " flyme | chase |");
-    sprint(self, " eyecam | camera |");
-	  sprint(self, " autochase | autocam |");
-    sprint(self, " headsup | smooth |");
-    sprint(self, " tourney | yes\n");
-    sprint(self, " no | ready |");
-    sprint(self, " notready | ready? |");
-    sprint(self, " unlock | lock |");
-    sprint(self, " timerstop | timerstart |");
-	  sprint(self, " +teamscores | -teamscores |");
-    sprint(self, " timelimit5 | timelimit10 |");
-    sprint(self, " timelimit15 | timelimit20 |");
-    sprint(self, " timelimit25 | timelimit30 |");
-    sprint(self, " ghostcode | ghost |");
-    sprint(self, " score | nogibs |");
-    sprint(self, " lowgibs | highgibs\n");
-    sprint(self, " setquad | setpent |");
-    sprint(self, " setring | normal |");
-    sprint(self, " practice | match |");
-    sprint(self, " efficiency | stats |");
-    sprint(self, " killstats | quadstats |");
-	  sprint(self, " obits | ticrate\n");
+    sprint(self, " vinfo®®®®®®®®®®““™ help-server®®®“’’\n");
+    sprint(self, " help-misc®®®®®®“’— help-match®®®®“”›\n");
+    sprint(self, " help-observer®®“’“ help-walk®®®®®“––\n");
+    sprint(self, " help-fly®®®®®®®“–— help-chase®®®®“–˜\n");
+    sprint(self, " help-camera®®®®“—˜ commands®®®®®®“’˜\n");
+	sprint(self, " levels®®®®®®®®®“’™ autoweapon®®®®““–\n");
+    sprint(self, " admin®®®®®®®®®®“’š motd®®®®®®®®®®“’›\n");
+    sprint(self, " observer®®®®®®®“–’ walk®®®®®®®®®®“–“\n");
+    sprint(self, " flyme®®®®®®®®®®“–” chase®®®®®®®®®“–•\n");
+    sprint(self, " eyecam®®®®®®®®®“–› camera®®®®®®®®“—•\n");
+	sprint(self, " autochase®®®®®®“—— autocam®®®®®®®“—–\n");
+    sprint(self, " headsup®®®®®®®®“–š smooth®®®®®®®®N/A\n");
+    sprint(self, " tourney®®®®®®®®“—“ yes®®®®®®®®®®®““—\n");
+    sprint(self, " no®®®®®®®®®®®®®““˜ ready®®®®®®®®®“”’\n");
+    sprint(self, " notready®®®®®®®“”“ ready?®®®®®®®®“”•\n");
+    sprint(self, " unlock®®®®®®®®®“”” lock®®®®®®®®®®“•’\n");
+    sprint(self, " timerstop®®®®®®“”– timerstart®®®®“”—\n");
+	sprint(self, " +teamscores®®®®N/A -teamscores®®®N/A\n");
+    sprint(self, " timelimit5®®®®®”“— timelimit10®®®”“˜\n");
+    sprint(self, " timelimit15®®®®”“™ timelimit20®®®”“š\n");
+    sprint(self, " timelimit25®®®®”“› timelimit30®®®””’\n");
+    sprint(self, " ghostcode®®®®®®“”˜ ghost®®®®®®®®®“”™\n");
+    sprint(self, " score®®®®®®®®®®“”š nogibs®®®®®®®®””—\n");
+    sprint(self, " lowgibs®®®®®®®®””˜ highgibs®®®®®®””™\n");
+    sprint(self, " setquad®®®®®®®®””“ setpent®®®®®®®”””\n");
+    sprint(self, " setring®®®®®®®®””• normal®®®®®®®®”’š\n");
+    sprint(self, " practice®®®®®®®”’› match®®®®®®®®®”“’\n");
+    sprint(self, " efficiency®®®®®“““ stats®®®®®®®®®““”\n");
+    sprint(self, " killstats®®®®®®““’ quadstats®®®®®““•\n");
+	sprint(self, " obits®®®®®®®®®®”““ ticrate®®®®®®®““š\n");
 
     // admin commands
     if (self.style & ELOHIM_ADMINISTRATOR)
     {
-		sprint(self, " help-adminï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ optionsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
-		sprint(self, " setchargeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ kick!ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");          // CRMOD - changed spooge to (dis)charge
-		sprint(self, " abortmatchï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ghostlistï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
-		sprint(self, " modevoteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ spotï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
-		sprint(self, " nextspawnï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ makespawnï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
-		sprint(self, " nextcamï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ makecamï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
-		sprint(self, " qsmackï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+		sprint(self, " help-admin®®®®®”’’ options®®®®®®®””›\n");
+		sprint(self, " setcharge®®®®®®””– kick!®®®®®®®®®”“•\n");          // CRMOD - changed spooge to (dis)charge
+		sprint(self, " abortmatch®®®®®”“– ghostlist®®®®®”“”\n");
+		sprint(self, " modevote®®®®®®®””š spot®®®®®®®®®®”—’\n");
+		sprint(self, " nextspawn®®®®®®”–˜ makespawn®®®®®”–™\n");
+		sprint(self, " nextcam®®®®®®®®”–š makecam®®®®®®®”–›\n");
+		sprint(self, " qsmack®®®®®®®®®•™\n");
     }
     sprint(self, "\n");
 
@@ -796,11 +797,11 @@ void () elohim_levels =
 
     // standard levels
     sprint(self, " start, start0, start1, end\n");
-    sprint(self, " e1m1-e1m8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½\n");
-    sprint(self, " e2m1-e2m7 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½\n");
-    sprint(self, " e3m1-e3m7 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½\n");
-    sprint(self, " e4m1-e4m8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½\n");
-    sprint(self, " dm1-dm6   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n");
+    sprint(self, " e1m1-e1m8 ¼åðéóïäå ±¾\n");
+    sprint(self, " e2m1-e2m7 ¼åðéóïäå ²¾\n");
+    sprint(self, " e3m1-e3m7 ¼åðéóïäå ³¾\n");
+    sprint(self, " e4m1-e4m8 ¼åðéóïäå ´¾\n");
+    sprint(self, " dm1-dm6   ¼äåáôèíáôãè¾\n");
 
     // user defined levels
     index = 0;
