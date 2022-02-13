@@ -25,7 +25,7 @@
 float (float angle1, float angle2, float percent) angles_pick_angle =
 {
 	local float difference;
-		
+
 	difference = angle2 - angle1;			// how far apart angles are
 
 	if (difference > 180)
@@ -33,8 +33,8 @@ float (float angle1, float angle2, float percent) angles_pick_angle =
 	else if (difference <= -180)
 		difference = difference + 360;
 
-	return angle1 + difference * percent; 
-	
+	return angle1 + difference * percent;
+
 };
 
 //
@@ -89,7 +89,7 @@ void (vector v) angles_fixangle =
     // Take it up with id.
 	self.v_angle = self.angles = v - '0.1 0.1 0';
 	self.fixangle = TRUE;
-};		
-	
-	
-	
+};
+
+
+

@@ -121,10 +121,10 @@ float () vote_majority =
     local entity player;
     local float vote_count, players, observers, obs_vote;
 
-    
+
     // CRMOD observers weight now 'equals' that of the players
-    players = observers = vote_count = 0;                                                
-	
+    players = observers = vote_count = 0;
+
 	player = find(world, classname, "player");
 	while (player)
 	{
@@ -137,16 +137,16 @@ float () vote_majority =
 		}
 		player = find(player, classname, "player");
 	}
-	
+
 	if ((players) && (observers))
-	{	
+	{
 		obs_vote = 100 * players / observers;
 		if (obs_vote > 100)
 			obs_vote = 100;
 	}
 	else
 		obs_vote = 100;
-	
+
 	// CRMOD END
 
     player = find(world, classname, "player");

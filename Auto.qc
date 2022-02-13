@@ -39,22 +39,22 @@ void () auto_compute_score =
 {
 	local float score, dist, temp;
 	local entity tempe;
-	
+
 	// JP - dead players don't get a score
 	if (self.deadflag != DEAD_NO)
 		return;
-	
-	// score starts off with health, armor, frags, last time they fired their gun, 
+
+	// score starts off with health, armor, frags, last time they fired their gun,
 	// and last time they hurt someone.
 	score = self.health + self.armorvalue + self.frags;
-	
+
 	temp = self.crmod_did_damage + 10 - time;
 	if (temp > 0)
 		score = score + temp * 15;
 	temp = self.attack_finished + 15 - time;
 	if (temp > 0)
 		score = score + temp * 10;
-	
+
 	// weapon relates stuff
 	// 200 + # of rockets if they have RL
 	if (self.items & IT_ROCKET_LAUNCHER)
@@ -65,7 +65,7 @@ void () auto_compute_score =
 	// and # of cells if they have LG
 	if (self.items & IT_LIGHTNING)
 		score = score + self.ammo_cells;
-	
+
 	// powerups 300 ea. for quad or pent, 50 for eyes
 	if (self.items & IT_QUAD)
 		score = score + 300;
@@ -73,7 +73,7 @@ void () auto_compute_score =
 		score = score + 300;
 	if (self.items & IT_INVISIBILITY)
 		score = score + 50;
-	
+
 	// potential for action (ie how many enemies are near by?)
 	// JP - fixed bug; code was looking at observers only!  Optimized slightly
 	local float dscore;
@@ -90,11 +90,11 @@ void () auto_compute_score =
 		tempe = find(tempe, classname, "player");
 	}
 	score = score + dscore * auto_parm3 / 100;
-	
+
 	// now store their score for later
 	self.crmod_chase_score = score;
 };
-	
+
 // CRMOD
 // A U T O  C A M E R A  T H I N K
 //   by Paul Baker
@@ -108,7 +108,7 @@ void () auto_camera_think =
 {
 	local float score, seeable;
 	local entity player;
-		
+
 	self.movetarget = world;	// JP - added this
 	score = 0;		// JP - added this
 	self.count = 0;	// JP - added this
@@ -155,11 +155,11 @@ void () auto_camera_think =
 	if (!self.count)
 		self.count = 1;
 	self.crmod_chase_score = score / self.count;
-	
+
 	self.nextthink = time + 0.5 + random();  // JP - minimum 0.5 second delay
 	self.super_time = time;	// remember last think time
 };
-	
+
 //
 //  F I N D  B E S T
 //
@@ -168,7 +168,7 @@ void () auto_camera_think =
 //  Compute crmod_best_chase_target and crmod_best_camera.
 //  Called once every second from elohim_start_frame.
 //
-void () auto_find_best = 
+void () auto_find_best =
 {
 	local entity e;
 
@@ -202,7 +202,7 @@ void () auto_find_best =
 		e = find(e, classname, "elohim_camera");
 	}
 };
-	
+
 // CRMOD
 //  A U T O  C A M E R A  S T A R T
 //    by Paul Baker
@@ -225,7 +225,7 @@ void () auto_chase_start =
 	self.oflags = self.oflags | OBSERVER_GO_AUTO;
 	observer_chase_start();
 };
-	
+
 // CRMOD
 //  A U T O  D E M O  S T A R T
 //    by CK (hacked together from Paul Baker's chase code)
@@ -256,9 +256,9 @@ void () auto_chase =
 
 	// JP - *Don't* switch to crmod_best_chase_target if it is world
 	if (crmod_best_chase_target == world)
-		return;	
-	
-	// switch if they haven't done any damage for the last 15 seconds, 
+		return;
+
+	// switch if they haven't done any damage for the last 15 seconds,
 	// they haven't fired their gun for 10 seconds,
 	// or they haven't killed anyone in the last half a minute,
 	// but not if they've done damage in the last 3 seconds
@@ -304,7 +304,7 @@ void () auto_chase =
 // Rewritten by J.P. Grossman
 //
 void () auto_camera =
-{	
+{
 	local float temp1, temp2, temp3, vSwitch;
 	local entity inflictor;
 
@@ -325,7 +325,7 @@ void () auto_camera =
 		if (time < self.crmod_cam_delay)
 			return;
 
-		// switch if they haven't done any damage for the last 15 seconds, 
+		// switch if they haven't done any damage for the last 15 seconds,
 		// they haven't fired their gun for 10 seconds,
 		// or they haven't killed anyone in the last half a minute,
 		// but not if they've done damage in the last 3 seconds
@@ -406,7 +406,7 @@ void () auto_camera =
 
 			temp1 =  crmod_best_camera.crmod_chase_score - camera.crmod_chase_score;
 			if (temp1 > auto_parm4)
-			{ 
+			{
 				temp2 = camera.movetarget.attack_finished + 3;
 				temp3 = self.movetarget.crmod_did_damage + 6;
 				// switch if the best is better and movetarget hasn't fired

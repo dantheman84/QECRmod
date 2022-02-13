@@ -59,7 +59,7 @@ float ELOHIM_NO_QUAD = 64;
 float ELOHIM_NO_PENT = 128;
 float ELOHIM_NO_RING = 256;
 float ELOHIM_MODE_VOTE = 512;
-float ELOHIM_DEDICATED_SERVER = 1024; 
+float ELOHIM_DEDICATED_SERVER = 1024;
 float ELOHIM_NO_SPOOGE = 2048;			// disable spooging in practice mode
 float CRMOD_QSMACK_ON = 4096;			// CRMOD is server using Qsmack?
 float ELOHIM_EXTENDED_OBITS = 8192;
@@ -130,8 +130,8 @@ float auto_parm4;	// chasetarget hysteresis (default 100)
 
 // other global variables
 string nextmap;  // moved here from client.qc
-float timelimit; // this used to be local in CheckRules in Client.qc        
-float fraglimit; // this used to be local in CheckRules in Client.qc        
+float timelimit; // this used to be local in CheckRules in Client.qc
+float fraglimit; // this used to be local in CheckRules in Client.qc
 
 entity crmod_best_chase_target; // calculated every second who is the best target to chase // CRMOD - auto
 entity crmod_best_camera;       // set after each camera's think

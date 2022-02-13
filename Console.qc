@@ -147,7 +147,7 @@ void () console_ping =
 //
 //  Show the elapsed time on the server console.
 //
-void () console_show_time = 
+void () console_show_time =
 {
     local float h, m, s, t;
     local string temp;
@@ -179,12 +179,12 @@ void () console_show_time =
 //
 //  Show the elapsed time and status on the server console.
 //
-void () console_show_status = 
+void () console_show_status =
 {
     local float mode;
     local string szmode;
 
-    cprint("\n");                    
+    cprint("\n");
     mode = options_get_mode();
     szmode = strings_get_mode(mode);
     cprint2(szmode, " mode\n");
@@ -250,7 +250,7 @@ void () console_show_score =
     else
     {
         local string temp;
-    
+
         temp = ftos(elohim_match_timer.lip);
         cprint3("\"Time remaining:  ", temp, ":");
         temp = ftos(elohim_match_timer.count);
@@ -295,7 +295,7 @@ void () console_list_ghosts =
         local float frag;
         num = ftos(e.count);
         cprint3("\"  ", num, " | ");
-    
+
         szTeam = strings_get_teamname2(e.height);
         if (e.owner.owner == e)
             frag = e.owner.frags;
@@ -318,7 +318,7 @@ void () console_list_ghosts =
             localcmd6(szTeam, pad, num, "  | ", e.owner.netname, "\"\n");
         else
             localcmd4(szTeam, pad, num, "  | Disconnected\"\n");
-    
+
         e = find(e, classname, "elohim_ghost");
     }
     cprint("\n");
@@ -333,7 +333,7 @@ void () console_show_killstats =
 {
     local entity player;
 
-    cprint("\n");                    
+    cprint("\n");
     cprint("\" frags | enemies | self | teammates | killed |      name\"\n");
     cprint("-------+---------+------+-----------+--------+-----------------\n");
 
@@ -397,7 +397,7 @@ void () console_show_quadstats =
 	cprint("\n");
 	cprint("\" quads | efficiency | enemy | self  | teammates |      name\"\n");
 	cprint  ("-------+------------+-------+-------+-----------+-----------------\n");
-	
+
 	player = find(world, classname, "player");
     while (player)
     {
@@ -905,7 +905,7 @@ void (string name) console_kill_entity =
             localcmd2(temp, "\n");
 
             remove(e);
-            return;            
+            return;
         }
         e = find(e, classname, name);
     }

@@ -93,7 +93,7 @@ void (string s1, string s2, string s3, string s4, string s5, string s6, string s
 void (string s1) cprint =
 {
     localcmd("cmd ");
-    localcmd(s1);  
+    localcmd(s1);
 };
 
 void (string s1, string s2) cprint2 =
@@ -172,7 +172,7 @@ void (float f) utils_print_float =
 //
 //  Prints a float with up to n decimal digits followed by CR to self
 //
-void (float f, float n) utils_print_floatn = 
+void (float f, float n) utils_print_floatn =
 {
 	local string s;
 	local float temp;
@@ -524,7 +524,7 @@ float (string s) utils_stof =
 float (entity a, entity b) utils_visible =
 {
 	traceline (a.origin, b.origin, TRUE, a);	// see through other monsters
-	
+
 	if (trace_inopen && trace_inwater)
 		return FALSE;			// sight line crossed contents
 
@@ -577,7 +577,7 @@ float (entity a, entity b) utils_new_visible =
 //
 //  Toggles the specified flag in self.oflags
 //
-void (float flag, string name) utils_toggle_oflag = 
+void (float flag, string name) utils_toggle_oflag =
 {
 	if (self.oflags & flag)
 	{
@@ -596,7 +596,7 @@ void (float flag, string name) utils_toggle_oflag =
 //
 //  Toggles the specified flag in self.style
 //
-void (float flag, string name) utils_toggle_flag = 
+void (float flag, string name) utils_toggle_flag =
 {
 	if (self.style & flag)
 	{
@@ -660,7 +660,7 @@ float (float index) utils_get_bit =
 //
 //  Returns the index of the first zero in a binary number
 //
-float (float num) utils_find_zero = 
+float (float num) utils_find_zero =
 {
 	local float bit, index;
 
@@ -679,9 +679,9 @@ float (float num) utils_find_zero =
 //
 //  Returns TRUE if the client name is illegal, FALSE otherwise.
 //
-float (string cname) utils_illegal_name = 
+float (string cname) utils_illegal_name =
 {
-    if (cname == "" || cname == "unconnected" || 
+    if (cname == "" || cname == "unconnected" ||
 		cname == elohim_teamname1 || cname == elohim_teamname2)
 	{
 		return TRUE;

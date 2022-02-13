@@ -34,20 +34,20 @@ void() info_null =
         self.invincible_finished = 0;
         self.effects = 0;
         self.invincible_time = 0;
-    
+
         SetNewParms ();
         DecodeLevelParms ();
-     
+
         W_SetCurrentAmmo ();
         self.weapon = 16;
         self.armorvalue = 200;
         self.armortype = 0.8;
         self.currentammo = 100;
-    
+
         self.attack_finished = time;
-     
+
         self.deadflag = DEAD_NO;
-     
+
         setmodel (self, "progs/player.mdl");
         setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 
@@ -96,7 +96,7 @@ void() light =
 		remove(self);
 		return;
 	}
-	
+
 	if (self.style >= 32)
 	{
 		self.use = light_use;
@@ -124,7 +124,7 @@ void() light_fluoro =
 		else
 			lightstyle(self.style, "m");
 	}
-	
+
 	precache_sound ("ambience/fl_hum1.wav");
 	ambientsound (self.origin, "ambience/fl_hum1.wav", 0.5, ATTN_STATIC);
 };
@@ -221,7 +221,7 @@ void() fire_fly;
 void() fire_touch;
 void() misc_fireball =
 {
-	
+
 	precache_model ("progs/lavaball.mdl");
 	self.classname = "fireball";
 	self.nextthink = time + (random() * 5);
@@ -248,7 +248,7 @@ local entity	fireball;
 	fireball.nextthink = time + 5;
 	fireball.think = SUB_Remove;
 	fireball.touch = fire_touch;
-	
+
 	self.nextthink = time + (random() * 5) + 3;
 	self.think = fire_fly;
 };
@@ -285,7 +285,7 @@ TESTING THING
 void() misc_explobox =
 {
 	local float	oldz;
-	
+
 	self.solid = SOLID_BBOX;
 	self.movetype = MOVETYPE_NONE;
 	precache_model ("maps/b_explob.bsp");
@@ -317,7 +317,7 @@ Smaller exploding box, REGISTERED ONLY
 void() misc_explobox2 =
 {
 	local float	oldz;
-	
+
 	self.solid = SOLID_BBOX;
 	self.movetype = MOVETYPE_NONE;
 	precache_model2 ("maps/b_exbox2.bsp");
@@ -383,7 +383,7 @@ void() trap_spikeshooter =
 	if (self.spawnflags & SPAWNFLAG_LASER)
 	{
 		precache_model2 ("progs/laser.mdl");
-		
+
 		precache_sound2 ("enforcer/enfire.wav");
 		precache_sound2 ("enforcer/enfstop.wav");
 	}
@@ -400,7 +400,7 @@ Continuously fires spikes.
 void() trap_shooter =
 {
 	trap_spikeshooter ();
-	
+
 	if (self.wait == 0)
 		self.wait = 1;
 	self.nextthink = self.nextthink + self.wait + self.ltime;
@@ -511,21 +511,21 @@ local vector	vtmp1, modi;
 		rnd1 = 5;
 	if (rnd1 < -10)
 		rnd1 = -5;
-		
+
 	if (rnd2 > 10)
 		rnd2 = 5;
 	if (rnd2 < -10)
 		rnd2 = -5;
-		
+
 	if (rnd3 < 10)
 		rnd3 = 15;
 	if (rnd3 > 30)
 		rnd3 = 25;
-	
+
 	self.velocity_x = rnd1;
 	self.velocity_y = rnd2;
 	self.velocity_z = rnd3;
-		
+
 	self.nextthink = time + 0.5;
 	self.think = bubble_bob;
 };

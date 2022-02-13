@@ -45,7 +45,7 @@ void () motd_init_world =
 
 void () motd_think =
 {
-		
+
     if ((self.count == 0) && (self.owner.style & ELOHIM_MOTD))
     {
 	remove(self);
@@ -55,7 +55,7 @@ void () motd_think =
 
     if (self.count < 26)
     {
-	
+
 	if (self.count == 0)
 	{
 	    centerprint(self.owner, "no bots"); // to kick stoogebots

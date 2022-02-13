@@ -234,7 +234,7 @@ void () match_sprint_status =
     else
     {
         local string temp;
-    
+
         temp = ftos(elohim_match_timer.lip);
         sprint3(self, "Time remaining:  ", temp, ":");
         temp = ftos(elohim_match_timer.count);
@@ -286,7 +286,7 @@ void () match_end =
         // Administrator aborted the match
         if (!(elohim_state & ELOHIM_MATCH_STARTED))
             return;
-    
+
         if (elohim_state & ELOHIM_MATCH_PAUSED) // if administrator aborts match
         {
             WriteByte(MSG_ALL, SVC_CENTERPRINT);
@@ -299,8 +299,8 @@ void () match_end =
     elohim_state = elohim_state - ELOHIM_MATCH_STARTED;
     elohim_state = elohim_state - ELOHIM_TIMER_STARTED;
     elohim_state = elohim_state | ELOHIM_MATCH_OVER | ELOHIM_MATCH_WAIT;
-    utils_do_players(match_gib_player); 
-    match_show_timelimit();       
+    utils_do_players(match_gib_player);
+    match_show_timelimit();
     bprint("The match is over\n");
     match_bprint_score();
 	teamname = strings_get_teamname(elohim_winning_team);
@@ -472,7 +472,7 @@ void () match_timer_think1 =
 
     if (self.count == 20)
     {
-    	
+
     	elohim_maxsize = utils_max(elohim_teamsize1, elohim_teamsize2);
         temp = ftos(elohim_maxsize);
         bprint5("Match is currently ", temp, "v", temp, "\n");
@@ -480,7 +480,7 @@ void () match_timer_think1 =
 
         self.count = 10;
         self.nextthink = time + 10;
-        
+
 
     }
     else if (self.count == 15)
@@ -614,7 +614,7 @@ float () match_all_ready =
     player = find(world, classname, "player");
     while (player)
     {
-        if (!(player.style & (ELOHIM_OBSERVER | ELOHIM_READY)) && 
+        if (!(player.style & (ELOHIM_OBSERVER | ELOHIM_READY)) &&
             (player.style & ELOHIM_CONNECTED))
             return FALSE;
         player = find(player, classname, "player");
@@ -635,8 +635,8 @@ void () match_start_timer =
     elohim_match_timer.nextthink = floor(time) + 2;
     //elohim_match_timer.nextthink = time + 30;
     //elohim_match_timer.count = 30;
-    
-    
+
+
 
     elohim_teamfrags1 = 0;
     elohim_teamfrags2 = 0;
@@ -810,7 +810,7 @@ void (entity ghostent) match_restore_ghost =
             bprint("\n");
         else
             bprint("s\n");
-    }    
+    }
 };
 
 //
@@ -1072,7 +1072,7 @@ void () match_show_not_ready =
         player = find(world, classname, "player");
         while (player)
         {
-            if (!(player.style & (ELOHIM_OBSERVER | ELOHIM_READY)) && 
+            if (!(player.style & (ELOHIM_OBSERVER | ELOHIM_READY)) &&
 				(player.style & ELOHIM_CONNECTED))
                 bprint3(" ", player.netname, "\n");
             player = find(player, classname, "player");
@@ -1389,7 +1389,7 @@ void (entity player) match_disconnect_notify =
         }
         return;
     }
-	
+
 	// JP - 5/15/98
 	// Bug fix for players falling out of map.
 	// For the 5 seconds after a match ends, players are "ready" but they

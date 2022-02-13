@@ -45,9 +45,9 @@ void () qsmack_init_server =
 		temp = 1;
 	else
 		temp = 0;
-		
+
 	if (temp)
-	{		
+	{
 		localcmd("echo You have not set up QSmack correctly! Please refer to server documentation\n");
 		localcmd("echo for information on how to properly configure QSmack to work with CRMod++\n");
 		localcmd("echo\n");
@@ -60,7 +60,7 @@ void () qsmack_init_server =
 		localcmd("echo\n");
 	}
 };
-	
+
 // JP - fixed same-code bug (it would break if QSMACKi == QSMACKj)
 void () qsmack_detecting =
 {
@@ -68,7 +68,7 @@ void () qsmack_detecting =
 	didAdmin = 0;
 
 	self.finaldest_x = time;
-    
+
     if ((self.impulse == QSMACK1) && (self.qsmack_level == 0))
     {
         localcmd("echo QSmack:  Init Passed!\n");
@@ -107,17 +107,17 @@ void () qsmack_detecting =
         	utils_make_scheduled_event(elohim_observer_start_think, 0.6);
         }
     }
-    
-    if (didAdmin == 0) 
+
+    if (didAdmin == 0)
     {
-        if (self.qsmack_level != 0) 
+        if (self.qsmack_level != 0)
         {
             self.qsmack_level = 666;
         }
     }
-    if (self.qsmack_trylevel != 0) 
+    if (self.qsmack_trylevel != 0)
     {
-        if (self.qsmack_trylevel == 1) 
+        if (self.qsmack_trylevel == 1)
         {
 			localcmd("echo QSmack:  Init1 --> ");
 			localcmd(self.netname);
@@ -125,7 +125,7 @@ void () qsmack_detecting =
         	stuffcmd(self, "init01;\n");
             self.qsmack_trylevel = 2;
         }
-	    else if (self.qsmack_trylevel == 2) 
+	    else if (self.qsmack_trylevel == 2)
     	{
 			localcmd("echo QSmack:  Init2 --> ");
 			localcmd(self.netname);
@@ -133,7 +133,7 @@ void () qsmack_detecting =
         	stuffcmd(self, "init02;\n");
 	        self.qsmack_trylevel = 3;
     	}
-        else if (self.qsmack_trylevel == 3) 
+        else if (self.qsmack_trylevel == 3)
         {
 			localcmd("echo QSmack:  Init3 --> ");
 			localcmd(self.netname);
@@ -141,7 +141,7 @@ void () qsmack_detecting =
             stuffcmd(self, "init03;\n");
             self.qsmack_trylevel = 4;
         }
-        else if (self.qsmack_trylevel == 4) 
+        else if (self.qsmack_trylevel == 4)
         {
 			localcmd("echo QSmack:  Init4 --> ");
 			localcmd(self.netname);
@@ -149,19 +149,19 @@ void () qsmack_detecting =
             stuffcmd(self, "init04;\n");
             self.qsmack_trylevel = 5;
         }
-        else 
+        else
         {
             self.qsmack_trylevel = 0;
             self.style = self.style - CRMOD_DETECTING_QSMACK;
         }
  	}
-}; 
+};
 
 void () qsmack_times_up =
 {
 	if (self.owner.style & CRMOD_DETECTING_QSMACK)
 		self.owner.style = self.owner.style	- CRMOD_DETECTING_QSMACK;
-		
+
 	remove(self);
 };
 
@@ -171,12 +171,12 @@ void () qsmack_detect =
 	temp = self;
 	self = temp.owner;
 
-	// JP - got rid of redundant admin check	
+	// JP - got rid of redundant admin check
     self.style = self.style | CRMOD_DETECTING_QSMACK;
     localcmd("echo Sending QSmack Init...\n");
     stuffcmd(self, "init\n");
-    utils_make_scheduled_event(qsmack_times_up, 1.5);    	
-    
+    utils_make_scheduled_event(qsmack_times_up, 1.5);
+
     self = temp;
     remove(self);
 };
@@ -186,7 +186,7 @@ void () qsmack_impulse =
 {
 	local float tempf;
 	local string temps;
-	
+
 	if ((self.impulse > 37) || (self.impulse < 20) || !(self.style & ELOHIM_ADMINISTRATOR))
 	{
 		elohim_bad_impulse();
@@ -205,11 +205,11 @@ void () qsmack_impulse =
     {
     	local entity aa;
         aa = find(world, classname, "player");
-        while (aa != world) 
+        while (aa != world)
         {
-        	if (aa.style & ELOHIM_CONNECTED) 
+        	if (aa.style & ELOHIM_CONNECTED)
         	{
-            	if (aa.style & ELOHIM_ADMINISTRATOR) 
+            	if (aa.style & ELOHIM_ADMINISTRATOR)
             	{
                 	// You must use this format!
                     sprint(aa, "#qsmack_command# ");
@@ -224,6 +224,6 @@ void () qsmack_impulse =
 	// JP - got rid of the '-1'.  What the heck was it for?
 	self.finaldest_x = time;
 };
-	
-		
-	
+
+
+

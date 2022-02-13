@@ -83,10 +83,10 @@ void() movetarget_f =
 {
 	if (!self.targetname)
 		objerror ("monster_movetarget: no targetname");
-		
+
 	self.solid = SOLID_TRIGGER;
 	setsize (self, '-8 -8 -8', '8 8 8');
-	
+
 };
 
 // This was in Ai.qc

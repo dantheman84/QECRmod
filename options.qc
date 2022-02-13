@@ -479,14 +479,14 @@ void () options_display =
     {
         local string szmode, sztimelimit, szfraglimit, szovertime, szgibs;
         local string szteamplay, sznoexit, szpausable;
-    
+
         szmode = options_szmode(self.pos1_z);
         sztimelimit = options_sztimelimit(self.pos1_x);
         szgibs = options_szgibs(self.pos2_x);
         szteamplay = options_szteamplay(self.pos2_y);
         sznoexit = options_sznoexit(self.pos2_z);
         szpausable = options_szpausable(self.aflag & OPTIONS_PAUSABLE);
-    
+
         if (self.pos1_z == ADMIN_MATCH_MODE)
         {
             szovertime = options_szovertime(self.pos1_y);
@@ -884,7 +884,7 @@ void () options_pre_think =
         }
         else
             options_change();
-        options_display();            
+        options_display();
     }
     else
     {

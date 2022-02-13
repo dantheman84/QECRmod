@@ -181,7 +181,7 @@ void () admin_create =
 //  when self.count == elohim_password the client is made into an
 //  administrator.
 //
-void () admin_enter_code = 
+void () admin_enter_code =
 {
     if (self.finaldest_z > 9)
 	return;
@@ -309,7 +309,7 @@ void () admin_phatten_player =
     self.ammo_rockets = 100;
     self.ammo_cells = 100;
     self.weapon = 32;
-    self.armortype = 0.8;    
+    self.armortype = 0.8;
     self.weaponmodel = "progs/v_rock2.mdl";
     self.weaponframe = 0;
 };
@@ -329,10 +329,10 @@ void () admin_set_mode =
             return;
         }
         elohim_playmode = elohim_playmode - ELOHIM_MATCH_MODE;
-    
+
         // Reset teamplay to 0
         cvar_set("teamplay", "0");
-    
+
         // Get rid of observers
         utils_do_players(observer_end);
     }
@@ -695,12 +695,12 @@ void () admin_request_set_quad =
     else
     {
         local string newstate;
-    
+
         if (elohim_playmode & ELOHIM_NO_QUAD)
             newstate = "enable";
         else
             newstate = "disable";
-    
+
         if (vote_init(newstate, " quad", admin_set_quad))
             vote_yes();
     }
@@ -743,12 +743,12 @@ void () admin_request_set_pent =
     else
     {
         local string newstate;
-    
+
         if (elohim_playmode & ELOHIM_NO_PENT)
             newstate = "enable";
         else
             newstate = "disable";
-    
+
         if (vote_init(newstate, " pentagram", admin_set_pent))
             vote_yes();
     }
@@ -791,12 +791,12 @@ void () admin_request_set_ring =
     else
     {
         local string newstate;
-    
+
         if (elohim_playmode & ELOHIM_NO_RING)
             newstate = "enable";
         else
             newstate = "disable";
-    
+
         if (vote_init(newstate, " ring of shadows", admin_set_ring))
             vote_yes();
     }
@@ -837,12 +837,12 @@ void () admin_request_set_obits =
     else
     {
         local string newstate;
-    
+
         if (elohim_playmode & ELOHIM_EXTENDED_OBITS)
             newstate = "disable";
         else
             newstate = "enable";
-    
+
         if (vote_init(newstate, " extended obituaries", admin_set_obits))
             vote_yes();
     }
@@ -1016,7 +1016,7 @@ void () admin_confirm_kick =
 //
 //  Called when the administrator enters 'yes' or 'no' in
 //  response to the confirmation request.
-//  
+//
 void (float fDoKick) admin_confirm_kick_response =
 {
     if (fDoKick)
@@ -1087,7 +1087,7 @@ void () admin_list_ghosts =
         local float frag;
         num = ftos(e.count);
         sprint2(self, num, " �");
-    
+
         szTeam = strings_get_teamname2(e.height);
         if (e.owner.owner == e)
             frag = e.owner.frags;
@@ -1110,7 +1110,7 @@ void () admin_list_ghosts =
             sprint6(self, szTeam, pad, num, " �", e.owner.netname, "\n");
         else
             sprint4(self, szTeam, pad, num, " � Disconnected\n");
-    
+
         e = find(e, classname, "elohim_ghost");
     }
     sprint(self, "\n");
@@ -1395,7 +1395,7 @@ void () admin_impulse =
 //
 //  Remove this player from the list of kickable players.
 //
-void (entity player) admin_disconnect_notify = 
+void (entity player) admin_disconnect_notify =
 {
     local float index;
 

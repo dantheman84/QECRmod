@@ -40,9 +40,9 @@ void() SetChangeParms =
 	}
 
 // remove items
-	self.items = self.items - (self.items & 
+	self.items = self.items - (self.items &
 	(IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD) );
-	
+
 // cap super health
 	if (self.health > 100)
 		self.health = 100;
@@ -155,7 +155,7 @@ void() DecodeLevelParms =
         SetNewParms2 ();   // take away all stuff on starting new episode
 
     // END_MOD
-	
+
 	self.items = parm1;
 	self.health = parm2;
 	self.armorvalue = parm3;
@@ -198,12 +198,12 @@ entity() FindIntermission =
 	spot = find (world, classname, "info_player_start");
 	if (spot)
 		return spot;
-	
+
 // testinfo_player_start is only found in regioned levels
 	spot = find (world, classname, "testplayerstart");
 	if (spot)
 		return spot;
-	
+
 	objerror ("FindIntermission: no spot");
 };
 
@@ -241,7 +241,7 @@ void() ExitIntermission =
 		GotoNextMap ();
 		return;
 	}
-	
+
 	intermission_exittime = time + 1;
 	intermission_running = intermission_running + 1;
 
@@ -300,7 +300,7 @@ void() ExitIntermission =
 
 		GotoNextMap();
 	}
-	
+
 	if (intermission_running == 3)
 	{
 		if (!cvar("registered"))
@@ -308,14 +308,14 @@ void() ExitIntermission =
 			WriteByte (MSG_ALL, SVC_SELLSCREEN);
 			return;
 		}
-		
+
 		if ( (serverflags&15) == 15)
 		{
 			WriteByte (MSG_ALL, SVC_FINALE);
 			WriteString (MSG_ALL, "Now, you have all four Runes. You sense\ntremendous invisible forces moving to\nunseal ancient barriers. Shub-Niggurath\nhad hoped to use the Runes Herself to\nclear off the Earth, but now instead,\nyou will use them to enter her home and\nconfront her as an avatar of avenging\nEarth-life. If you defeat her, you will\nbe remembered forever as the savior of\nthe planet. If she conquers, it will be\nas if you had never been born.");
 			return;
 		}
-		
+
 	}
 
 	GotoNextMap();
@@ -348,7 +348,7 @@ void() execute_changelevel =
 	local entity	pos;
 
     intermission_running = 1;
-	
+
 // enforce a wait time before allowing changelevel
 	if (deathmatch)
         intermission_exittime = time + 5;
@@ -358,7 +358,7 @@ void() execute_changelevel =
 	WriteByte (MSG_ALL, SVC_CDTRACK);
 	WriteByte (MSG_ALL, 3);
 	WriteByte (MSG_ALL, 3);
-	
+
 	pos = FindIntermission ();
 
 	other = find (world, classname, "player");
@@ -374,7 +374,7 @@ void() execute_changelevel =
 		other.modelindex = 0;
 		setorigin (other, pos.origin);
 		other = find (other, classname, "player");
-	}	
+	}
 
     WriteByte (MSG_ALL, SVC_INTERMISSION);
 };
@@ -407,7 +407,7 @@ void() changelevel_touch =
 		bprint (other.netname);
 		bprint (" exited the level\n");
 	}
-	
+
 	nextmap = self.map;
 
     // ELOHIM_MOD
@@ -422,7 +422,7 @@ void() changelevel_touch =
 		GotoNextMap();
 		return;
 	}
-	
+
 	self.touch = SUB_Null;
 
 // we can't move people right now, because touch functions are called
@@ -438,7 +438,7 @@ void() trigger_changelevel =
 {
 	if (!self.map)
         objerror ("changelevel trigger doesn't have map");
-	
+
 	InitTrigger ();
 	self.touch = changelevel_touch;
 };
@@ -465,7 +465,7 @@ void() respawn =
 		CopyToBodyQue (self);
 		// get the spawn parms as they were at level start
 		setspawnparms (self);
-		// respawn		
+		// respawn
 		PutClientInServer ();
 	}
 	else
@@ -485,7 +485,7 @@ void() respawn =
 		// set default spawn parms
         SetNewParms2 ();
         // END_MOD
-		// respawn		
+		// respawn
 		PutClientInServer ();
 	}
 	else
@@ -575,14 +575,14 @@ entity() SelectSpawnPoint =
 	local	float  pcount;
 
 	// ELOHIM_MOD - don't want this
-	/*	
+	/*
 // testinfo_player_start is only found in regioned levels
 	spot = find (world, classname, "testplayerstart");
 	if (spot)
 		return spot;
 	*/
 	// END_MOD
-		
+
 // choose a info_player_deathmatch point
     // ELOHIM_MOD - coop not supported
     /*
@@ -603,7 +603,7 @@ entity() SelectSpawnPoint =
         // ELOHIM_MOD
         //
         // replaced this whole section with code to find a random
-        // spawn point. 
+        // spawn point.
         //
         pcount = random() * (elohim_num_spawns - 0.001);
         pcount = floor(pcount);
@@ -672,11 +672,11 @@ entity() SelectSpawnPoint =
 		if (spot)
 			return spot;
 	}
-	
+
 	spot = find (world, classname, "info_player_start");
 	if (!spot)
 		error ("PutClientInServer: no info_player_start on level");
-	
+
 	return spot;
 };
 
@@ -716,18 +716,18 @@ void() PutClientInServer =
 	self.invincible_time = 0;
 
 	DecodeLevelParms ();
-	
+
 	W_SetCurrentAmmo ();
 
 	self.attack_finished = time;
 	self.th_pain = player_pain;
 	self.th_die = PlayerDie;
-	
+
 	self.deadflag = DEAD_NO;
 
 // paustime is set by teleporters to keep the player from moving a while
 //  self.pausetime = 0; // ELOHIM_MOD - unused
-	
+
 //	spot = SelectSpawnPoint ();
 
 	self.origin = spot.origin + '0 0 1';
@@ -743,11 +743,11 @@ void() PutClientInServer =
 	modelindex_player = self.modelindex;
 
 	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
-	
+
 	self.view_ofs = '0 0 22';
 
     // player_stand1 (); // ELOHIM_MOD - moved to elohim_put_client_in_server
-      
+
     /* CRMOD jp told me too :)
     if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
     {
@@ -755,7 +755,7 @@ void() PutClientInServer =
         spawn_tfog (self.origin + v_forward*20);
     }
 	*/
-	
+
     // spawn_tdeath (self.origin, self); // ELOHIM_MOD - moved to Elohim.qc
 
     // ELOHIM_MOD
@@ -933,24 +933,24 @@ void() CheckRules =
 {
 	local	float		timelimit;
 	local	float		fraglimit;
-	
+
 	if (gameover)	// someone else quit the game already
 		return;
-		
+
 	timelimit = cvar("timelimit") * 60;
 	fraglimit = cvar("fraglimit");
-	
+
     if (timelimit && time >= timelimit)
 	{
 		NextLevel ();
 		return;
 	}
-	
+
 	if (fraglimit && self.frags >= fraglimit)
 	{
         NextLevel ();
 		return;
-	}	
+	}
 };
 */
 
@@ -967,7 +967,7 @@ void() PlayerDeathThink =
 		forward = forward - 20;
 		if (forward <= 0)
 			self.velocity = '0 0 0';
-		else	
+		else
 			self.velocity = forward * normalize(self.velocity);
 	}
 
@@ -994,10 +994,10 @@ void() PlayerDeathThink =
 void() PlayerJump =
 {
 	local vector start, end;
-	
+
 	if (self.flags & FL_WATERJUMP)
 		return;
-	
+
 	if (self.waterlevel >= 2)
 	{
 		if (self.watertype == CONTENT_WATER)
@@ -1029,7 +1029,7 @@ void() PlayerJump =
     self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
 
 	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
-	
+
 	self.button2 = 0;
 // player jumping sound
     sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
@@ -1079,7 +1079,7 @@ void() WaterMove =
 			self.pain_finished = time + 1;
 		}
 	}
-	
+
 	if (!self.waterlevel)
 	{
 		if (self.flags & FL_INWATER)
@@ -1115,9 +1115,9 @@ void() WaterMove =
 			T_Damage (self, world, world, 4*self.waterlevel);
 		}
 	}
-	
+
 	if ( !(self.flags & FL_INWATER) )
-	{	
+	{
 
 // player enter water sound
 
@@ -1136,7 +1136,7 @@ void() WaterMove =
 		self.flags = self.flags + FL_INWATER;
 		self.dmgtime = 0;
 	}
-	
+
 	if (! (self.flags & FL_WATERJUMP) )
 		self.velocity = self.velocity - 0.8*self.waterlevel*frametime*self.velocity;
 
@@ -1153,7 +1153,7 @@ void() CheckWaterJump =
 // check for a jump-out-of-water
 	makevectors (self.angles);
 	start = self.origin;
-	start_z = start_z + 8; 
+	start_z = start_z + 8;
 	v_forward_z = 0;
 	normalize(v_forward);
 	end = start + v_forward*24;
@@ -1210,7 +1210,7 @@ void() PlayerPreThink =
         if (intermission_running)
         {
             // otherwise a button could be missed between the think tics
-            IntermissionThink ();   
+            IntermissionThink ();
         }
 		return;		// intermission or finale
     }
@@ -1246,10 +1246,10 @@ void() PlayerPreThink =
     }
 
 	if (self.crmod_did_damage + 1 < time)
-		self.crmod_inflicted = world;  // CRMOD - reset inflicted info 
-	
+		self.crmod_inflicted = world;  // CRMOD - reset inflicted info
+
 	WaterMove ();
-	
+
 	if (self.style & ELOHIM_SETTING_OPTIONS)
     {
         options_pre_think();
@@ -1274,7 +1274,7 @@ void() PlayerPreThink =
     }
     // END_MOD
 };
-	
+
 /*
 ================
 CheckPowerups
@@ -1307,7 +1307,7 @@ void() CheckPowerups =
 				sound (self, CHAN_AUTO, "items/inv2.wav", 1, ATTN_NORM);
 				self.invisible_time = time + 1;
 			}
-			
+
 			if (self.invisible_time < time)
 			{
 				self.invisible_time = time + 1;
@@ -1321,7 +1321,7 @@ void() CheckPowerups =
 			self.invisible_finished = 0;
 			self.invisible_time = 0;
 		}
-		
+
 	// use the eyes
 		self.frame = 0;
 		self.modelindex = modelindex_eyes;
@@ -1342,14 +1342,14 @@ void() CheckPowerups =
 				sound (self, CHAN_AUTO, "items/protect2.wav", 1, ATTN_NORM);
 				self.invincible_time = time + 1;
 			}
-			
+
 			if (self.invincible_time < time)
 			{
 				self.invincible_time = time + 1;
 				stuffcmd (self, "bf\n");
 			}
 		}
-		
+
 		if (self.invincible_finished < time)
 		{	// just stopped
 			self.items = self.items - IT_INVULNERABILITY;
@@ -1376,8 +1376,8 @@ void() CheckPowerups =
 				stuffcmd (self, "bf\n");
 				sound (self, CHAN_AUTO, "items/damage2.wav", 1, ATTN_NORM);
 				self.super_time = time + 1;
-			}	  
-			
+			}
+
 			if (self.super_time < time)
 			{
 				self.super_time = time + 1;
@@ -1395,9 +1395,9 @@ void() CheckPowerups =
 			self.effects = self.effects | EF_QUADLIGHT;
 		else
 			self.effects = self.effects - (self.effects & EF_QUADLIGHT);
-	}	
+	}
 
-// suit	
+// suit
 	if (self.radsuit_finished)
 	{
 		self.air_finished = time + 12;		// don't drown
@@ -1412,7 +1412,7 @@ void() CheckPowerups =
 				sound (self, CHAN_AUTO, "items/suit2.wav", 1, ATTN_NORM);
 				self.rad_time = time + 1;
 			}
-			
+
 			if (self.rad_time < time)
 			{
 				self.rad_time = time + 1;
@@ -1426,7 +1426,7 @@ void() CheckPowerups =
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
 		}
-	}	
+	}
 
 };
 
@@ -1499,10 +1499,10 @@ void() PlayerPostThink =
     if (elohim_state & ELOHIM_MATCH_PAUSED)
         return;
     // END_MOD
-		
+
     // ELOHIM_MOD - Don't let clients change team after committing
     match_verify_team(self);
-    
+
 // do weapon stuff
 
 	W_WeaponFrame ();
@@ -1519,13 +1519,13 @@ void() PlayerPostThink =
                 sound (self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
             else if (self.jump_flag < -650)
             {
-                T_Damage (self, world, world, 5); 
+                T_Damage (self, world, world, 5);
                 sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
                 self.deathtype = "falling";
             }
             else
                 sound (self, CHAN_VOICE, "player/land.wav", 1, ATTN_NORM);
-    
+
             self.jump_flag = 0;
         }
     }
@@ -1550,7 +1550,7 @@ void() ClientConnect =
 
 	bprint (self.netname);
 	bprint (" entered the game\n");
-	
+
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
 		ExitIntermission ();
@@ -1625,7 +1625,7 @@ void() ClientDisconnect =
 void (entity client, float fragval) client_frag =
 {
     client.frags = client.frags + fragval;
-    
+
     client.crmod_lastkill = time; // CRMOD got a kill
 
     if (elohim_playmode & ELOHIM_MATCH_MODE)
@@ -1700,7 +1700,7 @@ void(entity targ, entity attacker) ClientObituary =
                 	attacker.crmod_qdkill_z = attacker.crmod_qdkill_z + 1;   // CRMOD - stats
                 client_frag(attacker, -1);
 				bprint (targ.netname);
-				
+
 				if (targ.weapon == 64 && targ.waterlevel > 1)
 				{
                     if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
@@ -1798,7 +1798,7 @@ void(entity targ, entity attacker) ClientObituary =
                 else if (attacker.weapon == IT_NAILGUN)
 				{
                     if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {						
+                    {
 						deathstring = " was nailed by ";
 						deathstring2 = "\n";
 					}
@@ -1890,7 +1890,7 @@ void(entity targ, entity attacker) ClientObituary =
                         else
                             deathstring2 = "'s shaft\n";
                     }
-                    else 
+                    else
                     {
                         if (attacker.waterlevel > 1)
 						{

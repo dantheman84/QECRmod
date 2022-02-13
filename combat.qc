@@ -27,7 +27,7 @@ float(entity targ, entity inflictor) CanDamage =
 			return TRUE;
 		return FALSE;
 	}
-	
+
 	traceline(inflictor.origin, targ.origin, TRUE, self);
 	if (trace_fraction == 1)
 		return TRUE;
@@ -59,7 +59,7 @@ void(entity targ, entity attacker) Killed =
 
 	oself = self;
 	self = targ;
-	
+
 	if (self.health < -99)
 		self.health = -99;		// don't let sbar look bad if a player
 
@@ -84,13 +84,13 @@ void(entity targ, entity attacker) Killed =
     // END_MOD
 
 	ClientObituary(self, attacker);
-	
+
 	self.takedamage = DAMAGE_NO;
 	self.touch = SUB_Null;
 
     // monster_death_use(); // ELOHIM_MOD - no monsters in clan server
 	self.th_die ();
-	
+
 	self = oself;
 };
 
@@ -113,13 +113,13 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	if (!targ.takedamage)
 		return;
 
-	
+
     // ELOHIM_MOD - stats
     if (attacker.classname == "player" && targ != attacker)
     {
         attacker.crmod_inflicted = targ;  // CRMOD - to see who attacker attacked
         attacker.crmod_did_damage = time;  // CRMOD keep track of last time they hurt someone
-	
+
         if (targ.classname != "player" || attacker.team != targ.team || !teamplay)
         {
             if (inflictor == attacker)
@@ -143,7 +143,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
             else if (inflictor.classname == "spike")
                 attacker.dest2_y = attacker.dest2_y + damage;
         }
-    }                        
+    }
     // END_MOD
 
 // used by buttons and triggers to set activator for target firing
@@ -151,9 +151,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 // check for quad damage powerup on the attacker
 	if (attacker.super_damage_finished > time)
-	
+
 	// CRMOD - count damage done with quad.
-	// CRMOD - stats  
+	// CRMOD - stats
 	{
 		damage = damage * 4;
 		if (attacker.classname == "player" && targ != attacker)
@@ -162,9 +162,9 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
         		attacker.crmod_qdwep_x = attacker.crmod_qdwep_x + damage;
         }
 	}
-	// END_CRMOD  
-		
-		
+	// END_CRMOD
+
+
 
 // save damage based on the target's armor level
 
@@ -175,7 +175,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		targ.armortype = 0;	// lost all armor
 		targ.items = targ.items - (targ.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3));
 	}
-	
+
 	targ.armorvalue = targ.armorvalue - save;
 	take = ceil(damage-save);
 
@@ -236,10 +236,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
             return;
     }
     // END_MOD
-		
+
 // do the damage
 	targ.health = targ.health - take;
-			
+
 	if (targ.health <= 0)
 	{
         // ELOHIM_MOD - print info for practice mode
@@ -271,7 +271,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	// get mad unless of the same class (except for soldiers)
 		if (self != attacker && attacker != self.enemy)
 		{
-			if ( (self.classname != attacker.classname) 
+			if ( (self.classname != attacker.classname)
 			|| (self.classname == "monster_army" ) )
 			{
 				if (self.enemy.classname == "player")
@@ -312,7 +312,7 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 	local	vector	org;
 
 	head = findradius(inflictor.origin, damage+40);
-	
+
 	while (head)
 	{
 		if (head != ignore)
@@ -348,9 +348,9 @@ void(entity attacker, float damage) T_BeamDamage =
 {
 	local	float 	points;
 	local	entity	head;
-	
+
 	head = findradius(attacker.origin, damage+40);
-	
+
 	while (head)
 	{
 		if (head.takedamage)
@@ -365,7 +365,7 @@ void(entity attacker, float damage) T_BeamDamage =
 			{
 				if (CanDamage (head, attacker))
 				{
-					if (head.classname == "monster_shambler")						
+					if (head.classname == "monster_shambler")
 						T_Damage (head, attacker, attacker, points*0.5);
 					else
 						T_Damage (head, attacker, attacker, points);

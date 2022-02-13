@@ -30,7 +30,7 @@ void () stats_show_quadstats =
 {
     local entity player;
 
-    
+
     sprint(self, "quads - quads picked up\n");
     sprint(self, "eff   - quad weapon efficiency\n");
     sprint(self, "opp   - number of opponents killed\n");

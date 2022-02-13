@@ -133,7 +133,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");
@@ -169,7 +169,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");
@@ -205,7 +205,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");
@@ -241,7 +241,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");
@@ -284,7 +284,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");
@@ -320,7 +320,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");
@@ -356,7 +356,7 @@ void hud_update() =
                 else // >= 100
                 {
                     WriteString(MSG_ONE, "");
-                }       
+                }
                 WriteString(MSG_ONE, ftos(item_time));
             }
             WriteString(MSG_ONE, "\x11");

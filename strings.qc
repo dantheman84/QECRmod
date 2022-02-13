@@ -631,9 +631,9 @@ string (float mapnum) strings_get_mapname =
 	if (mapnum == 7)
             return "ultrav";
 	if (mapnum == 8)
-            return "q3dm6qw";   
+            return "q3dm6qw";
 	if (mapnum == 9)
-            return "aggressr";                                                            
+            return "aggressr";
         return "";
     }
     if (mapnum < 20)
@@ -690,7 +690,7 @@ string (float mapnum) strings_get_mapname =
             return "e3m6";
         if (mapnum == 37)
             return "e3m7";
-        return ""; 
+        return "";
     }
     if (mapnum < 50)
     {
@@ -710,7 +710,7 @@ string (float mapnum) strings_get_mapname =
             return "e4m7";
         if (mapnum == 48)
             return "e4m8";
-        return ""; 
+        return "";
     }
     if (mapnum < 60)
     {
@@ -727,11 +727,11 @@ string (float mapnum) strings_get_mapname =
         if (mapnum == 56)
             return "dm6";
         if (mapnum == 57)
-            return "dm7";  
+            return "dm7";
         if (mapnum == 58)
             return "dm8";
         if (mapnum == 59)
-            return "death32c";  
+            return "death32c";
         return "";
     }
     return array_get_user_map(mapnum - 60);

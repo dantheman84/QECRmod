@@ -16,7 +16,7 @@ void () score_restore_scoreboard;
 //
 //  Reset the score stuff at the start of a match
 //
-void () score_init = 
+void () score_init =
 {
 	elohim_winning_teamname = ELOHIM_STRING_TIED;
 	elohim_score_number = 0;
@@ -27,7 +27,7 @@ void () score_init =
 //
 //  I N I T  W O R L D
 //
-void () score_init_world = 
+void () score_init_world =
 {
 	ELOHIM_STRING_TIED = "            Tied at ";
 };
@@ -120,7 +120,7 @@ void (float client, float colour) score_write_colour =
 //
 //  Update 'time remaining" to msg_entity in the given slot
 //
-void (float client) score_write_time = 
+void (float client) score_write_time =
 {
 	WriteByte(MSG_ONE, SVC_UPDATENAME);
 	WriteByte(MSG_ONE, client);
@@ -132,10 +132,10 @@ void (float client) score_write_time =
         local float minutes;
         local float seconds;
 		local float temp;
-    
+
         minutes = elohim_match_timer.lip;
         seconds = elohim_match_timer.count;
-		
+
 		if (minutes > 10)
 		{
 			temp = floor(minutes / 10);
@@ -155,7 +155,7 @@ void (float client) score_write_time =
 //
 //  F I X  C O N N E C T
 //
-void () score_fix_connect = 
+void () score_fix_connect =
 {
 	// find all players looking at scores, and fix the scoreboard
 	msg_entity = find(world, classname, "player");
@@ -172,7 +172,7 @@ void () score_fix_connect =
 			}
 		}
 		msg_entity = find(msg_entity, classname, "player");
-	}	
+	}
 	remove(self);
 };
 
@@ -181,7 +181,7 @@ void () score_fix_connect =
 //
 //  If someone's looking at teamscores we might need to patch up their scoreboard
 //
-void () score_client_connect = 
+void () score_client_connect =
 {
 	if (!elohim_score_count)
 		return;
@@ -195,7 +195,7 @@ void () score_client_connect =
 //
 //  F I X  D I S C O N N E C T
 //
-void () score_fix_disconnect = 
+void () score_fix_disconnect =
 {
 	// find all players looking at scores, and fix the scoreboard
 	msg_entity = find(world, classname, "player");
@@ -220,7 +220,7 @@ void () score_fix_disconnect =
 			}
 		}
 		msg_entity = find(msg_entity, classname, "player");
-	}	
+	}
 	remove(self);
 };
 
@@ -229,7 +229,7 @@ void () score_fix_disconnect =
 //
 //  If someone's looking at teamscores we might need to patch up their scoreboard
 //
-void () score_client_disconnect = 
+void () score_client_disconnect =
 {
 	if (!elohim_score_count)
 		return;
@@ -243,7 +243,7 @@ void () score_client_disconnect =
 //
 //  S H O W  T E A M S C O R E S
 //
-void () score_show_teamscores = 
+void () score_show_teamscores =
 {
 	local entity e;
 	local float team1;
@@ -330,7 +330,7 @@ void () score_show_teamscores =
 			}
 		}
 	}
-	
+
 	// now send the team scores
 	score_write_name(self.scoreboard_x, elohim_teamname1);
 	score_write_frags(self.scoreboard_x, elohim_teamfrags1);
@@ -346,7 +346,7 @@ void () score_show_teamscores =
 //
 //  Restore a client's scoreboard after they finish looking at team scores
 //
-void () score_restore_scoreboard = 
+void () score_restore_scoreboard =
 {
 	local entity e;
 
@@ -377,7 +377,7 @@ void () score_restore_scoreboard =
 //
 //  Update frags for everyone who's looking at teamscores
 //
-void () score_update_frags = 
+void () score_update_frags =
 {
 	msg_entity = find(world, classname, "player");
 	while(msg_entity)
@@ -391,7 +391,7 @@ void () score_update_frags =
 			}
 		}
 		msg_entity = find(msg_entity, classname, "player");
-	}	
+	}
 };
 
 //
@@ -399,7 +399,7 @@ void () score_update_frags =
 //
 //  Update the time for everyone who's looking at teamscores
 //
-void () score_update_time = 
+void () score_update_time =
 {
 	if (!elohim_score_count)
 		return;
@@ -413,6 +413,6 @@ void () score_update_time =
 				score_write_time(msg_entity.scoreboard_z);
 		}
 		msg_entity = find(msg_entity, classname, "player");
-	}	
+	}
 };
 

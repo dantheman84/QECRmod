@@ -40,7 +40,7 @@ void() PlaceItem =
 	self.mdl = self.model;		// so it can be restored on respawn
 	self.flags = FL_ITEM;		// make extra wide
 	self.solid = SOLID_TRIGGER;
-	self.movetype = MOVETYPE_TOSS;	
+	self.movetype = MOVETYPE_TOSS;
 	self.velocity = '0 0 0';
 	self.origin_z = self.origin_z + 6;
 	oldz = self.origin_z;
@@ -123,7 +123,7 @@ float (entity e, float healamount, float ignore) T_Heal =
 	e.health = e.health + healamount;
 	if ((!ignore) && (e.health >= other.max_health))
 		e.health = other.max_health;
-		
+
 	if (e.health > 250)
 		e.health = 250;
 	return 1;
@@ -132,8 +132,8 @@ float (entity e, float healamount, float ignore) T_Heal =
 /*QUAKED item_health (.3 .3 1) (0 0 0) (32 32 32) rotten megahealth
 Health box. Normally gives 25 points.
 Rotten box heals 5-10 points,
-megahealth will add 100 health, then 
-rot you down to your maximum health limit, 
+megahealth will add 100 health, then
+rot you down to your maximum health limit,
 one point per second.
 */
 
@@ -144,7 +144,7 @@ void() health_touch;
 void() item_megahealth_rot;
 
 void() item_health =
-{	
+{
 	self.touch = health_touch;
 
 	if (self.spawnflags & H_ROTTEN)
@@ -185,12 +185,12 @@ void() health_touch =
 {
 	local	float amount;
 	local	string	s;
-	
+
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.classname != "player")
 		return;
 
@@ -206,17 +206,17 @@ void() health_touch =
 		if (!T_Heal(other, self.healamount, 0))
 			return;
 	}
-	
+
 	sprint(other, "You receive ");
 	s = ftos(self.healamount);
 	sprint(other, s);
 	sprint(other, " health\n");
-	
+
 // health touch sound
 	sound(other, CHAN_ITEM, self.noise, 1, ATTN_NORM);
 
 	stuffcmd (other, "bf\n");
-	
+
 	self.model = string_null;
 	self.solid = SOLID_NOT;
 
@@ -237,15 +237,15 @@ void() health_touch =
 			self.think = SUB_regen;
 		}
 	}
-	
+
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
-};	
+};
 
 void() item_megahealth_rot =
 {
 	other = self.owner;
-	
+
 	if (other.health > other.max_health)
 	{
 		other.health = other.health - 1;
@@ -256,7 +256,7 @@ void() item_megahealth_rot =
 // it is possible for a player to die and respawn between rots, so don't
 // just blindly subtract the flag off
 	other.items = other.items - (other.items & IT_SUPERHEALTH);
-	
+
 	if (deathmatch)	// deathmatch 2 is silly old rules
 	{
 		self.nextthink = time + 20;
@@ -277,12 +277,12 @@ void() armor_touch;
 void() armor_touch =
 {
 	local	float	type, value, bit;
-	
+
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.health <= 0)
 		return;
 	if (other.classname != "player")
@@ -308,7 +308,7 @@ void() armor_touch =
 	}
 	if (other.armortype*other.armorvalue >= type*value)
 		return;
-		
+
 	other.armortype = type;
 	other.armorvalue = value;
 	other.items = other.items - (other.items & (IT_ARMOR1 | IT_ARMOR2 | IT_ARMOR3)) + bit;
@@ -323,7 +323,7 @@ void() armor_touch =
 // armor touch sound
 	sound(other, CHAN_ITEM, "items/armor1.wav", 1, ATTN_NORM);
 	stuffcmd (other, "bf\n");
-	
+
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
 };
@@ -383,9 +383,9 @@ void() bound_other_ammo =
 	if (other.ammo_nails > 200)
 		other.ammo_nails = 200;
 	if (other.ammo_rockets > 100)
-		other.ammo_rockets = 100;		
+		other.ammo_rockets = 100;
 	if (other.ammo_cells > 100)
-		other.ammo_cells = 100;		
+		other.ammo_cells = 100;
 };
 
 
@@ -448,16 +448,16 @@ void() weapon_touch =
 	local	entity	stemp;
 	local	float	leave;
 
-	
+
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (!(other.flags & FL_CLIENT))
 		return;
 
-// if the player was using his best weapon, change up to the new one if better		
+// if the player was using his best weapon, change up to the new one if better
 	stemp = self;
 	self = other;
 	best = W_BestWeapon();
@@ -467,12 +467,12 @@ void() weapon_touch =
 		leave = 1;
 	else
 		leave = 0;
-	
+
 	if (self.classname == "weapon_nailgun")
 	{
 		if (leave && (other.items & IT_NAILGUN) )
 			return;
-		hadammo = other.ammo_nails;			
+		hadammo = other.ammo_nails;
 		new = IT_NAILGUN;
 		other.ammo_nails = other.ammo_nails + 30;
 	}
@@ -480,7 +480,7 @@ void() weapon_touch =
 	{
 		if (leave && (other.items & IT_SUPER_NAILGUN) )
 			return;
-		hadammo = other.ammo_rockets;			
+		hadammo = other.ammo_rockets;
 		new = IT_SUPER_NAILGUN;
 		other.ammo_nails = other.ammo_nails + 30;
 	}
@@ -488,7 +488,7 @@ void() weapon_touch =
 	{
 		if (leave && (other.items & IT_SUPER_SHOTGUN) )
 			return;
-		hadammo = other.ammo_rockets;			
+		hadammo = other.ammo_rockets;
 		new = IT_SUPER_SHOTGUN;
 		other.ammo_shells = other.ammo_shells + 5;
 	}
@@ -496,7 +496,7 @@ void() weapon_touch =
 	{
 		if (leave && (other.items & IT_ROCKET_LAUNCHER) )
 			return;
-		hadammo = other.ammo_rockets;			
+		hadammo = other.ammo_rockets;
 		new = IT_ROCKET_LAUNCHER;
 		other.ammo_rockets = other.ammo_rockets + 5;
 	}
@@ -504,7 +504,7 @@ void() weapon_touch =
 	{
 		if (leave && (other.items & IT_GRENADE_LAUNCHER) )
 			return;
-		hadammo = other.ammo_rockets;			
+		hadammo = other.ammo_rockets;
 		new = IT_GRENADE_LAUNCHER;
 		other.ammo_rockets = other.ammo_rockets + 5;
 	}
@@ -512,7 +512,7 @@ void() weapon_touch =
 	{
 		if (leave && (other.items & IT_LIGHTNING) )
 			return;
-		hadammo = other.ammo_rockets;			
+		hadammo = other.ammo_rockets;
 		new = IT_LIGHTNING;
 		other.ammo_cells = other.ammo_cells + 15;
 	}
@@ -531,7 +531,7 @@ void() weapon_touch =
 // change to the weapon
 	old = other.items;
 	other.items = other.items | new;
-	
+
 	stemp = self;
 	self = other;
 
@@ -553,7 +553,7 @@ void() weapon_touch =
 	if (deathmatch)
 		self.nextthink = time + 30;
 	self.think = SUB_regen;
-	
+
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
 };
@@ -662,13 +662,13 @@ local float		best;
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
 		return;
 
-// if the player was using his best weapon, change up to the new one if better		
+// if the player was using his best weapon, change up to the new one if better
 	stemp = self;
 	self = other;
 	best = W_BestWeapon();
@@ -708,7 +708,7 @@ local float		best;
 	}
 
 	bound_other_ammo ();
-	
+
 	sprint (other, "You got the ");
 	sprint (other, self.netname);
 	sprint (other, "\n");
@@ -916,7 +916,7 @@ void() item_weapon =
 		self.weapon = 3;
 		self.netname = "rockets";
 	}
-	
+
 	setsize (self, '0 0 0', '32 32 56');
 	StartItem ();
 };
@@ -939,7 +939,7 @@ local float		best;
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -956,7 +956,7 @@ local float		best;
 	other.items = other.items | self.items;
 
     //if (!coop) // ELOHIM_MOD - coop not supported
-	{	
+	{
 		self.solid = SOLID_NOT;
 		self.model = string_null;
 	}
@@ -1080,7 +1080,7 @@ local float		best;
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -1094,7 +1094,7 @@ local float		best;
 	self.model = string_null;
 	serverflags = serverflags | (self.spawnflags & 15);
 	self.classname = "";		// so rune doors won't find it
-	
+
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
 };
@@ -1132,7 +1132,7 @@ void() item_sigil =
 		precache_model2 ("progs/end4.mdl");
 		setmodel (self, "progs/end4.mdl");
 	}
-	
+
 	self.touch = sigil_touch;
 	setsize (self, '-16 -16 -24', '16 16 32');
 	StartItem ();
@@ -1158,7 +1158,7 @@ local float		best;
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -1171,15 +1171,15 @@ local float		best;
 	if (deathmatch)
 	{
 		self.mdl = self.model;
-		
+
 		if ((self.classname == "item_artifact_invulnerability") ||
 			(self.classname == "item_artifact_invisibility"))
 			self.nextthink = time + 60*5;
 		else
 			self.nextthink = time + 60;
-		
+
 		self.think = SUB_regen;
-	}	
+	}
 
 	sound (other, CHAN_VOICE, self.noise, 1, ATTN_NORM);
 	stuffcmd (other, "bf\n");
@@ -1193,13 +1193,13 @@ local float		best;
 		other.rad_time = 1;
 		other.radsuit_finished = time + 30;
 	}
-	
+
 	if (self.classname == "item_artifact_invulnerability")
 	{
 		other.invincible_time = 1;
 		other.invincible_finished = time + 30;
 	}
-	
+
 	if (self.classname == "item_artifact_invisibility")
 	{
 		other.invisible_time = 1;
@@ -1211,7 +1211,7 @@ local float		best;
 		other.super_time = 1;
 		other.super_damage_finished = time + 30;
 		other.crmod_qdwep_z = other.crmod_qdwep_z + 1;  //CRMOD - stats
-	}	
+	}
 
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
@@ -1311,12 +1311,12 @@ void() BackpackTouch =
 	local	float	best, old, new;
 	local		entity	stemp;
 	local	float	acount;
-	
+
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
     // END_MOD
-	
+
 	if (other.classname != "player")
 		return;
 	if (other.health <= 0)
@@ -1333,7 +1333,7 @@ void() BackpackTouch =
 			sprint (other, self.netname);
 		}
 
-// if the player was using his best weapon, change up to the new one if better		
+// if the player was using his best weapon, change up to the new one if better
 	stemp = self;
 	self = other;
 	best = W_BestWeapon();
@@ -1350,7 +1350,7 @@ void() BackpackTouch =
 		new = other.weapon;
 	old = other.items;
 	other.items = other.items | new;
-	
+
 	bound_other_ammo ();
 
 	if (self.ammo_shells)
@@ -1389,7 +1389,7 @@ void() BackpackTouch =
 		sprint (other, s);
 		sprint (other, " cells");
 	}
-	
+
 	sprint (other, "\n");
 // backpack touch sound
 	sound (other, CHAN_ITEM, "weapons/lock4.wav", 1, ATTN_NORM);
@@ -1429,7 +1429,7 @@ void() DropBackpack =
 	item = spawn();
 	item.origin = self.origin - '0 0 24';
     item.classname = "item_backpack";    // ELOHIM_MOD
-	
+
 	item.items = self.weapon;
 	if (item.items == IT_AXE)
 		item.netname = "Axe";
@@ -1458,14 +1458,14 @@ void() DropBackpack =
 	item.velocity_z = 300;
 	item.velocity_x = -100 + (random() * 200);
 	item.velocity_y = -100 + (random() * 200);
-	
+
 	item.flags = FL_ITEM;
 	item.solid = SOLID_TRIGGER;
 	item.movetype = MOVETYPE_TOSS;
 	setmodel (item, "progs/backpack.mdl");
 	setsize (item, '-16 -16 0', '16 16 56');
 	item.touch = BackpackTouch;
-	
+
 	item.nextthink = time + 120;	// remove after 2 minutes
 	item.think = SUB_Remove;
 };

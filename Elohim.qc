@@ -150,7 +150,7 @@ void () elohim_init_world =
     motd_init_world();
 	score_init_world();
     hotspots_init_world();      // CRMOD - init hotspots
-    
+
     // Hack to allow console to emulate an administrator
 	world.style = ELOHIM_ADMINISTRATOR;
 
@@ -335,7 +335,7 @@ void () elohim_set_aliases =
 
     temp = self;
     self = self.owner;
-    
+
     // Check for binds
     if (self.style & ELOHIM_FOUND_BINDINGS)
 	{
@@ -418,7 +418,7 @@ void () elohim_set_aliases =
 	// stuffcmd(self, "alias sm0 \"echo Smoothing OFF ; cl_nolerp 0 ; alias smooth sm1\"\n");  // CRMOD
 	// stuffcmd(self, "alias smooth sm1\n");                                                   // CRMOD
 	stuffcmd(self, "alias init echo\n");                            // CRMOD - So clients only see 'init' once
-	
+
 	self.style = self.style | ELOHIM_FOUND_BINDINGS;
 
     // remove the temporary entity
@@ -431,7 +431,7 @@ void () elohim_set_aliases =
 //
 //  P R E  S E T  A L I A S E S
 //
-void () elohim_pre_set_aliases = 
+void () elohim_pre_set_aliases =
 {
 	sprint(self.owner, "Checking bindings.. (set cl_filterstuffcmd 0 before connecting!)\n");
   // Probably not even valid with QE, just disable until/unless it matters
@@ -457,8 +457,8 @@ void () elohim_init_think =
 		sound(self, CHAN_AUTO, "wizard/wsight.wav", 1, ATTN_NONE);
 	if (utils_illegal_name(self.netname))
 		stuffcmd(self, "name player\n");
-	
-	// test for binds 
+
+	// test for binds
     stuffcmd(self, "ignorethis\n");                     // CRMOD
 
     sprint(self, "Trying to disable unicode font...\n");
@@ -543,8 +543,8 @@ void () elohim_client_connect =
 
 	// This is to prevent a condition where one player is another player's
 	// movetarget, which can confuse the auto module.
-	self.movetarget = world;        
-	
+	self.movetarget = world;
+
     parm10 = parm10 - (parm10 &
 		(ELOHIM_READY | ELOHIM_KICK_CONFIRM | ELOHIM_MOTD |
 		 ELOHIM_SETTING_OPTIONS | ELOHIM_SCOREBOARD |
@@ -578,7 +578,7 @@ void () elohim_client_disconnect =
     // Check to see if we were debugging this client
     if (elohim_debug_client == self)
 		elohim_debug_client = world;
-	
+
     // CRMOD Qsmack Reset
     self.qsmack_level = 0;
     self.qsmack_trylevel = 0;
@@ -850,7 +850,7 @@ void () elohim_vinfo =
 //
 //  T I C R A T E
 //
-void () elohim_ticrate = 
+void () elohim_ticrate =
 {
 	if (elohim_playmode & ELOHIM_DEDICATED_SERVER)
 	{
@@ -895,10 +895,10 @@ void () elohim_impulse =
     // CRMOD END
     else if ((self.impulse >= 120 && self.impulse <= 139) || self.impulse == 225)
 		match_impulse();
-		
+
     else if ((self.impulse >= 140 && self.impulse <= 159) || self.impulse == 226)
 		observer_impulse();
-				
+
     else if (self.impulse >= 190)
 		admin_impulse();
 
@@ -919,7 +919,7 @@ void () elohim_impulse =
 		admin_start_code();
     else if (self.impulse == 109) // show the MOTD
 		motd_create();
-    else if (self.impulse == 110) 
+    else if (self.impulse == 110)
 		stats_show_killstats();
     else if (self.impulse == 111)
 		stats_show_efficiency();
@@ -1041,7 +1041,7 @@ void () elohim_periodic_checks =
 void () elohim_start_frame =
 {
     local float command;
-    
+
     if (!(elohim_playmode & ELOHIM_MATCH_MODE))
     {
 		if (time >= timelimit)
