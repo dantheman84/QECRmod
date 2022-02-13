@@ -37,8 +37,8 @@ void () stats_show_quadstats =
     sprint(self, "slf   - number of times killed self\n");
     sprint(self, "tm    - number of teammates killed\n");
     sprint(self, "\n");
-    sprint(self, "quadsüeffüoppüslfütm ü     name\n");
-    sprint(self, "­­­­­«­­­«­­­«­­­«­­­«­­­­­­­­­­­­­­­\n");
+    sprint(self, "quads|eff|opp|slf|tm |     name\n");
+    sprint(self, "-----+---+---+---+---+---------------\n");
 
     player = find(world, classname, "player");
     while (player)
@@ -48,24 +48,24 @@ void () stats_show_quadstats =
         {
             if (player == self)
             {
-                sprint(self, "");
+                sprint(self, "[");
                 utils_print_int3(player.crmod_qdwep_z);
-                sprint(self, "‘ü");
+                sprint(self, "]|");
             }
             else
             {
                 sprint(self, " ");
                 utils_print_int3(player.crmod_qdwep_z);
-                sprint(self, " ü");
+                sprint(self, " |");
             }
             stats_print_percent3(player.crmod_qdwep_x, player.crmod_qdwep_y);
-            sprint(self, "ü");
+            sprint(self, "|");
             utils_print_int3(player.crmod_qdkill_x);
-            sprint(self, "ü");
+            sprint(self, "|");
             utils_print_int3(player.crmod_qdkill_z);
-            sprint(self, "ü");
+            sprint(self, "|");
             utils_print_int3(player.crmod_qdkill_y);
-            sprint3(self, "ü", player.netname, "\n");
+            sprint3(self, "|", player.netname, "\n");
         }
         player = find(player, classname, "player");
     }
@@ -83,8 +83,8 @@ void () stats_show_killstats =
     sprint(self, "tm  - number of teammates killed\n");
     sprint(self, "kld - number of times killed by enemy\n");
     sprint(self, "\n");
-    sprint(self, "fragsüoppüslfütm ükldü     name\n");
-    sprint(self, "­­­­­«­­­«­­­«­­­«­­­«­­­­­­­­­­­­­­­\n");
+    sprint(self, "frags|opp|slf|tm |kld|     name\n");
+    sprint(self, "-----+---+---+---+---+---------------\n");
 
     player = find(world, classname, "player");
     while (player)
@@ -94,24 +94,24 @@ void () stats_show_killstats =
         {
             if (player == self)
             {
-                sprint(self, "");
+                sprint(self, "[");
                 utils_print_int3(player.frags);
-                sprint(self, "‘ü");
+                sprint(self, "]|");
             }
             else
             {
                 sprint(self, " ");
                 utils_print_int3(player.frags);
-                sprint(self, " ü");
+                sprint(self, " |");
             }
             utils_print_int3(player.frags + player.mangle_x + player.mangle_y);
-            sprint(self, "ü");
+            sprint(self, "|");
             utils_print_int3(player.mangle_x);
-            sprint(self, "ü");
+            sprint(self, "|");
             utils_print_int3(player.mangle_y);
-            sprint(self, "ü");
+            sprint(self, "|");
             utils_print_int3(player.mangle_z);
-            sprint3(self, "ü", player.netname, "\n");
+            sprint3(self, "|", player.netname, "\n");
         }
         player = find(player, classname, "player");
     }
@@ -157,8 +157,8 @@ void () stats_show_efficiency =
     sprint(self, "rox - rocket efficiency\n");
     sprint(self, "lg  - lightning gun efficiency\n");
     sprint(self, "\n");
-    sprint(self, "bulünlsüroxülg ütotalü     name\n");
-    sprint(self, "­­­«­­­«­­­«­­­«­­­­­«­­­­­­­­­­­­­­­\n");
+    sprint(self, "bul|nls|rox|lg |total|     name\n");
+    sprint(self, "---+---+---+---+-----+---------------\n");
 
     player = find(world, classname, "player");
     while (player)
@@ -167,13 +167,13 @@ void () stats_show_efficiency =
             !(player.style & ELOHIM_OBSERVER))
         {
             stats_print_percent3(player.dest2_x, player.dest1_x);
-            sprint(self, "ü");
+            sprint(self, "|");
             stats_print_percent3(player.dest2_y, player.dest1_y);
-            sprint(self, "ü");
+            sprint(self, "|");
             stats_print_percent3(player.dest_y, player.dest_x);
-            sprint(self, "ü");
+            sprint(self, "|");
             stats_print_percent3(player.dest2_z, player.dest1_z);
-            sprint(self, "ü");
+            sprint(self, "|");
 
             tot_fired = player.dest1_x + player.dest1_y + player.dest1_z +
                         player.dest_x;
@@ -181,15 +181,15 @@ void () stats_show_efficiency =
                        player.dest_y;
             if (player == self)
             {
-                sprint(self, "");
+                sprint(self, "[");
                 stats_print_percent3(tot_done, tot_fired);
-                sprint(self, "‘ü");
+                sprint(self, "]|");
             }
             else
             {
                 sprint(self, " ");
                 stats_print_percent3(tot_done, tot_fired);
-                sprint(self, " ü");
+                sprint(self, " |");
             }
             sprint2(self, player.netname, "\n");
         }
@@ -213,15 +213,15 @@ void () stats_show_summary =
     sprint(self, "\n");
     if (elohim_state & ELOHIM_MATCH_STARTED)
     {
-        sprint(self, "   team  ükill üweapnü     name\n");
-        sprint(self, "­­­­­­­­­«­­­­­«­­­­­«­­­­­­­­­­­­­­­\n");
+        sprint(self, "   team  |kill |weapn|     name\n");
+        sprint(self, "---------+-----+-----+---------------\n");
         currteam = elohim_team1;
         doit = 2;
     }
     else
     {
-        sprint(self, "kill üweapnü     name\n");
-        sprint(self, "­­­­­«­­­­­«­­­­­­­­­­­­­­­\n");
+        sprint(self, "kill |weapn|     name\n");
+        sprint(self, "-----+-----+---------------\n");
         currteam = 0;
         doit = 1;
     }
@@ -237,7 +237,7 @@ void () stats_show_summary =
                 (!currteam || player.height == currteam))
             {
                 if (currteam)
-                    sprint2(self, teamname, "ü");
+                    sprint2(self, teamname, "|");
 
                 kfrac = player.frags + player.mangle_x + player.mangle_y;
                 ktot = kfrac + player.mangle_x + player.mangle_y +
@@ -248,19 +248,19 @@ void () stats_show_summary =
                         player.dest_y;
                 if (player == self)
                 {
-                    sprint(self, "");
+                    sprint(self, "[");
                     stats_print_percent3(kfrac, ktot);
-                    sprint(self, "‘ü");
+                    sprint(self, "]|[");
                     stats_print_percent3(wfrac, wtot);
-                    sprint(self, "‘ü");
+                    sprint(self, "]|");
                 }
                 else
                 {
                     sprint(self, " ");
                     stats_print_percent3(kfrac, ktot);
-                    sprint(self, " ü ");
+                    sprint(self, " | ");
                     stats_print_percent3(wfrac, wtot);
-                    sprint(self, " ü");
+                    sprint(self, " |");
                 }
                 sprint2(self, player.netname, "\n");
             }

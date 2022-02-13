@@ -432,8 +432,9 @@ void () elohim_set_aliases =
 //
 void () elohim_pre_set_aliases = 
 {
-	sprint(self.owner, "Checking bindings..\n");
-	sprint(self.owner, "��� -zone 512 �� ����� �������\n");
+	sprint(self.owner, "Checking bindings.. (set cl_filterstuffcmd 0 before connecting!)\n");
+  // Probably not even valid with QE, just disable until/unless it matters
+	// sprint(self.owner, "\bUse \b-zone 512 \bif quake crashes\n");
 
     self.think = elohim_set_aliases;
     self.nextthink = time + 2.5;
