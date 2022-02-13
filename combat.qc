@@ -72,23 +72,23 @@ void(entity targ, entity attacker) Killed =
 
 	self.enemy = attacker;
 
-    // ELOHIM_MOD - no monsters
-    /*
+	// ELOHIM_MOD - no monsters
+	/*
 // bump the monster counter
 	if (self.flags & FL_MONSTER)
 	{
 		killed_monsters = killed_monsters + 1;
 		WriteByte (MSG_ALL, SVC_KILLEDMONSTER);
 	}
-    */
-    // END_MOD
+	*/
+	// END_MOD
 
 	ClientObituary(self, attacker);
 
 	self.takedamage = DAMAGE_NO;
 	self.touch = SUB_Null;
 
-    // monster_death_use(); // ELOHIM_MOD - no monsters in clan server
+	// monster_death_use(); // ELOHIM_MOD - no monsters in clan server
 	self.th_die ();
 
 	self = oself;
@@ -115,37 +115,37 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		return;
 
 
-    // ELOHIM_MOD - stats
-    if (attacker.classname == "player" && targ != attacker)
-    {
-        attacker.crmod_inflicted = targ;  // CRMOD - to see who attacker attacked
-        attacker.crmod_did_damage = time;  // CRMOD keep track of last time they hurt someone
+	// ELOHIM_MOD - stats
+	if (attacker.classname == "player" && targ != attacker)
+	{
+		attacker.crmod_inflicted = targ;  // CRMOD - to see who attacker attacked
+		attacker.crmod_did_damage = time;  // CRMOD keep track of last time they hurt someone
 
-        if (targ.classname != "player" || attacker.team != targ.team || !teamplay)
-        {
-            if (inflictor == attacker)
-            {
-                if (attacker.weapon == IT_SHOTGUN || attacker.weapon == IT_SUPER_SHOTGUN)
+		if (targ.classname != "player" || attacker.team != targ.team || !teamplay)
+		{
+			if (inflictor == attacker)
+			{
+				if (attacker.weapon == IT_SHOTGUN || attacker.weapon == IT_SUPER_SHOTGUN)
 				{
 					if (!(elohim_playmode & ELOHIM_MATCH_MODE) || (elohim_state & ELOHIM_MATCH_STARTED))
 						attacker.dest2_x = attacker.dest2_x + damage;
 				}
-                else if (attacker.weapon == IT_LIGHTNING)
-                {
-                    if (attacker.waterlevel <= 1) // don't count discharges
-                        attacker.dest2_z = attacker.dest2_z + damage;
-                }
-            }
-            else if (inflictor.classname == "missile" && targ.classname == "player")
+				else if (attacker.weapon == IT_LIGHTNING)
+				{
+					if (attacker.waterlevel <= 1) // don't count discharges
+						attacker.dest2_z = attacker.dest2_z + damage;
+				}
+			}
+			else if (inflictor.classname == "missile" && targ.classname == "player")
 			{
-                attacker.dest_y = attacker.dest_y + damage;
+				attacker.dest_y = attacker.dest_y + damage;
 				inflictor.dmg = TRUE; // flag missile as having done damage
 			}
-            else if (inflictor.classname == "spike")
-                attacker.dest2_y = attacker.dest2_y + damage;
-        }
-    }
-    // END_MOD
+			else if (inflictor.classname == "spike")
+				attacker.dest2_y = attacker.dest2_y + damage;
+		}
+	}
+	// END_MOD
 
 // used by buttons and triggers to set activator for target firing
 	damage_attacker = attacker;
@@ -158,10 +158,10 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	{
 		damage = damage * 4;
 		if (attacker.classname == "player" && targ != attacker)
-    	{
-    	   	if (targ.classname != "player" || attacker.team != targ.team || !teamplay)
-        		attacker.crmod_qdwep_x = attacker.crmod_qdwep_x + damage;
-        }
+		{
+		   	if (targ.classname != "player" || attacker.team != targ.team || !teamplay)
+				attacker.crmod_qdwep_x = attacker.crmod_qdwep_x + damage;
+		}
 	}
 	// END_CRMOD
 
@@ -198,22 +198,22 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 		targ.velocity = targ.velocity + dir*damage*8;
 	}
 
-    // ELOHIM_MOD - print info for practice mode; check for pre-match
-    if (elohim_playmode & ELOHIM_PRACTICE_MODE)
-    {
-        if (targ.classname == "player" && attacker.classname == "player"
-            && targ != attacker)
-        {
-            temp = ftos(damage);
-            centerprint4(attacker, targ.netname, ": ", temp, "\n\n\n\n\n\n\n\n");
-        }
-    }
-    if (elohim_playmode & ELOHIM_MATCH_MODE)
-    {
-        if (!(elohim_state & ELOHIM_MATCH_STARTED))
-            return;
-    }
-    // END_MOD
+	// ELOHIM_MOD - print info for practice mode; check for pre-match
+	if (elohim_playmode & ELOHIM_PRACTICE_MODE)
+	{
+		if (targ.classname == "player" && attacker.classname == "player"
+			&& targ != attacker)
+		{
+			temp = ftos(damage);
+			centerprint4(attacker, targ.netname, ": ", temp, "\n\n\n\n\n\n\n\n");
+		}
+	}
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
+	{
+		if (!(elohim_state & ELOHIM_MATCH_STARTED))
+			return;
+	}
+	// END_MOD
 
 // check for godmode or invincibility
 	if (targ.flags & FL_GODMODE)
@@ -229,31 +229,31 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	}
 
 // team play damage avoidance
-    // ELOHIM_MOD - nested the ifs
-    if (teamplay == 1)
-    {
-        if ( (targ.team > 0)&&(targ.team == attacker.team) )
-            return;
-    }
-    // END_MOD
+	// ELOHIM_MOD - nested the ifs
+	if (teamplay == 1)
+	{
+		if ( (targ.team > 0)&&(targ.team == attacker.team) )
+			return;
+	}
+	// END_MOD
 
 // do the damage
 	targ.health = targ.health - take;
 
 	if (targ.health <= 0)
 	{
-        // ELOHIM_MOD - print info for practice mode
-        if (elohim_playmode & ELOHIM_PRACTICE_MODE)
-        {
-            if (targ.classname == "player" && attacker.classname == "player"
-                && targ != attacker)
-            {
-                temp = ftos(attacker.health);
-                centerprint5(targ, "\n\n\n\n", attacker.netname, " has ", temp, " health");
-                sprint5(targ, "\n\n\n\n", attacker.netname, " has ", temp, " health\n");
-            }
-        }
-        // END_MOD
+		// ELOHIM_MOD - print info for practice mode
+		if (elohim_playmode & ELOHIM_PRACTICE_MODE)
+		{
+			if (targ.classname == "player" && attacker.classname == "player"
+				&& targ != attacker)
+			{
+				temp = ftos(attacker.health);
+				centerprint5(targ, "\n\n\n\n", attacker.netname, " has ", temp, " health");
+				sprint5(targ, "\n\n\n\n", attacker.netname, " has ", temp, " health\n");
+			}
+		}
+		// END_MOD
 
 		Killed (targ, attacker);
 		return;
@@ -263,8 +263,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	oldself = self;
 	self = targ;
 
-    // ELOHIM_MOD - no monsters in server
-    /*
+	// ELOHIM_MOD - no monsters in server
+	/*
 	if ( (self.flags & FL_MONSTER) && attacker != world)
 	{
 	// get mad unless of the same class (except for soldiers)
@@ -280,21 +280,21 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			}
 		}
 	}
-    */
-    // END_MOD
+	*/
+	// END_MOD
 
 	if (self.th_pain)
 	{
 		self.th_pain (); // Warning fixed
 		// self.th_pain (attacker, take);
 
-        // ELOHIM_MOD - unused
-        /*
+		// ELOHIM_MOD - unused
+		/*
 	// nightmare mode monsters don't go into pain frames often
 		if (skill == 3)
 			self.pain_finished = time + 5;
-        */
-        // END_MOD
+		*/
+		// END_MOD
 	}
 
 	self = oldself;
@@ -319,18 +319,18 @@ void(entity inflictor, entity attacker, float damage, entity ignore) T_RadiusDam
 		{
 			if (head.takedamage)
 			{
-                // ELOHIM_MOD - this has been optimized
+				// ELOHIM_MOD - this has been optimized
 				org = head.origin + (head.mins + head.maxs)*0.5;
 				points = 0.5*vlen (inflictor.origin - org);
-                if (points < damage)
-                {
-                    points = damage - points;
-                    if (head == attacker)
-                        points = points * 0.5;
+				if (points < damage)
+				{
+					points = damage - points;
+					if (head == attacker)
+						points = points * 0.5;
 					if (CanDamage (head, inflictor))
-                        T_Damage (head, inflictor, attacker, points);
+						T_Damage (head, inflictor, attacker, points);
 				}
-                // END_MOD
+				// END_MOD
 			}
 		}
 		head = head.chain;

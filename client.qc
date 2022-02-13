@@ -35,7 +35,7 @@ void() SetChangeParms =
 {
 	if (self.health <= 0)
 	{
-        SetNewParms2 ();
+		SetNewParms2 ();
 		return;
 	}
 
@@ -61,11 +61,11 @@ void() SetChangeParms =
 	parm8 = self.weapon;
 	parm9 = self.armortype * 100;
 
-    // ELOHIM_MOD - parms10-13 contains elohim player flags
-    parm10 = self.style;    // player flags
-    parm11 = self.state;    // player ID
-    parm12 = self.oflags;   // CRMOD observer flags
-    // END_MOD
+	// ELOHIM_MOD - parms10-13 contains elohim player flags
+	parm10 = self.style;    // player flags
+	parm11 = self.state;    // player ID
+	parm12 = self.oflags;   // CRMOD observer flags
+	// END_MOD
 };
 
 //
@@ -82,17 +82,17 @@ void() SetChangeParms =
 
 void() SetPracticeParms =
 {
-    parm1 = IT_SHOTGUN | IT_AXE | IT_ROCKET_LAUNCHER | IT_ARMOR3 |
-            IT_SUPER_SHOTGUN | IT_NAILGUN | IT_GRENADE_LAUNCHER |
-            IT_LIGHTNING | IT_SUPER_NAILGUN;
-    parm2 = 100;
-    parm3 = 200;
-    parm4 = 100;
-    parm5 = 200;
-    parm6 = 100;
-    parm7 = 100;
-    parm8 = 32;
-    parm9 = 80;
+	parm1 = IT_SHOTGUN | IT_AXE | IT_ROCKET_LAUNCHER | IT_ARMOR3 |
+			IT_SUPER_SHOTGUN | IT_NAILGUN | IT_GRENADE_LAUNCHER |
+			IT_LIGHTNING | IT_SUPER_NAILGUN;
+	parm2 = 100;
+	parm3 = 200;
+	parm4 = 100;
+	parm5 = 200;
+	parm6 = 100;
+	parm7 = 100;
+	parm8 = 32;
+	parm9 = 80;
 };
 
 //
@@ -109,12 +109,12 @@ void() SetNewParms =
 	parm7 = 0;
 	parm8 = 1;
 	parm9 = 0;
-    parm10 = ELOHIM_NEW_CLIENT; // CRMOD observer flags moved | ELOHIM_OBSERVER_WALK; // elohim player flags
-    parm13 = OBSERVER_WALK; // CRMOD observer flags
-    parm11 = 0; // player ID.. will be set by elohim_client_connect
-    parm12 = 0; // ID of player being watched in observer mode
-    if (elohim_playmode & ELOHIM_PRACTICE_MODE)
-        SetPracticeParms();
+	parm10 = ELOHIM_NEW_CLIENT; // CRMOD observer flags moved | ELOHIM_OBSERVER_WALK; // elohim player flags
+	parm13 = OBSERVER_WALK; // CRMOD observer flags
+	parm11 = 0; // player ID.. will be set by elohim_client_connect
+	parm12 = 0; // ID of player being watched in observer mode
+	if (elohim_playmode & ELOHIM_PRACTICE_MODE)
+		SetPracticeParms();
 };
 
 //
@@ -131,30 +131,30 @@ void() SetNewParms2 =
 	parm7 = 0;
 	parm8 = 1;
 	parm9 = 0;
-    parm10 = self.style; // elohim player flags
-    parm11 = self.state; // player ID
-    parm12 = self.oflags; // CRMOD observer flags
-    if (elohim_playmode & ELOHIM_PRACTICE_MODE)
-        SetPracticeParms();
+	parm10 = self.style; // elohim player flags
+	parm11 = self.state; // player ID
+	parm12 = self.oflags; // CRMOD observer flags
+	if (elohim_playmode & ELOHIM_PRACTICE_MODE)
+		SetPracticeParms();
 };
 // END_MOD
 
 void() DecodeLevelParms =
 {
-    //
-    // ELOHIM_MOD
-    //
-    // First restore player elohim flags *then* check to see if level = start.
-    // Also, reset player status at start level even if serverflags = 0.
-    // Changed SetNewParms to SetNewParms2.
-    self.style = parm10;
-    self.state = parm11;
-    self.oflags = parm12;  // CRMOD observer flags
+	//
+	// ELOHIM_MOD
+	//
+	// First restore player elohim flags *then* check to see if level = start.
+	// Also, reset player status at start level even if serverflags = 0.
+	// Changed SetNewParms to SetNewParms2.
+	self.style = parm10;
+	self.state = parm11;
+	self.oflags = parm12;  // CRMOD observer flags
 
-    if (world.model == "maps/start.bsp")
-        SetNewParms2 ();   // take away all stuff on starting new episode
+	if (world.model == "maps/start.bsp")
+		SetNewParms2 ();   // take away all stuff on starting new episode
 
-    // END_MOD
+	// END_MOD
 
 	self.items = parm1;
 	self.health = parm2;
@@ -212,25 +212,25 @@ entity() FindIntermission =
 //string nextmap; // ELOHIM_MOD - moved this to elohim.qc
 void() GotoNextMap =
 {
-    if (cvar("samelevel") & 1)  // if samelevel is set, stay on same level
+	if (cvar("samelevel") & 1)  // if samelevel is set, stay on same level
 		changelevel (mapname);
 	else
-    {
-        // ELOHIM_MOD - check for start0/start1
-        if (nextmap == "start0")
-        {
-            serverflags = 0;
-            changelevel("start");
-        }
-        else if (nextmap == "start1")
-        {
-            serverflags = 15;
-            changelevel("start");
-        }
-        else
-            changelevel (nextmap);
-        // END_MOD
-    }
+	{
+		// ELOHIM_MOD - check for start0/start1
+		if (nextmap == "start0")
+		{
+			serverflags = 0;
+			changelevel("start");
+		}
+		else if (nextmap == "start1")
+		{
+			serverflags = 15;
+			changelevel("start");
+		}
+		else
+			changelevel (nextmap);
+		// END_MOD
+	}
 };
 
 
@@ -334,25 +334,25 @@ void() IntermissionThink =
 	if (time < intermission_exittime)
 		return;
 
-    // ELOHIM_MOD - make sure we've finished looking through levels.cfg
-    if (elohim_levelcount)
-        return;
+	// ELOHIM_MOD - make sure we've finished looking through levels.cfg
+	if (elohim_levelcount)
+		return;
 
 	if (!self.button0 && !self.button1 && !self.button2)
 		return;
 
-    ExitIntermission ();
+	ExitIntermission ();
 };
 
 void() execute_changelevel =
 {
 	local entity	pos;
 
-    intermission_running = 1;
+	intermission_running = 1;
 
 // enforce a wait time before allowing changelevel
 	if (deathmatch)
-        intermission_exittime = time + 5;
+		intermission_exittime = time + 5;
 	else
 		intermission_exittime = time + 2;
 
@@ -377,16 +377,16 @@ void() execute_changelevel =
 		other = find (other, classname, "player");
 	}
 
-    WriteByte (MSG_ALL, SVC_INTERMISSION);
+	WriteByte (MSG_ALL, SVC_INTERMISSION);
 };
 
 
 void() changelevel_touch =
 {
-    // ELOHIM_MOD - do nothing in match mode
-    if (elohim_playmode & ELOHIM_MATCH_MODE)
-        return;
-    // END_MOD
+	// ELOHIM_MOD - do nothing in match mode
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -397,11 +397,11 @@ void() changelevel_touch =
 		return;
 	}
 
-    // ELOHIM_MOD - flag gameover so that clients can't suicide during intermission
-    gameover = TRUE;
-    // END_MOD
+	// ELOHIM_MOD - flag gameover so that clients can't suicide during intermission
+	gameover = TRUE;
+	// END_MOD
 
-    if (deathmatch) // ELOHIM_MODE 'coop || deathmatchp' => 'deathmatch'
+	if (deathmatch) // ELOHIM_MODE 'coop || deathmatchp' => 'deathmatch'
 	{
 		bprint (other.netname);
 		bprint (" exited the level\n");
@@ -409,10 +409,10 @@ void() changelevel_touch =
 
 	nextmap = self.map;
 
-    // ELOHIM_MOD
-    // check to see if there is a user-specified level sequence
-    console_get_user_nextlevel();
-    // END_MOD
+	// ELOHIM_MOD
+	// check to see if there is a user-specified level sequence
+	console_get_user_nextlevel();
+	// END_MOD
 
 	SUB_UseTargets ();
 
@@ -436,7 +436,7 @@ When the player touches this, he gets sent to the map listed in the "map" variab
 void() trigger_changelevel =
 {
 	if (!self.map)
-        objerror ("changelevel trigger doesn't have map");
+		objerror ("changelevel trigger doesn't have map");
 
 	InitTrigger ();
 	self.touch = changelevel_touch;
@@ -456,8 +456,8 @@ void() set_suicide_frame;
 // called by ClientKill and DeadThink
 void() respawn =
 {
-    // ELOHIM_MOD - coop not supported
-    /*
+	// ELOHIM_MOD - coop not supported
+	/*
 	if (coop)
 	{
 		// make a copy of the dead body for appearances sake
@@ -468,10 +468,10 @@ void() respawn =
 		PutClientInServer ();
 	}
 	else
-    */
-    // END_MOD
+	*/
+	// END_MOD
 
-    if (deathmatch)
+	if (deathmatch)
 	{
 		// Don't leave bodies around in match mode
 		if (!(elohim_playmode & ELOHIM_MATCH_MODE))
@@ -480,10 +480,10 @@ void() respawn =
 			CopyToBodyQue (self);
 		}
 
-        // ELOHIM_MOD - changed SetNewParms to SetNewParms2
+		// ELOHIM_MOD - changed SetNewParms to SetNewParms2
 		// set default spawn parms
-        SetNewParms2 ();
-        // END_MOD
+		SetNewParms2 ();
+		// END_MOD
 		// respawn
 		PutClientInServer ();
 	}
@@ -503,39 +503,39 @@ Player entered the suicide command
 */
 void() ClientKill =
 {
-    // ELOHIM_MOD
-    // if intermission, do nothing
-    if (gameover)
-        return;
+	// ELOHIM_MOD
+	// if intermission, do nothing
+	if (gameover)
+		return;
 
-    // observers can't suicide
-    if (self.style & ELOHIM_OBSERVER)
-        return;
+	// observers can't suicide
+	if (self.style & ELOHIM_OBSERVER)
+		return;
 
-    // check for maximum number of suicides
-    if (elohim_client_suicide() == ELOHIM_TOO_MANY_SUICIDES)
-        return;
-    // END_MOD
+	// check for maximum number of suicides
+	if (elohim_client_suicide() == ELOHIM_TOO_MANY_SUICIDES)
+		return;
+	// END_MOD
 
 	bprint (self.netname);
 	bprint (" suicides\n");
 	set_suicide_frame ();
 	self.modelindex = modelindex_player;
 
-    // ELOHIM_MOD
-    //
-    // - use client_frag so that penalty will be added to team score
-    // - changed penalty to -1
-    // - no penalty during pre-match
-    // - add suicide to stats
-    //
-    //self.frags = self.frags - 2;    // extra penalty
-    if (!(elohim_playmode & ELOHIM_MATCH_MODE) || elohim_state & ELOHIM_MATCH_STARTED)
-    {
-        client_frag(self, -1);
-        self.mangle_x = self.mangle_x + 1;
-    }
-    // END_MOD
+	// ELOHIM_MOD
+	//
+	// - use client_frag so that penalty will be added to team score
+	// - changed penalty to -1
+	// - no penalty during pre-match
+	// - add suicide to stats
+	//
+	//self.frags = self.frags - 2;    // extra penalty
+	if (!(elohim_playmode & ELOHIM_MATCH_MODE) || elohim_state & ELOHIM_MATCH_STARTED)
+	{
+		client_frag(self, -1);
+		self.mangle_x = self.mangle_x + 1;
+	}
+	// END_MOD
 
 	// ELOHIM_MOD
 	// check for not-ready non-observers in match mode
@@ -583,8 +583,8 @@ entity() SelectSpawnPoint =
 	// END_MOD
 
 // choose a info_player_deathmatch point
-    // ELOHIM_MOD - coop not supported
-    /*
+	// ELOHIM_MOD - coop not supported
+	/*
 	if (coop)
 	{
 		lastspawn = find(lastspawn, classname, "info_player_coop");
@@ -594,75 +594,75 @@ entity() SelectSpawnPoint =
 			return lastspawn;
 	}
 	else
-    */
-    // END_MOD
+	*/
+	// END_MOD
 
-    if (deathmatch)
+	if (deathmatch)
 	{
-        // ELOHIM_MOD
-        //
-        // replaced this whole section with code to find a random
-        // spawn point.
-        //
-        pcount = random() * (elohim_num_spawns - 0.001);
-        pcount = floor(pcount);
-        spot = find(world, classname, "info_player_deathmatch");
-        while (pcount > 0)
-        {
-            spot = find(spot, classname, "info_player_deathmatch");
+		// ELOHIM_MOD
+		//
+		// replaced this whole section with code to find a random
+		// spawn point.
+		//
+		pcount = random() * (elohim_num_spawns - 0.001);
+		pcount = floor(pcount);
+		spot = find(world, classname, "info_player_deathmatch");
+		while (pcount > 0)
+		{
+			spot = find(spot, classname, "info_player_deathmatch");
 			if (spot != world)
 				pcount = pcount - 1;
-        }
-        lastspawn = spot;
+		}
+		lastspawn = spot;
 		while (1)
 		{
 			if (spot != world)
 			{
-                if (spot == self.trigger_field)
-                    pcount = 1;
-                else
-                {
-                    thing = findradius(spot.origin, 128); // ELOHIM_MOD 32 => 128
-                    while(thing)
-                    {
-                        if ((thing.classname == "player") && (thing.style & ELOHIM_CONNECTED) &&
+				if (spot == self.trigger_field)
+					pcount = 1;
+				else
+				{
+					thing = findradius(spot.origin, 128); // ELOHIM_MOD 32 => 128
+					while(thing)
+					{
+						if ((thing.classname == "player") && (thing.style & ELOHIM_CONNECTED) &&
 							!(thing.style & ELOHIM_OBSERVER))
 						{
-                            pcount = 1;
+							pcount = 1;
 							thing = world;
 						}
 						else
 							thing = thing.chain;
-                    }
-                }
+					}
+				}
 				if (pcount == 0)
 					return spot;
 				pcount = 0;
 			}
 			spot = find(spot, classname, "info_player_deathmatch");
-            if (spot == lastspawn)
-            {
-                // Can't find a spot!
+			if (spot == lastspawn)
+			{
+				// Can't find a spot!
 				// Check self.trigger_field one last time
 				pcount = 0;
-                thing = findradius(self.trigger_field.origin, 128);
-                while(thing)
-                {
-                    if ((thing.classname == "player") && (thing.style & ELOHIM_CONNECTED) &&
+				thing = findradius(self.trigger_field.origin, 128);
+				while(thing)
+				{
+					if ((thing.classname == "player") && (thing.style & ELOHIM_CONNECTED) &&
 						!(thing.style & ELOHIM_OBSERVER))
 					{
-                        pcount = 1;
+						pcount = 1;
 						thing = world;
 					}
 					else
 						thing = thing.chain;
-                }
+				}
 				if (pcount == 0)
 					return self.trigger_field;
-                return lastspawn;
-            }
+				return lastspawn;
+			}
 		}
-        // END_MOD
+		// END_MOD
 	}
 
 	if (serverflags)
@@ -695,12 +695,12 @@ void() PutClientInServer =
 	local	entity spot;
 
 	spot = SelectSpawnPoint ();
-    self.trigger_field = spot;  // ELOHIM_MOD
+	self.trigger_field = spot;  // ELOHIM_MOD
 
 	self.classname = "player";
 	self.health = 100;
 	self.takedamage = DAMAGE_AIM;
-    self.solid = SOLID_SLIDEBOX;
+	self.solid = SOLID_SLIDEBOX;
 	self.movetype = MOVETYPE_WALK;
 	self.show_hostile = 0;
 	self.max_health = 100;
@@ -732,7 +732,7 @@ void() PutClientInServer =
 	self.origin = spot.origin + '0 0 1';
 	self.angles = spot.angles;
 	self.fixangle = TRUE;		// turn this way immediately
-    self.velocity = '0 0 0'; // ELOHIM_MOD - bugfix
+	self.velocity = '0 0 0'; // ELOHIM_MOD - bugfix
 
 // oh, this is a hack!
 	setmodel (self, "progs/eyes.mdl");
@@ -745,22 +745,22 @@ void() PutClientInServer =
 
 	self.view_ofs = '0 0 22';
 
-    // player_stand1 (); // ELOHIM_MOD - moved to elohim_put_client_in_server
+	// player_stand1 (); // ELOHIM_MOD - moved to elohim_put_client_in_server
 
-    /* CRMOD jp told me too :)
-    if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
-    {
-        makevectors(self.angles);
-        spawn_tfog (self.origin + v_forward*20);
-    }
+	/* CRMOD jp told me too :)
+	if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
+	{
+		makevectors(self.angles);
+		spawn_tfog (self.origin + v_forward*20);
+	}
 	*/
 
-    // spawn_tdeath (self.origin, self); // ELOHIM_MOD - moved to Elohim.qc
+	// spawn_tdeath (self.origin, self); // ELOHIM_MOD - moved to Elohim.qc
 
-    // ELOHIM_MOD
-    // Add elohim specific stuff
-    elohim_put_client_in_server();
-    // END_MOD
+	// ELOHIM_MOD
+	// Add elohim specific stuff
+	elohim_put_client_in_server();
+	// END_MOD
 };
 
 
@@ -801,7 +801,7 @@ potential spawning position for deathmatch games
 */
 void() info_player_deathmatch =
 {
-    elohim_num_spawns = elohim_num_spawns + 1;  // ELOHIM_MOD
+	elohim_num_spawns = elohim_num_spawns + 1;  // ELOHIM_MOD
 };
 
 /*QUAKED info_player_coop (1 0 1) (-16 -16 -24) (16 16 24)
@@ -809,7 +809,7 @@ potential spawning position for coop games
 */
 void() info_player_coop =
 {
-    remove(self);   // ELOHIM_MOD - coop not supported
+	remove(self);   // ELOHIM_MOD - coop not supported
 };
 
 /*
@@ -867,33 +867,33 @@ void() NextLevel =
 		else if (!(serverflags & 8))
 		{
 			mapname = "e4m1";
-            serverflags = serverflags | 8;
+			serverflags = serverflags | 8;
 		}
-        else
-            mapname = "end";
+		else
+			mapname = "end";
 
 		o = spawn();
 		o.map = mapname;
 	}
-    else if (mapname == "end")
-    {
-        o = spawn();
-        o.map = "dm1";
-    }
-    else if (mapname == "dm6")
-    {
-        o = spawn();
-        serverflags = (serverflags & 14) / 2;
-        if (serverflags > 0)
-            o.map = "dm1";
-        else
-            o.map = "start";
-    }
-    else if (mapname == "e2m3")
-    {
-        o = spawn();
-        o.map = "e2m7";
-    }
+	else if (mapname == "end")
+	{
+		o = spawn();
+		o.map = "dm1";
+	}
+	else if (mapname == "dm6")
+	{
+		o = spawn();
+		serverflags = (serverflags & 14) / 2;
+		if (serverflags > 0)
+			o.map = "dm1";
+		else
+			o.map = "start";
+	}
+	else if (mapname == "e2m3")
+	{
+		o = spawn();
+		o.map = "e2m7";
+	}
 	else
 	{
 		// find a trigger changelevel
@@ -911,11 +911,11 @@ void() NextLevel =
 	nextmap = o.map;
 	gameover = TRUE;
 
-    // check to see if there is a user-specified level sequence
-    console_get_user_nextlevel();
+	// check to see if there is a user-specified level sequence
+	console_get_user_nextlevel();
 
-    o.think = execute_changelevel;
-    o.nextthink = time + 0.1;
+	o.think = execute_changelevel;
+	o.nextthink = time + 0.1;
 };
 // END_MOD
 
@@ -939,7 +939,7 @@ void() CheckRules =
 	timelimit = cvar("timelimit") * 60;
 	fraglimit = cvar("fraglimit");
 
-    if (timelimit && time >= timelimit)
+	if (timelimit && time >= timelimit)
 	{
 		NextLevel ();
 		return;
@@ -947,7 +947,7 @@ void() CheckRules =
 
 	if (fraglimit && self.frags >= fraglimit)
 	{
-        NextLevel ();
+		NextLevel ();
 		return;
 	}
 };
@@ -1007,10 +1007,10 @@ void() PlayerJump =
 		if (self.swim_flag < time)
 		{
 			self.swim_flag = time + 1;
-            if (random() < 0.5)
-                sound (self, CHAN_BODY, "misc/water1.wav", 1, ATTN_NORM);
-            else
-                sound (self, CHAN_BODY, "misc/water2.wav", 1, ATTN_NORM);
+			if (random() < 0.5)
+				sound (self, CHAN_BODY, "misc/water1.wav", 1, ATTN_NORM);
+			else
+				sound (self, CHAN_BODY, "misc/water2.wav", 1, ATTN_NORM);
 		}
 
 		return;
@@ -1022,13 +1022,13 @@ void() PlayerJump =
 	if ( !(self.flags & FL_JUMPRELEASED) )
 		return;		// don't pogo stick
 
-    self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
+	self.flags = self.flags - (self.flags & FL_JUMPRELEASED);
 
 	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
 
 	self.button2 = 0;
 // player jumping sound
-    sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
+	sound (self, CHAN_BODY, "player/plyrjmp8.wav", 1, ATTN_NORM);
 	self.velocity_z = self.velocity_z + 270;
 };
 
@@ -1051,15 +1051,15 @@ void() WaterMove =
 
 	if (self.waterlevel != 3)
 	{
-        // ELOHIM_MOD - don't play sounds for observers
-        if (!(self.style & ELOHIM_OBSERVER))
-        {
-            if (self.air_finished < time)
-                sound (self, CHAN_VOICE, "player/gasp2.wav", 1, ATTN_NORM);
-            else if (self.air_finished < time + 9)
-                sound (self, CHAN_VOICE, "player/gasp1.wav", 1, ATTN_NORM);
-        }
-        // END_MOD
+		// ELOHIM_MOD - don't play sounds for observers
+		if (!(self.style & ELOHIM_OBSERVER))
+		{
+			if (self.air_finished < time)
+				sound (self, CHAN_VOICE, "player/gasp2.wav", 1, ATTN_NORM);
+			else if (self.air_finished < time + 9)
+				sound (self, CHAN_VOICE, "player/gasp1.wav", 1, ATTN_NORM);
+		}
+		// END_MOD
 
 		self.air_finished = time + 12;
 		self.dmg = 2;
@@ -1080,11 +1080,11 @@ void() WaterMove =
 	{
 		if (self.flags & FL_INWATER)
 		{
-            // ELOHIM_MOD - don't play sounds for observers
+			// ELOHIM_MOD - don't play sounds for observers
 			// play leave water sound
-            if (self.style & ELOHIM_OBSERVER == 0)
-                sound (self, CHAN_BODY, "misc/outwater.wav", 1, ATTN_NORM);
-            // END_MOD
+			if (self.style & ELOHIM_OBSERVER == 0)
+				sound (self, CHAN_BODY, "misc/outwater.wav", 1, ATTN_NORM);
+			// END_MOD
 
 			self.flags = self.flags - FL_INWATER;
 		}
@@ -1117,17 +1117,17 @@ void() WaterMove =
 
 // player enter water sound
 
-        // ELOHIM_MOD - don't play sounds for observers
-        if (!(self.style & ELOHIM_OBSERVER))
-        {
-            if (self.watertype == CONTENT_LAVA)
-                sound (self, CHAN_BODY, "player/inlava.wav", 1, ATTN_NORM);
-            if (self.watertype == CONTENT_WATER)
-                sound (self, CHAN_BODY, "player/inh2o.wav", 1, ATTN_NORM);
-            if (self.watertype == CONTENT_SLIME)
-                sound (self, CHAN_BODY, "player/slimbrn2.wav", 1, ATTN_NORM);
-        }
-        // END_MOD
+		// ELOHIM_MOD - don't play sounds for observers
+		if (!(self.style & ELOHIM_OBSERVER))
+		{
+			if (self.watertype == CONTENT_LAVA)
+				sound (self, CHAN_BODY, "player/inlava.wav", 1, ATTN_NORM);
+			if (self.watertype == CONTENT_WATER)
+				sound (self, CHAN_BODY, "player/inh2o.wav", 1, ATTN_NORM);
+			if (self.watertype == CONTENT_SLIME)
+				sound (self, CHAN_BODY, "player/slimbrn2.wav", 1, ATTN_NORM);
+		}
+		// END_MOD
 
 		self.flags = self.flags + FL_INWATER;
 		self.dmgtime = 0;
@@ -1136,10 +1136,10 @@ void() WaterMove =
 	if (! (self.flags & FL_WATERJUMP) )
 		self.velocity = self.velocity - 0.8*self.waterlevel*frametime*self.velocity;
 
-    // ELOHIM_MOD - moved here from PlayerPreThink
+	// ELOHIM_MOD - moved here from PlayerPreThink
 	if (self.waterlevel == 2)
 		CheckWaterJump ();
-    // END_MOD
+	// END_MOD
 };
 
 void() CheckWaterJump =
@@ -1181,62 +1181,62 @@ Called every frame before physics are run
 */
 void() PlayerPreThink =
 {
-    // ELOHIM_MOD
-    //
-    // - moved intermission_running test inside of if (gameover)
-    // - go to observer_pre_think when observing
-    // - go to options_pre_think when setting options
-    // - changed gameover test from (self.view_ofs == '0 0 0') to (gameover)
-    // - don't call check rules
-    //      - fraglimit, timelimit are set in elohim_start_frame
-    //      - timelimit is checked in elohim_start_frame
-    //      - fraglimit is checked in client_frag
-    // - removed unnecessary makevectors
-    // - put dead checks inside a single if statement
-    // - removed unused pausetime check
-    // - optimized ammo-out check
-    // - do periodic checks
-    // - moved CheckWaterJump to WaterMove
+	// ELOHIM_MOD
+	//
+	// - moved intermission_running test inside of if (gameover)
+	// - go to observer_pre_think when observing
+	// - go to options_pre_think when setting options
+	// - changed gameover test from (self.view_ofs == '0 0 0') to (gameover)
+	// - don't call check rules
+	//      - fraglimit, timelimit are set in elohim_start_frame
+	//      - timelimit is checked in elohim_start_frame
+	//      - fraglimit is checked in client_frag
+	// - removed unnecessary makevectors
+	// - put dead checks inside a single if statement
+	// - removed unused pausetime check
+	// - optimized ammo-out check
+	// - do periodic checks
+	// - moved CheckWaterJump to WaterMove
 
-    if (gameover)
-    {
-        if (intermission_running)
-        {
-            // otherwise a button could be missed between the think tics
-            IntermissionThink ();
-        }
+	if (gameover)
+	{
+		if (intermission_running)
+		{
+			// otherwise a button could be missed between the think tics
+			IntermissionThink ();
+		}
 		return;		// intermission or finale
-    }
+	}
 
-    if (time > self.wait)
-    {
-        elohim_periodic_checks();
-        self.wait = self.wait + 1;
-    }
+	if (time > self.wait)
+	{
+		elohim_periodic_checks();
+		self.wait = self.wait + 1;
+	}
 
-    if (self.deadflag != DEAD_NO)
-    {
-        if (self.style & ELOHIM_SETTING_OPTIONS)
-            options_pre_think();
-        else if (self.deadflag >= DEAD_DEAD)
-            PlayerDeathThink ();
-        return;
-    }
+	if (self.deadflag != DEAD_NO)
+	{
+		if (self.style & ELOHIM_SETTING_OPTIONS)
+			options_pre_think();
+		else if (self.deadflag >= DEAD_DEAD)
+			PlayerDeathThink ();
+		return;
+	}
 
-    if (self.style & ELOHIM_OBSERVER)
-    {
-        if (!(self.style & ELOHIM_SETTING_OPTIONS))
-        {
-            observer_pre_think();
-            return;
-        }
-    }
+	if (self.style & ELOHIM_OBSERVER)
+	{
+		if (!(self.style & ELOHIM_SETTING_OPTIONS))
+		{
+			observer_pre_think();
+			return;
+		}
+	}
 
-    if (elohim_state & ELOHIM_MATCH_PAUSED)
-    {
-        self.velocity = '0 0 0';
-        return;
-    }
+	if (elohim_state & ELOHIM_MATCH_PAUSED)
+	{
+		self.velocity = '0 0 0';
+		return;
+	}
 
 	if (self.crmod_did_damage + 1 < time)
 		self.crmod_inflicted = world;  // CRMOD - reset inflicted info
@@ -1244,28 +1244,28 @@ void() PlayerPreThink =
 	WaterMove ();
 
 	if (self.style & ELOHIM_SETTING_OPTIONS)
-    {
-        options_pre_think();
-        return;
-    }
+	{
+		options_pre_think();
+		return;
+	}
 
-    if (self.button2)
+	if (self.button2)
 		PlayerJump ();
 	else
 		self.flags = self.flags | FL_JUMPRELEASED;
 
-    if (self.currentammo == 0)
-    {
-        if (self.weapon != IT_AXE)
-        {
-            if (time > self.attack_finished)
-            {
-                self.weapon = W_BestWeapon ();
-                W_SetCurrentAmmo ();
-            }
-        }
-    }
-    // END_MOD
+	if (self.currentammo == 0)
+	{
+		if (self.weapon != IT_AXE)
+		{
+			if (time > self.attack_finished)
+			{
+				self.weapon = W_BestWeapon ();
+				W_SetCurrentAmmo ();
+			}
+		}
+	}
+	// END_MOD
 };
 
 /*
@@ -1433,12 +1433,12 @@ Called every frame after physics are run
 */
 void() PlayerPostThink =
 {
-    // ELOHIM_MOD
-    //
-    // - don't do post think stuff while observing
-    // - don't do post think stuff while setting options
-    // - redirect impulses in [20, 250]
-    // - changed gameover test from (self.view_ofs == '0 0 0') to (gameover)
+	// ELOHIM_MOD
+	//
+	// - don't do post think stuff while observing
+	// - don't do post think stuff while setting options
+	// - redirect impulses in [20, 250]
+	// - changed gameover test from (self.view_ofs == '0 0 0') to (gameover)
 
 	// Redirect impulses 1-10 when player is entering a number
 	if (self.use != SUB_Null)
@@ -1452,11 +1452,11 @@ void() PlayerPostThink =
 		}
 	}
 
-    if (self.style & ELOHIM_OBSERVER)
-    {
-        observer_post_think();
-        return;
-    }
+	if (self.style & ELOHIM_OBSERVER)
+	{
+		observer_post_think();
+		return;
+	}
 	else
 	{
 		// Let the welcome message print without trying to print a HUD over it
@@ -1474,52 +1474,52 @@ void() PlayerPostThink =
 		}
 	}
 
-    if (self.impulse)
-    {
-        if ((self.impulse >= 20) && (self.impulse <= 250))
-            elohim_impulse ();
-    }
+	if (self.impulse)
+	{
+		if ((self.impulse >= 20) && (self.impulse <= 250))
+			elohim_impulse ();
+	}
 
-    if (gameover)
-        return;     // intermission or finale
-    if (self.deadflag)
-        return;
-    if (self.style & ELOHIM_SETTING_OPTIONS)
-        return;
-    if (elohim_state & ELOHIM_MATCH_PAUSED)
-        return;
-    // END_MOD
+	if (gameover)
+		return;     // intermission or finale
+	if (self.deadflag)
+		return;
+	if (self.style & ELOHIM_SETTING_OPTIONS)
+		return;
+	if (elohim_state & ELOHIM_MATCH_PAUSED)
+		return;
+	// END_MOD
 
-    // ELOHIM_MOD - Don't let clients change team after committing
-    match_verify_team(self);
+	// ELOHIM_MOD - Don't let clients change team after committing
+	match_verify_team(self);
 
 // do weapon stuff
 
 	W_WeaponFrame ();
 
 // check to see if player landed and play landing sound
-    // ELOHIM_MOD - rearranged if clauses for efficiency
+	// ELOHIM_MOD - rearranged if clauses for efficiency
 	if (!(self.flags & FL_ONGROUND))
 		self.jump_flag = self.velocity_z;
-    else if (self.jump_flag < -300)
-    {
-        if (self.health > 0)
-        {
-            if (self.watertype == CONTENT_WATER)
-                sound (self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
-            else if (self.jump_flag < -650)
-            {
-                T_Damage (self, world, world, 5);
-                sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
-                self.deathtype = "falling";
-            }
-            else
-                sound (self, CHAN_VOICE, "player/land.wav", 1, ATTN_NORM);
+	else if (self.jump_flag < -300)
+	{
+		if (self.health > 0)
+		{
+			if (self.watertype == CONTENT_WATER)
+				sound (self, CHAN_BODY, "player/h2ojump.wav", 1, ATTN_NORM);
+			else if (self.jump_flag < -650)
+			{
+				T_Damage (self, world, world, 5);
+				sound (self, CHAN_VOICE, "player/land2.wav", 1, ATTN_NORM);
+				self.deathtype = "falling";
+			}
+			else
+				sound (self, CHAN_VOICE, "player/land.wav", 1, ATTN_NORM);
 
-            self.jump_flag = 0;
-        }
-    }
-    // END_MOD
+			self.jump_flag = 0;
+		}
+	}
+	// END_MOD
 
 	CheckPowerups ();
 };
@@ -1534,9 +1534,9 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
-    // ELOHIM_MOD - do elohim specific stuff
-    elohim_client_connect();
-    // END_MOD
+	// ELOHIM_MOD - do elohim specific stuff
+	elohim_client_connect();
+	// END_MOD
 
 	bprint (self.netname);
 	bprint (" entered the game\n");
@@ -1578,18 +1578,18 @@ void() ClientDisconnect =
 	bprint (ftos(self.frags));
 	bprint (" frags\n");
 
-    // ELOHIM_MOD - play gib sound if client was kicked for suiciding
-    if (self.cnt < 0)
-        sound(self, CHAN_BODY, "player/gib.wav", 1, ATTN_NONE);
-    else
-        sound (self, CHAN_BODY, "player/tornoff2.wav", 1, ATTN_NONE);
-    // END_MOD
+	// ELOHIM_MOD - play gib sound if client was kicked for suiciding
+	if (self.cnt < 0)
+		sound(self, CHAN_BODY, "player/gib.wav", 1, ATTN_NONE);
+	else
+		sound (self, CHAN_BODY, "player/tornoff2.wav", 1, ATTN_NONE);
+	// END_MOD
 
 	set_suicide_frame ();
 
-    // ELOHIM_MOD
-    elohim_client_disconnect();
-    // END_MOD
+	// ELOHIM_MOD
+	elohim_client_disconnect();
+	// END_MOD
 };
 
 //
@@ -1614,17 +1614,17 @@ void() ClientDisconnect =
 //
 void (entity client, float fragval) client_frag =
 {
-    client.frags = client.frags + fragval;
+	client.frags = client.frags + fragval;
 
-    client.crmod_lastkill = time; // CRMOD got a kill
+	client.crmod_lastkill = time; // CRMOD got a kill
 
-    if (elohim_playmode & ELOHIM_MATCH_MODE)
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
 		score_frag(client.height, fragval);
-    else if (client.frags >= fraglimit)
-    {
-        if (fraglimit)
-            NextLevel();
-    }
+	else if (client.frags >= fraglimit)
+	{
+		if (fraglimit)
+			NextLevel();
+	}
 };
 
 /*
@@ -1647,28 +1647,28 @@ void(entity targ, entity attacker) ClientObituary =
 			bprint (targ.netname);
 			bprint (" was telefragged by ");
 			bprint (attacker.owner.netname);
-            bprint ("\n");
+			bprint ("\n");
 
-            if ( (teamplay == 2) && (targ.team > 0) &&
-                (targ.team == attacker.owner.team) )
-            {
-                // attacker.owner killed teammate
-                attacker.owner.mangle_y = attacker.owner.mangle_y + 1;
-                if (attacker.super_damage_finished > time)     // CRMOD - stats
-                	attacker.crmod_qdkill_y = attacker.crmod_qdkill_y + 1;
-                client_frag(attacker.owner, -1);
-            }
-            else
-            {
-                // targ was killed by enemy
-                targ.mangle_z = targ.mangle_z + 1;
-                client_frag(attacker.owner, 1);
-            }
+			if ( (teamplay == 2) && (targ.team > 0) &&
+				(targ.team == attacker.owner.team) )
+			{
+				// attacker.owner killed teammate
+				attacker.owner.mangle_y = attacker.owner.mangle_y + 1;
+				if (attacker.super_damage_finished > time)     // CRMOD - stats
+					attacker.crmod_qdkill_y = attacker.crmod_qdkill_y + 1;
+				client_frag(attacker.owner, -1);
+			}
+			else
+			{
+				// targ was killed by enemy
+				targ.mangle_z = targ.mangle_z + 1;
+				client_frag(attacker.owner, 1);
+			}
 			return;
 		}
 
-        // Never implemented
-        /*
+		// Never implemented
+		/*
 		if (attacker.classname == "teledeath2")
 		{
 			bprint ("Satan's power deflects ");
@@ -1678,53 +1678,53 @@ void(entity targ, entity attacker) ClientObituary =
 			targ.frags = targ.frags - 1;
 			return;
 		}
-        */
+		*/
 
 		if (attacker.classname == "player")
 		{
 			if (targ == attacker)
 			{
 				// killed self
-                attacker.mangle_x = attacker.mangle_x + 1;
-                if (attacker.super_damage_finished > time)     // CRMOD - stats
-                	attacker.crmod_qdkill_z = attacker.crmod_qdkill_z + 1;   // CRMOD - stats
-                client_frag(attacker, -1);
+				attacker.mangle_x = attacker.mangle_x + 1;
+				if (attacker.super_damage_finished > time)     // CRMOD - stats
+					attacker.crmod_qdkill_z = attacker.crmod_qdkill_z + 1;   // CRMOD - stats
+				client_frag(attacker, -1);
 				bprint (targ.netname);
 
 				if (targ.weapon == 64 && targ.waterlevel > 1)
 				{
-                    if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                        bprint (" discharges into the water.\n");
-                    else if (rnum < 0.66)
-                        bprint(" checks the batteries on his thunderbolt\n");
-                    else
-                        bprint(" tries to heat the pool\n");
+					if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+						bprint (" discharges into the water.\n");
+					else if (rnum < 0.66)
+						bprint(" checks the batteries on his thunderbolt\n");
+					else
+						bprint(" tries to heat the pool\n");
 					return;
 				}
 				if (targ.weapon == IT_GRENADE_LAUNCHER)
-                {
-                    if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                        bprint (" tries to put the pin back in\n");
-                    else if (rnum < 0.66)
-                        bprint(" tries to play soccer with a grenade\n");
-                    else
-                        bprint(" forgot that grenades explode\n");
-                }
+				{
+					if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+						bprint (" tries to put the pin back in\n");
+					else if (rnum < 0.66)
+						bprint(" tries to play soccer with a grenade\n");
+					else
+						bprint(" forgot that grenades explode\n");
+				}
 				else
-                {
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                        bprint (" becomes bored with life\n");
-                    else
-                        bprint(" discovers blast radius\n");
-                }
+				{
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+						bprint (" becomes bored with life\n");
+					else
+						bprint(" discovers blast radius\n");
+				}
 				return;
 			}
 			else if ( (teamplay == 2) && (targ.team > 0)&&(targ.team == attacker.team) )
 			{
-                // killed teammate
-                attacker.mangle_y = attacker.mangle_y + 1;
-                if (attacker.super_damage_finished > time)    // CRMOD - stats
-                	attacker.crmod_qdkill_y = attacker.crmod_qdkill_y + 1;  // CRMOD - stats
+				// killed teammate
+				attacker.mangle_y = attacker.mangle_y + 1;
+				if (attacker.super_damage_finished > time)    // CRMOD - stats
+					attacker.crmod_qdkill_y = attacker.crmod_qdkill_y + 1;  // CRMOD - stats
 				if (rnum < 0.25)
 					deathstring = " mows down a teammate\n";
 				else if (rnum < 0.50)
@@ -1735,60 +1735,60 @@ void(entity targ, entity attacker) ClientObituary =
 					deathstring = " loses another friend\n";
 				bprint (attacker.netname);
 				bprint (deathstring);
-                client_frag(attacker, -1);
+				client_frag(attacker, -1);
 				return;
 			}
 			else
 			{
-                // killed enemy
-                if (attacker.super_damage_finished > time)     // CRMOD - stats
-                	attacker.crmod_qdkill_x = attacker.crmod_qdkill_x + 1;   // CRMOD - stats
-                targ.mangle_z = targ.mangle_z + 1;
-                client_frag(attacker, 1);
+				// killed enemy
+				if (attacker.super_damage_finished > time)     // CRMOD - stats
+					attacker.crmod_qdkill_x = attacker.crmod_qdkill_x + 1;   // CRMOD - stats
+				targ.mangle_z = targ.mangle_z + 1;
+				client_frag(attacker, 1);
 
-                if (attacker.weapon == IT_AXE)
+				if (attacker.weapon == IT_AXE)
 				{
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        deathstring = " was axe-murdered by ";
-                        deathstring2 = "\n";
-                    }
-                    else
-                    {
-                        deathstring = " was decapitated by ";
-                        deathstring2 = "'s axe\n";
-                    }
-				}
-                else if (attacker.weapon == IT_SHOTGUN)
-				{
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        deathstring = " chewed on ";
-                        deathstring2 = "'s boomstick\n";
-                    }
-                    else
-                    {
-                        deathstring = " was disembowled by ";
-                        deathstring2 = "'s shotgun\n";
-                    }
-				}
-                else if (attacker.weapon == IT_SUPER_SHOTGUN)
-				{
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        deathstring = " ate 2 loads of ";
-                        deathstring2 = "'s buckshot\n";
-                    }
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						deathstring = " was axe-murdered by ";
+						deathstring2 = "\n";
+					}
 					else
-                    {
-                        deathstring = " eats 2 scoops of ";
-                        deathstring2 = "'s lead shot\n";
-                    }
+					{
+						deathstring = " was decapitated by ";
+						deathstring2 = "'s axe\n";
+					}
 				}
-                else if (attacker.weapon == IT_NAILGUN)
+				else if (attacker.weapon == IT_SHOTGUN)
 				{
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						deathstring = " chewed on ";
+						deathstring2 = "'s boomstick\n";
+					}
+					else
+					{
+						deathstring = " was disembowled by ";
+						deathstring2 = "'s shotgun\n";
+					}
+				}
+				else if (attacker.weapon == IT_SUPER_SHOTGUN)
+				{
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						deathstring = " ate 2 loads of ";
+						deathstring2 = "'s buckshot\n";
+					}
+					else
+					{
+						deathstring = " eats 2 scoops of ";
+						deathstring2 = "'s lead shot\n";
+					}
+				}
+				else if (attacker.weapon == IT_NAILGUN)
+				{
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
 						deathstring = " was nailed by ";
 						deathstring2 = "\n";
 					}
@@ -1798,91 +1798,91 @@ void(entity targ, entity attacker) ClientObituary =
 						deathstring2 = "\n";
 					}
 				}
-                else if (attacker.weapon == IT_SUPER_NAILGUN)
+				else if (attacker.weapon == IT_SUPER_NAILGUN)
 				{
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        deathstring = " was punctured by ";
-                        deathstring2 = "\n";
-                    }
-                    else
-                    {
-                        deathstring = " was ventilated by ";
-                        deathstring2 = "\n";
-                    }
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						deathstring = " was punctured by ";
+						deathstring2 = "\n";
+					}
+					else
+					{
+						deathstring = " was ventilated by ";
+						deathstring2 = "\n";
+					}
 				}
-                else if (attacker.weapon == IT_GRENADE_LAUNCHER)
+				else if (attacker.weapon == IT_GRENADE_LAUNCHER)
 				{
-                    deathstring2 = "'s grenade\n";
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        if (targ.health < -40)
-                        {
-                            if (elohim_playmode & ELOHIM_NO_GIBS)
-                                deathstring = " was destroyed by ";
-                            else
-                                deathstring = " was gibbed by ";
-                        }
-                        else
-                        {
-                            deathstring = " eats ";
-                            deathstring2 = "'s pineapple\n";
-                        }
-                    }
-                    else
-                    {
-                        if (targ.health < -40)
-                        {
-                            if (elohim_playmode & ELOHIM_NO_GIBS)
-                                deathstring = " was annihilated by ";
-                            else
-                                deathstring = " was blown to chunks by ";
-                        }
-                        else
-                            deathstring = " gets intimate with ";
-                    }
+					deathstring2 = "'s grenade\n";
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						if (targ.health < -40)
+						{
+							if (elohim_playmode & ELOHIM_NO_GIBS)
+								deathstring = " was destroyed by ";
+							else
+								deathstring = " was gibbed by ";
+						}
+						else
+						{
+							deathstring = " eats ";
+							deathstring2 = "'s pineapple\n";
+						}
+					}
+					else
+					{
+						if (targ.health < -40)
+						{
+							if (elohim_playmode & ELOHIM_NO_GIBS)
+								deathstring = " was annihilated by ";
+							else
+								deathstring = " was blown to chunks by ";
+						}
+						else
+							deathstring = " gets intimate with ";
+					}
 				}
-                else if (attacker.weapon == IT_ROCKET_LAUNCHER)
+				else if (attacker.weapon == IT_ROCKET_LAUNCHER)
 				{
-                    deathstring2 = "'s rocket\n";
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        if (targ.health < -40)
-                        {
-                            if (elohim_playmode & ELOHIM_NO_GIBS)
-                                deathstring = " was destroyed by ";
-                            else
-                                deathstring = " was gibbed by ";
-                        }
-                        else
-                            deathstring = " rides ";
-                    }
-                    else
-                    {
-                        if (targ.health < -40)
-                        {
-                            if (elohim_playmode & ELOHIM_NO_GIBS)
-                                deathstring = " was annihilated by ";
-                            else
-                                deathstring = " was blown to chunks by ";
-                        }
-                        else
-                            deathstring = " is shish-kebabed by ";
-                    }
+					deathstring2 = "'s rocket\n";
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						if (targ.health < -40)
+						{
+							if (elohim_playmode & ELOHIM_NO_GIBS)
+								deathstring = " was destroyed by ";
+							else
+								deathstring = " was gibbed by ";
+						}
+						else
+							deathstring = " rides ";
+					}
+					else
+					{
+						if (targ.health < -40)
+						{
+							if (elohim_playmode & ELOHIM_NO_GIBS)
+								deathstring = " was annihilated by ";
+							else
+								deathstring = " was blown to chunks by ";
+						}
+						else
+							deathstring = " is shish-kebabed by ";
+					}
 				}
-                else if (attacker.weapon == IT_LIGHTNING)
+				else if (attacker.weapon == IT_LIGHTNING)
 				{
-                    if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    {
-                        deathstring = " accepts ";
-                        if (attacker.waterlevel > 1)
-                            deathstring2 = "'s discharge\n";
-                        else
-                            deathstring2 = "'s shaft\n";
-                    }
-                    else
-                    {
-                        if (attacker.waterlevel > 1)
+					if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					{
+						deathstring = " accepts ";
+						if (attacker.waterlevel > 1)
+							deathstring2 = "'s discharge\n";
+						else
+							deathstring2 = "'s shaft\n";
+					}
+					else
+					{
+						if (attacker.waterlevel > 1)
 						{
 							deathstring = " takes a bath with ";
 							deathstring2 = "'s lightning gun\n";
@@ -1892,14 +1892,14 @@ void(entity targ, entity attacker) ClientObituary =
 							deathstring = " gets a warm fuzzy feeling from ";
 							deathstring2 = "\n";
 						}
-                    }
+					}
 				}
-                else
-                {
-                    // This should never happen.. but does it!?!?
-                    deathstring = " was massacred by ";
-                    deathstring2 = "\n";
-                }
+				else
+				{
+					// This should never happen.. but does it!?!?
+					deathstring = " was massacred by ";
+					deathstring2 = "\n";
+				}
 				bprint (targ.netname);
 				bprint (deathstring);
 				bprint (attacker.netname);
@@ -1909,40 +1909,40 @@ void(entity targ, entity attacker) ClientObituary =
 		}
 		else
 		{
-            // targ got himself killed
-            targ.mangle_x = targ.mangle_x + 1;
-            client_frag(targ, -1);
+			// targ got himself killed
+			targ.mangle_x = targ.mangle_x + 1;
+			client_frag(targ, -1);
 			bprint (targ.netname);
 
 			// tricks and traps
 			if (attacker.classname == "explo_box")
 			{
-                if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    bprint (" blew up\n");
-                else
-                    bprint (" exploded\n");
+				if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					bprint (" blew up\n");
+				else
+					bprint (" exploded\n");
 
 				return;
 			}
 			if (attacker.solid == SOLID_BSP && attacker != world)
 			{
-                if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-	                bprint (" was squished\n");
+				if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					bprint (" was squished\n");
 				else
 					bprint (" was flattened\n");
 				return;
 			}
 			if (attacker.classname == "trap_shooter" || attacker.classname == "trap_spikeshooter")
 			{
-                if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    bprint (" was spiked\n");
-                else
-                    bprint (" was skewered\n");
+				if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					bprint (" was spiked\n");
+				else
+					bprint (" was skewered\n");
 				return;
 			}
 			if (attacker.classname == "fireball")
 			{
-                bprint (" ate a lavaball\n");
+				bprint (" ate a lavaball\n");
 				return;
 			}
 			if (attacker.classname == "trigger_changelevel")
@@ -1952,36 +1952,36 @@ void(entity targ, entity attacker) ClientObituary =
 			}
 
 			// in-water deaths
-            if (targ.watertype == -3)
+			if (targ.watertype == -3)
 			{
 				if (!(elohim_playmode & ELOHIM_EXTENDED_OBITS))
 					rnum = rnum * 0.66;
-                if (rnum < 0.33)
+				if (rnum < 0.33)
 					bprint (" sleeps with the fishes\n");
-                else if (rnum < 0.66)
+				else if (rnum < 0.66)
 					bprint (" sucks it down\n");
-                else
-                    bprint (" realizes he doesn't have gills\n");
+				else
+					bprint (" realizes he doesn't have gills\n");
 				return;
 			}
-            else if (targ.watertype == -4)
+			else if (targ.watertype == -4)
 			{
-                if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+				if (rnum < 0.33 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
 					bprint (" gulped a load of slime\n");
-                else if (rnum < 0.66)
-                    bprint (" discovers the hazards of toxic waste\n");
-                else
-                    bprint (" picked a bad place to swim\n");
+				else if (rnum < 0.66)
+					bprint (" discovers the hazards of toxic waste\n");
+				else
+					bprint (" picked a bad place to swim\n");
 				return;
 			}
-            else if (targ.watertype == -5)
+			else if (targ.watertype == -5)
 			{
 				if (targ.health < -15)
 				{
 					bprint (" burst into flames\n");
 					return;
 				}
-                if (rnum < 0.5)
+				if (rnum < 0.5)
 					bprint (" turned into hot slag\n");
 				else
 					bprint (" visits the Volcano God\n");
@@ -1992,10 +1992,10 @@ void(entity targ, entity attacker) ClientObituary =
 			if (targ.deathtype == "falling")
 			{
 				targ.deathtype = "";
-                if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
-                    bprint (" fell to his death\n");
-                else
-                    bprint (" discovers gravity\n");
+				if (rnum < 0.5 || !(elohim_playmode & ELOHIM_EXTENDED_OBITS))
+					bprint (" fell to his death\n");
+				else
+					bprint (" discovers gravity\n");
 				return;
 			}
 

@@ -53,13 +53,13 @@ void() button_use =
 
 void() button_touch =
 {
-    if (other.classname != "player")
+	if (other.classname != "player")
 		return;
 
-    // ELOHIM_MOD - ignore observers
-    if (other.style & ELOHIM_OBSERVER)
-        return;
-    // END_MOD
+	// ELOHIM_MOD - ignore observers
+	if (other.style & ELOHIM_OBSERVER)
+		return;
+	// END_MOD
 
 	self.enemy = other;
 	button_fire ();

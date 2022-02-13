@@ -32,26 +32,26 @@ string array_user_map9;
 //
 void (float index, string name) array_set_user_map =
 {
-    if (index == 0)
-        array_user_map0 = name;
-    else if (index == 1)
-        array_user_map1 = name;
-    else if (index == 2)
-        array_user_map2 = name;
-    else if (index == 3)
-        array_user_map3 = name;
-    else if (index == 4)
-        array_user_map4 = name;
-    else if (index == 5)
-        array_user_map5 = name;
-    else if (index == 6)
-        array_user_map6 = name;
-    else if (index == 7)
-        array_user_map7 = name;
-    else if (index == 8)
-        array_user_map8 = name;
-    else if (index == 9)
-        array_user_map9 = name;
+	if (index == 0)
+		array_user_map0 = name;
+	else if (index == 1)
+		array_user_map1 = name;
+	else if (index == 2)
+		array_user_map2 = name;
+	else if (index == 3)
+		array_user_map3 = name;
+	else if (index == 4)
+		array_user_map4 = name;
+	else if (index == 5)
+		array_user_map5 = name;
+	else if (index == 6)
+		array_user_map6 = name;
+	else if (index == 7)
+		array_user_map7 = name;
+	else if (index == 8)
+		array_user_map8 = name;
+	else if (index == 9)
+		array_user_map9 = name;
 };
 
 //
@@ -61,28 +61,28 @@ void (float index, string name) array_set_user_map =
 //
 string (float index) array_get_user_map =
 {
-    if (index == 0)
-        return array_user_map0;
-    if (index == 1)
-        return array_user_map1;
-    if (index == 2)
-        return array_user_map2;
-    if (index == 3)
-        return array_user_map3;
-    if (index == 4)
-        return array_user_map4;
-    if (index == 5)
-        return array_user_map5;
-    if (index == 6)
-        return array_user_map6;
-    if (index == 7)
-        return array_user_map7;
-    if (index == 8)
-        return array_user_map8;
-    if (index == 9)
-        return array_user_map9;
-    else
-        return "";
+	if (index == 0)
+		return array_user_map0;
+	if (index == 1)
+		return array_user_map1;
+	if (index == 2)
+		return array_user_map2;
+	if (index == 3)
+		return array_user_map3;
+	if (index == 4)
+		return array_user_map4;
+	if (index == 5)
+		return array_user_map5;
+	if (index == 6)
+		return array_user_map6;
+	if (index == 7)
+		return array_user_map7;
+	if (index == 8)
+		return array_user_map8;
+	if (index == 9)
+		return array_user_map9;
+	else
+		return "";
 };
 
 //--------------------------------------------------------------------------
@@ -115,36 +115,36 @@ entity array_kick15;
 //
 void (float index, entity client) array_set_kick =
 {
-    if (index == 1)
-        array_kick1 = client;
-    else if (index == 2)
-        array_kick2 = client;
-    else if (index == 3)
-        array_kick3 = client;
-    else if (index == 4)
-        array_kick4 = client;
-    else if (index == 5)
-        array_kick5 = client;
-    else if (index == 6)
-        array_kick6 = client;
-    else if (index == 7)
-        array_kick7 = client;
-    else if (index == 8)
-        array_kick8 = client;
-    else if (index == 9)
-        array_kick9 = client;
-    else if (index == 10)
-        array_kick10 = client;
-    else if (index == 11)
-        array_kick11 = client;
-    else if (index == 12)
-        array_kick12 = client;
-    else if (index == 13)
-        array_kick13 = client;
-    else if (index == 14)
-        array_kick14 = client;
-    else if (index == 15)
-        array_kick15 = client;
+	if (index == 1)
+		array_kick1 = client;
+	else if (index == 2)
+		array_kick2 = client;
+	else if (index == 3)
+		array_kick3 = client;
+	else if (index == 4)
+		array_kick4 = client;
+	else if (index == 5)
+		array_kick5 = client;
+	else if (index == 6)
+		array_kick6 = client;
+	else if (index == 7)
+		array_kick7 = client;
+	else if (index == 8)
+		array_kick8 = client;
+	else if (index == 9)
+		array_kick9 = client;
+	else if (index == 10)
+		array_kick10 = client;
+	else if (index == 11)
+		array_kick11 = client;
+	else if (index == 12)
+		array_kick12 = client;
+	else if (index == 13)
+		array_kick13 = client;
+	else if (index == 14)
+		array_kick14 = client;
+	else if (index == 15)
+		array_kick15 = client;
 };
 
 //
@@ -154,36 +154,36 @@ void (float index, entity client) array_set_kick =
 //
 entity (float index) array_get_kick =
 {
-    if (index == 1)
-        return array_kick1;
-    if (index == 2)
-        return array_kick2;
-    if (index == 3)
-        return array_kick3;
-    if (index == 4)
-        return array_kick4;
-    if (index == 5)
-        return array_kick5;
-    if (index == 6)
-        return array_kick6;
-    if (index == 7)
-        return array_kick7;
-    if (index == 8)
-        return array_kick8;
-    if (index == 9)
-        return array_kick9;
-    if (index == 10)
-        return array_kick10;
-    if (index == 11)
-        return array_kick11;
-    if (index == 12)
-        return array_kick12;
-    if (index == 13)
-        return array_kick13;
-    if (index == 14)
-        return array_kick14;
-    if (index == 15)
-        return array_kick15;
-    return world; // Warning fix?
+	if (index == 1)
+		return array_kick1;
+	if (index == 2)
+		return array_kick2;
+	if (index == 3)
+		return array_kick3;
+	if (index == 4)
+		return array_kick4;
+	if (index == 5)
+		return array_kick5;
+	if (index == 6)
+		return array_kick6;
+	if (index == 7)
+		return array_kick7;
+	if (index == 8)
+		return array_kick8;
+	if (index == 9)
+		return array_kick9;
+	if (index == 10)
+		return array_kick10;
+	if (index == 11)
+		return array_kick11;
+	if (index == 12)
+		return array_kick12;
+	if (index == 13)
+		return array_kick13;
+	if (index == 14)
+		return array_kick14;
+	if (index == 15)
+		return array_kick15;
+	return world; // Warning fix?
 };
 

@@ -43,27 +43,27 @@ void hud_update();
 //
 void () observer_find_teleport =
 {
-    local entity e;
-    local float d, mindist;
+	local entity e;
+	local float d, mindist;
 
-    // find the closest teleport
-    mindist = 99999999;
-    e = self.trigger_field = find(world, classname, "trigger_teleport");
-    while (e)
-    {
-        d = vlen(self.origin - (e.mins + e.maxs) * 0.5);
-        if (d < mindist)
-        {
-            mindist = d;
-            self.trigger_field = e;
-        }
-        e = find(e, classname, "trigger_teleport");
-    }
-    e = self.trigger_field;
+	// find the closest teleport
+	mindist = 99999999;
+	e = self.trigger_field = find(world, classname, "trigger_teleport");
+	while (e)
+	{
+		d = vlen(self.origin - (e.mins + e.maxs) * 0.5);
+		if (d < mindist)
+		{
+			mindist = d;
+			self.trigger_field = e;
+		}
+		e = find(e, classname, "trigger_teleport");
+	}
+	e = self.trigger_field;
 
-    // compute an 'activation raius'
-    if (e)
-        self.t_width = utils_min3(e.size_x, e.size_y, e.size_z) * 0.7;
+	// compute an 'activation raius'
+	if (e)
+		self.t_width = utils_min3(e.size_x, e.size_y, e.size_z) * 0.7;
 };
 
 //
@@ -71,12 +71,12 @@ void () observer_find_teleport =
 //
 void (vector pos) observer_spawn_tfog =
 {
-    msg_entity = self;
-    WriteByte(MSG_ONE, SVC_TEMPENTITY);
-    WriteByte(MSG_ONE, TE_TELEPORT);
-    WriteCoord(MSG_ONE, pos_x);
-    WriteCoord(MSG_ONE, pos_y);
-    WriteCoord(MSG_ONE, pos_z);
+	msg_entity = self;
+	WriteByte(MSG_ONE, SVC_TEMPENTITY);
+	WriteByte(MSG_ONE, TE_TELEPORT);
+	WriteCoord(MSG_ONE, pos_x);
+	WriteCoord(MSG_ONE, pos_y);
+	WriteCoord(MSG_ONE, pos_z);
 };
 
 //
@@ -86,38 +86,38 @@ void (vector pos) observer_spawn_tfog =
 //
 void () observer_check_teleport =
 {
-    local entity t;
-    local vector d;
+	local entity t;
+	local vector d;
 
-    t = self.trigger_field;
-    if (!t)
-        return;
+	t = self.trigger_field;
+	if (!t)
+		return;
 
-    // Only check if the observer is not completely above/below the teleport
-    if (self.absmin_z < t.absmax_z && self.absmax_z > t.absmin_z)
-    {
-        d = self.origin - (t.absmin + t.absmax) * 0.5;
-        d_z = 0;
-        if (vlen(d) < 24 + self.t_width)
-        {
-            // find the destination
-            t = find(world, targetname, t.target);
-            if (!t)
-                return;
+	// Only check if the observer is not completely above/below the teleport
+	if (self.absmin_z < t.absmax_z && self.absmax_z > t.absmin_z)
+	{
+		d = self.origin - (t.absmin + t.absmax) * 0.5;
+		d_z = 0;
+		if (vlen(d) < 24 + self.t_width)
+		{
+			// find the destination
+			t = find(world, targetname, t.target);
+			if (!t)
+				return;
 
-            // spawn a tfog flash for the observer only
-            makevectors(t.mangle);
-            observer_spawn_tfog(t.origin + 32 * v_forward);
+			// spawn a tfog flash for the observer only
+			makevectors(t.mangle);
+			observer_spawn_tfog(t.origin + 32 * v_forward);
 
-            // move the observer
-            setorigin(self, t.origin);
-            self.angles = t.mangle;
-            self.fixangle = 1;
-            self.velocity = v_forward * 300;
-            if (self.oflags & OBSERVER_WALK)
-                self.flags = self.flags - self.flags & FL_ONGROUND;
-        }
-    }
+			// move the observer
+			setorigin(self, t.origin);
+			self.angles = t.mangle;
+			self.fixangle = 1;
+			self.velocity = v_forward * 300;
+			if (self.oflags & OBSERVER_WALK)
+				self.flags = self.flags - self.flags & FL_ONGROUND;
+		}
+	}
 };
 
 //
@@ -125,10 +125,10 @@ void () observer_check_teleport =
 //
 void () observer_clear_flags =
 {
-    self.oflags = self.oflags - self.oflags & (OBSERVER_WALK | OBSERVER_FLY |
-                                            OBSERVER_CHASE | OBSERVER_DEMO |
+	self.oflags = self.oflags - self.oflags & (OBSERVER_WALK | OBSERVER_FLY |
+											OBSERVER_CHASE | OBSERVER_DEMO |
 											OBSERVER_CAMERA | OBSERVER_AUTO);
-    self.crmod_othertarget = world;  // CRMOD
+	self.crmod_othertarget = world;  // CRMOD
 };
 
 //
@@ -146,14 +146,14 @@ void () observer_clear_flags =
 //
 void () observer_check_demo_end =
 {
-    if (self.oflags & OBSERVER_DEMO)
-    {
-        setmodel (self, "progs/eyes.mdl");
-        self.model = string_null;
-        msg_entity = self;
-        WriteByte(MSG_ONE, SVC_SETVIEWPORT);
-        WriteEntity(MSG_ONE, self);
-    }
+	if (self.oflags & OBSERVER_DEMO)
+	{
+		setmodel (self, "progs/eyes.mdl");
+		self.model = string_null;
+		msg_entity = self;
+		WriteByte(MSG_ONE, SVC_SETVIEWPORT);
+		WriteEntity(MSG_ONE, self);
+	}
 };
 
 //
@@ -161,21 +161,21 @@ void () observer_check_demo_end =
 //
 void () observer_walk_start =
 {
-    observer_check_demo_end();
-    observer_clear_flags();
-    self.oflags = self.oflags | OBSERVER_WALK;
-    self.movetype = MOVETYPE_WALK;
-    self.flags = self.flags - self.flags & FL_ONGROUND;
-    self.view_ofs = '0 0 22';
+	observer_check_demo_end();
+	observer_clear_flags();
+	self.oflags = self.oflags | OBSERVER_WALK;
+	self.movetype = MOVETYPE_WALK;
+	self.flags = self.flags - self.flags & FL_ONGROUND;
+	self.view_ofs = '0 0 22';
 
-    sprint(self, "disabling 'smooth' mode\n");
-    stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
-    stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
+	sprint(self, "disabling 'smooth' mode\n");
+	stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
+	stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
 
-    stuffcmd(self, "v_centerspeed 500\n");
-    sprint(self, "walk mode - help-walk for help\n");
-    if (!(self.style & ELOHIM_HEADS_UP))
-        sprint(self, "type 'headsup' for fullscreen display\n");
+	stuffcmd(self, "v_centerspeed 500\n");
+	sprint(self, "walk mode - help-walk for help\n");
+	if (!(self.style & ELOHIM_HEADS_UP))
+		sprint(self, "type 'headsup' for fullscreen display\n");
 };
 
 //
@@ -183,22 +183,22 @@ void () observer_walk_start =
 //
 void () observer_fly_start =
 {
-    observer_check_demo_end();
-    observer_clear_flags();
-    self.oflags = self.oflags | OBSERVER_FLY;
-    self.movetype = MOVETYPE_FLY;
-    self.view_ofs = '0 0 22';
-    self.flags = self.flags | FL_ONGROUND;
+	observer_check_demo_end();
+	observer_clear_flags();
+	self.oflags = self.oflags | OBSERVER_FLY;
+	self.movetype = MOVETYPE_FLY;
+	self.view_ofs = '0 0 22';
+	self.flags = self.flags | FL_ONGROUND;
 	self.waterlevel = 0;
 
-    sprint(self, "disabling 'smooth' mode\n");
-    stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
-    stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
+	sprint(self, "disabling 'smooth' mode\n");
+	stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
+	stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
 
-    stuffcmd(self, "v_centerspeed 500\n");
-    sprint(self, "fly mode - help-fly for help\n");
-    if (!(self.style & ELOHIM_HEADS_UP))
-        sprint(self, "type 'headsup' for fullscreen display\n");
+	stuffcmd(self, "v_centerspeed 500\n");
+	sprint(self, "fly mode - help-fly for help\n");
+	if (!(self.style & ELOHIM_HEADS_UP))
+		sprint(self, "type 'headsup' for fullscreen display\n");
 };
 
 //
@@ -220,37 +220,37 @@ void () observer_toggle_tourney =
 void () observer_camera_start =
 {
 	local entity camera;
-    if (!self.movetarget)
-    {
-        // see if we can find a camera
-        self.movetarget = observer_find_camera(world);
-        if (!self.movetarget)
-        {
-            sprint(self, "no cameras found\n");
-            observer_walk_start();
-            return;
-        }
-        self.delay = 0;
-    }
-    else if (self.movetarget.classname != "elohim_camera")
-    {
-    	// see if we can find a camera
-        self.movetarget = observer_find_camera(world);
-        if (!self.movetarget)
-        {
-            sprint(self, "no cameras found\n");
-            observer_walk_start();
-            return;
-        }
-        self.delay = 0;
-    }
+	if (!self.movetarget)
+	{
+		// see if we can find a camera
+		self.movetarget = observer_find_camera(world);
+		if (!self.movetarget)
+		{
+			sprint(self, "no cameras found\n");
+			observer_walk_start();
+			return;
+		}
+		self.delay = 0;
+	}
+	else if (self.movetarget.classname != "elohim_camera")
+	{
+		// see if we can find a camera
+		self.movetarget = observer_find_camera(world);
+		if (!self.movetarget)
+		{
+			sprint(self, "no cameras found\n");
+			observer_walk_start();
+			return;
+		}
+		self.delay = 0;
+	}
 
-    observer_check_demo_end();
-    observer_clear_flags();
-    self.oflags = self.oflags | OBSERVER_CAMERA;
-    self.movetype = MOVETYPE_NONE;
-    self.view_ofs = '0 0 0';
-    camera = self.movetarget;
+	observer_check_demo_end();
+	observer_clear_flags();
+	self.oflags = self.oflags | OBSERVER_CAMERA;
+	self.movetype = MOVETYPE_NONE;
+	self.view_ofs = '0 0 0';
+	camera = self.movetarget;
 	setorigin(self, camera.origin);
 	local vector angle;
 	if (camera.movetarget != world)
@@ -258,20 +258,20 @@ void () observer_camera_start =
 	else
 		angle = camera.angles;
 	angles_fixangle(angle);
-    observer_set_camera_position();
-    stuffcmd(self, "v_centerspeed 0\n");
-    sprint(self, "camera mode - help-camera for help\n");
-    if (self.oflags & OBSERVER_GO_AUTO)				// CRMOD
-    {												// CRMOD
-    	sprint(self,"Automatic Cameras Enabled.\n");	// CRMOD
-    	self.oflags = self.oflags - OBSERVER_GO_AUTO;	// CRMOD
-    	self.oflags = self.oflags | OBSERVER_AUTO;	// CRMOD
-    }												// CRMOD
-    else																// CRMOD
-    	sprint(self,"type 'autocam' for automatic camera switching\n");	// CRMOD
+	observer_set_camera_position();
+	stuffcmd(self, "v_centerspeed 0\n");
+	sprint(self, "camera mode - help-camera for help\n");
+	if (self.oflags & OBSERVER_GO_AUTO)				// CRMOD
+	{												// CRMOD
+		sprint(self,"Automatic Cameras Enabled.\n");	// CRMOD
+		self.oflags = self.oflags - OBSERVER_GO_AUTO;	// CRMOD
+		self.oflags = self.oflags | OBSERVER_AUTO;	// CRMOD
+	}												// CRMOD
+	else																// CRMOD
+		sprint(self,"type 'autocam' for automatic camera switching\n");	// CRMOD
 
-    if (!(self.style & ELOHIM_HEADS_UP))
-        sprint(self, "type 'headsup' for fullscreen display\n");
+	if (!(self.style & ELOHIM_HEADS_UP))
+		sprint(self, "type 'headsup' for fullscreen display\n");
 	sprint(self, "type 'smooth' to eliminate choppines\n");
 };
 
@@ -281,46 +281,46 @@ void () observer_camera_start =
 //
 void () observer_chase_start =
 {
-    if (!self.movetarget || self.movetarget.classname != "player")
-    {
-        // see if we can find a target to chase
-        self.movetarget = observer_find_target(world);
-        if (!self.movetarget)
-        {
-            sprint(self, "no chase target found\n");
-            observer_walk_start();
-            return;
-        }
-        self.delay = 0;
-    }
-    observer_check_demo_end();
-    observer_clear_flags();
-    self.oflags = self.oflags | OBSERVER_CHASE;
-    self.movetype = MOVETYPE_FLY;
-    self.view_ofs = '0 0 0';
-    observer_set_chase_position();
-    stuffcmd(self, "v_centerspeed 0\n");
-    sprint(self, "chase mode - help-chase for help\n");
+	if (!self.movetarget || self.movetarget.classname != "player")
+	{
+		// see if we can find a target to chase
+		self.movetarget = observer_find_target(world);
+		if (!self.movetarget)
+		{
+			sprint(self, "no chase target found\n");
+			observer_walk_start();
+			return;
+		}
+		self.delay = 0;
+	}
+	observer_check_demo_end();
+	observer_clear_flags();
+	self.oflags = self.oflags | OBSERVER_CHASE;
+	self.movetype = MOVETYPE_FLY;
+	self.view_ofs = '0 0 0';
+	observer_set_chase_position();
+	stuffcmd(self, "v_centerspeed 0\n");
+	sprint(self, "chase mode - help-chase for help\n");
 
 	// CRMOD - auto, tourney
-    if (self.oflags & OBSERVER_GO_AUTO)
-    {
-    	sprint(self,"Automatic Chasecam Enabled.\n");
-    	self.oflags = self.oflags - OBSERVER_GO_AUTO;
-    	self.oflags = self.oflags | OBSERVER_AUTO;
-    }
-    else
-    	sprint(self,"type 'autochase' for automatic chase switching\n");
-    if (self.oflags & OBSERVER_TOURNEY)
-    	sprint(self,"Tournament Mode Enabled.\n");
+	if (self.oflags & OBSERVER_GO_AUTO)
+	{
+		sprint(self,"Automatic Chasecam Enabled.\n");
+		self.oflags = self.oflags - OBSERVER_GO_AUTO;
+		self.oflags = self.oflags | OBSERVER_AUTO;
+	}
+	else
+		sprint(self,"type 'autochase' for automatic chase switching\n");
+	if (self.oflags & OBSERVER_TOURNEY)
+		sprint(self,"Tournament Mode Enabled.\n");
 	// END_CRMOD
 
-    if (!(self.style & ELOHIM_HEADS_UP))
-        sprint(self, "type 'headsup' for fullscreen display\n");
+	if (!(self.style & ELOHIM_HEADS_UP))
+		sprint(self, "type 'headsup' for fullscreen display\n");
 
-    sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
-    stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
-    stuffcmd(self, "cl_predict 0\n");		// CRMOD - client prediction off
+	sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
+	stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
+	stuffcmd(self, "cl_predict 0\n");		// CRMOD - client prediction off
 };
 
 //
@@ -337,52 +337,52 @@ void () observer_chase_start =
 //
 void () observer_demo_start =
 {
-    if (!self.movetarget || self.movetarget.classname != "player")
-    {
-        // see if we can find a target to chase
-        self.movetarget = observer_find_target(world);
-        if (!self.movetarget)
-        {
-            sprint(self, "no chase target found\n");
-            observer_walk_start();
-            return;
-        }
-        self.delay = 0;
-    }
-    observer_clear_flags();
-    self.oflags = self.oflags | OBSERVER_DEMO;
-    self.movetype = MOVETYPE_FLY;
-    self.view_ofs = '0 0 22';
-    msg_entity = self;
-    WriteByte(MSG_ONE, SVC_SETVIEWPORT);
-    WriteEntity(MSG_ONE, self.movetarget);
-    setmodel(self, string_null);
-    observer_set_demo_position();
-    stuffcmd(self, "v_centerspeed 0\n");
-    sprint(self, "eyecam mode - help-chase for help\n");
+	if (!self.movetarget || self.movetarget.classname != "player")
+	{
+		// see if we can find a target to chase
+		self.movetarget = observer_find_target(world);
+		if (!self.movetarget)
+		{
+			sprint(self, "no chase target found\n");
+			observer_walk_start();
+			return;
+		}
+		self.delay = 0;
+	}
+	observer_clear_flags();
+	self.oflags = self.oflags | OBSERVER_DEMO;
+	self.movetype = MOVETYPE_FLY;
+	self.view_ofs = '0 0 22';
+	msg_entity = self;
+	WriteByte(MSG_ONE, SVC_SETVIEWPORT);
+	WriteEntity(MSG_ONE, self.movetarget);
+	setmodel(self, string_null);
+	observer_set_demo_position();
+	stuffcmd(self, "v_centerspeed 0\n");
+	sprint(self, "eyecam mode - help-chase for help\n");
 
-    // CRMOD - auto, tourney
-    if (self.oflags & OBSERVER_GO_AUTO)
-    {
-        sprint(self,"Automatic Eyecam Enabled.\n");
-        self.oflags = self.oflags - OBSERVER_GO_AUTO;
-        self.oflags = self.oflags | OBSERVER_AUTO;
-    }
-    else
-        sprint(self,"type 'autoeye' for automatic eyecam switching\n");
-    if (self.oflags & OBSERVER_TOURNEY)
-        sprint(self,"Tournament Mode Enabled.\n");
-    // END_CRMOD
+	// CRMOD - auto, tourney
+	if (self.oflags & OBSERVER_GO_AUTO)
+	{
+		sprint(self,"Automatic Eyecam Enabled.\n");
+		self.oflags = self.oflags - OBSERVER_GO_AUTO;
+		self.oflags = self.oflags | OBSERVER_AUTO;
+	}
+	else
+		sprint(self,"type 'autoeye' for automatic eyecam switching\n");
+	if (self.oflags & OBSERVER_TOURNEY)
+		sprint(self,"Tournament Mode Enabled.\n");
+	// END_CRMOD
 
-    if (!(self.style & ELOHIM_HEADS_UP))
-        sprint(self, "type 'headsup' for fullscreen display\n");
+	if (!(self.style & ELOHIM_HEADS_UP))
+		sprint(self, "type 'headsup' for fullscreen display\n");
 
-    sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
-    stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
-    stuffcmd(self, "cl_predict 0\n");		// CRMOD - client prediction off
+	sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
+	stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
+	stuffcmd(self, "cl_predict 0\n");		// CRMOD - client prediction off
 
 	self.nextthink = -1;
-    self.think = SUB_Null;
+	self.think = SUB_Null;
 };
 
 //
@@ -392,74 +392,74 @@ void () observer_demo_start =
 //
 void () observer_start =
 {
-    self.crmod_chase_score = ELOHIM_NEGINF;  // CRMOD make sure they don't have some high rating that can't be beat by the other players
+	self.crmod_chase_score = ELOHIM_NEGINF;  // CRMOD make sure they don't have some high rating that can't be beat by the other players
 
-    self.style = self.style | ELOHIM_OBSERVER;
+	self.style = self.style | ELOHIM_OBSERVER;
 
 	// If the player is dead, then call respawn to reset a bunch of stuff and
 	// give him a new position.
-    if (self.deadflag != DEAD_NO)
-    {
-        if (self.deadflag >= DEAD_DEAD)
-            respawn();
-        return;
-    }
+	if (self.deadflag != DEAD_NO)
+	{
+		if (self.deadflag >= DEAD_DEAD)
+			respawn();
+		return;
+	}
 
-    self.takedamage = DAMAGE_NO;
-    self.solid = SOLID_NOT;
+	self.takedamage = DAMAGE_NO;
+	self.solid = SOLID_NOT;
 
-    // get rid of powerups
-    self.radsuit_finished = 0;
-    self.invisible_finished = 0;
-    self.invincible_finished = 0;
-    self.super_damage_finished = 0;
-    self.rad_time = 0;
-    self.invisible_time = 0;
-    self.invincible_time = 0;
-    self.super_time = 0;
-    self.effects = 0;
+	// get rid of powerups
+	self.radsuit_finished = 0;
+	self.invisible_finished = 0;
+	self.invincible_finished = 0;
+	self.super_damage_finished = 0;
+	self.rad_time = 0;
+	self.invisible_time = 0;
+	self.invincible_time = 0;
+	self.super_time = 0;
+	self.effects = 0;
 
-    // status bar stuff
-    self.health = 666;
-    self.items = 0;
-    self.armorvalue = 0;
-    self.ammo_shells = 0;
-    self.ammo_nails = 0;
-    self.ammo_rockets = 0;
-    self.ammo_cells = 0;
-    self.currentammo = 0;
-    self.frags = -99;
-    self.show_hostile = 0;
+	// status bar stuff
+	self.health = 666;
+	self.items = 0;
+	self.armorvalue = 0;
+	self.ammo_shells = 0;
+	self.ammo_nails = 0;
+	self.ammo_rockets = 0;
+	self.ammo_cells = 0;
+	self.currentammo = 0;
+	self.frags = -99;
+	self.show_hostile = 0;
 
-    // model and view offset
-    self.model = string_null;
-    self.weaponmodel = string_null;
-    setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
-    self.view_ofs = '0 0 22';
-    self.nextthink = -1;    // thinking is used to animate client models
-    self.think = SUB_Null;
+	// model and view offset
+	self.model = string_null;
+	self.weaponmodel = string_null;
+	setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
+	self.view_ofs = '0 0 22';
+	self.nextthink = -1;    // thinking is used to animate client models
+	self.think = SUB_Null;
 
-    // teleport stuff
-    observer_find_teleport();
-    self.wait = time + 1;
+	// teleport stuff
+	observer_find_teleport();
+	self.wait = time + 1;
 
-    // update display immediately
-    self.delay = 0;
+	// update display immediately
+	self.delay = 0;
 
 	// reset display hold time
 	self.lip = 0;
 
-    stuffcmd(self, "color 0\n");
+	stuffcmd(self, "color 0\n");
 
-    if (self.oflags & OBSERVER_FLY)
-        observer_fly_start();
-    else if (self.oflags & OBSERVER_CHASE)
+	if (self.oflags & OBSERVER_FLY)
+		observer_fly_start();
+	else if (self.oflags & OBSERVER_CHASE)
 	{
 		if (self.oflags & OBSERVER_AUTO)
 			self.oflags = self.oflags | OBSERVER_GO_AUTO;
-        observer_chase_start();
+		observer_chase_start();
 	}
-    else if (self.oflags & OBSERVER_DEMO)
+	else if (self.oflags & OBSERVER_DEMO)
 	{
 		if (self.oflags & OBSERVER_AUTO)
 			self.oflags = self.oflags | OBSERVER_GO_AUTO;
@@ -469,25 +469,25 @@ void () observer_start =
 		self.nextthink = time + 0.1;
 		self.think = observer_demo_start;
 	}
-    else if (self.oflags & OBSERVER_CAMERA)
+	else if (self.oflags & OBSERVER_CAMERA)
 	{
 		if (self.oflags & OBSERVER_AUTO)
 			self.oflags = self.oflags | OBSERVER_GO_AUTO;
-    	observer_camera_start();
+		observer_camera_start();
 	}
-    else
-        observer_walk_start();
+	else
+		observer_walk_start();
 
-    // BROKEN
-    // if (self.style & ELOHIM_HEADS_UP)
-    //     stuffcmd(self, "viewsize 120\n");
+	// BROKEN
+	// if (self.style & ELOHIM_HEADS_UP)
+	//     stuffcmd(self, "viewsize 120\n");
 
-    // Check to see if anyone was observing this client
-    observer_disconnect_notify(self);
+	// Check to see if anyone was observing this client
+	observer_disconnect_notify(self);
 
-    // Notify the match module that this player has become an observer
-    if (elohim_playmode & ELOHIM_MATCH_MODE)
-        match_disconnect_notify(self);
+	// Notify the match module that this player has become an observer
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
+		match_disconnect_notify(self);
 };
 
 //
@@ -497,29 +497,29 @@ void () observer_start =
 //
 void () observer_end =
 {
-    self.style = self.style - (self.style & ELOHIM_OBSERVER);
-    self.frags = 0;
+	self.style = self.style - (self.style & ELOHIM_OBSERVER);
+	self.frags = 0;
 
-    observer_check_demo_end();
+	observer_check_demo_end();
 
-    sprint(self, "disabling 'smooth' mode\n");
-    stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
-    stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
+	sprint(self, "disabling 'smooth' mode\n");
+	stuffcmd(self, "cl_nolerp 0\n");		// CRMOD - interpolation buffering on (back to default)
+	stuffcmd(self, "cl_predict 1\n");		// CRMOD - client prediction on (back to default)
 
-    stuffcmd(self, "v_centerspeed 500\n");
-    // BROKEN
-    // if (self.style & ELOHIM_HEADS_UP)
+	stuffcmd(self, "v_centerspeed 500\n");
+	// BROKEN
+	// if (self.style & ELOHIM_HEADS_UP)
 	//     stuffcmd(self, "viewsize 100\n");
-    if (!(elohim_playmode & ELOHIM_MATCH_MODE))
-        centerprint(self, "Observer mode off");
+	if (!(elohim_playmode & ELOHIM_MATCH_MODE))
+		centerprint(self, "Observer mode off");
 
 	// This is to prevent a condition where one player is another player's
 	// movetarget, which can confuse the auto module.
 	self.movetarget = world;
 
-    stats_reset();
-    SetNewParms2();
-    PutClientInServer();
+	stats_reset();
+	SetNewParms2();
+	PutClientInServer();
 };
 
 //
@@ -529,15 +529,15 @@ void () observer_end =
 //
 void () observer_pop_forward =
 {
-    local vector newpos;
+	local vector newpos;
 
-    makevectors(self.angles);
-    newpos = v_forward;
-    newpos_z = 0;
-    newpos = newpos * (100 / vlen(newpos));
-    newpos = newpos + self.origin;
-    if (pointcontents(newpos) != CONTENT_SOLID)
-        setorigin(self, newpos);
+	makevectors(self.angles);
+	newpos = v_forward;
+	newpos_z = 0;
+	newpos = newpos * (100 / vlen(newpos));
+	newpos = newpos + self.origin;
+	if (pointcontents(newpos) != CONTENT_SOLID)
+		setorigin(self, newpos);
 };
 
 //
@@ -547,11 +547,11 @@ void () observer_pop_forward =
 //
 void () observer_pop_down =
 {
-    local vector newpos;
+	local vector newpos;
 
-    newpos = self.origin + '0 0 -100';
-    if (pointcontents(newpos) != CONTENT_SOLID)
-        setorigin(self, newpos);
+	newpos = self.origin + '0 0 -100';
+	if (pointcontents(newpos) != CONTENT_SOLID)
+		setorigin(self, newpos);
 };
 
 //
@@ -561,11 +561,11 @@ void () observer_pop_down =
 //
 void () observer_pop_up =
 {
-    local vector newpos;
+	local vector newpos;
 
-    newpos = self.origin + '0 0 100';
-    if (pointcontents(newpos) != CONTENT_SOLID)
-        setorigin(self, newpos);
+	newpos = self.origin + '0 0 100';
+	if (pointcontents(newpos) != CONTENT_SOLID)
+		setorigin(self, newpos);
 };
 
 // CRMOD
@@ -576,12 +576,12 @@ void () observer_pop_up =
 //
 entity (entity e) observer_find_camera =
 {
-    local entity targ;
+	local entity targ;
 
-    targ = find(e, classname, "elohim_camera");
-    if (targ == world)
-    	targ = find(targ, classname, "elohim_camera");
-    return targ;
+	targ = find(e, classname, "elohim_camera");
+	if (targ == world)
+		targ = find(targ, classname, "elohim_camera");
+	return targ;
 };
 
 // CRMOD
@@ -640,20 +640,20 @@ void () observer_prev_camera =
 //
 entity (entity e) observer_find_target =
 {
-    local entity targ;
+	local entity targ;
 
-    if ((e.classname != "player") || (e.style & ELOHIM_OBSERVER) ||
-        !(e.style & ELOHIM_CONNECTED))
-    {
-        e = world;
-    }
-    targ = find(e, classname, "player");
-    while (targ != e && (!targ || (targ.style & ELOHIM_OBSERVER) ||
-                         !(targ.style & ELOHIM_CONNECTED)))
-    {
-        targ = find(targ, classname, "player");
-    }
-    return targ;
+	if ((e.classname != "player") || (e.style & ELOHIM_OBSERVER) ||
+		!(e.style & ELOHIM_CONNECTED))
+	{
+		e = world;
+	}
+	targ = find(e, classname, "player");
+	while (targ != e && (!targ || (targ.style & ELOHIM_OBSERVER) ||
+						 !(targ.style & ELOHIM_CONNECTED)))
+	{
+		targ = find(targ, classname, "player");
+	}
+	return targ;
 };
 
 //
@@ -663,12 +663,12 @@ entity (entity e) observer_find_target =
 //
 void () observer_next_target =
 {
-    self.movetarget = observer_find_target(self.movetarget);
+	self.movetarget = observer_find_target(self.movetarget);
 
-    // Force an immediate update of the heads-up display
-    self.delay = 0;
+	// Force an immediate update of the heads-up display
+	self.delay = 0;
 
-    if ((self.oflags & OBSERVER_DEMO) && (self.movetarget != world))
+	if ((self.oflags & OBSERVER_DEMO) && (self.movetarget != world))
 	{
 		msg_entity = self;
 		WriteByte(MSG_ONE, SVC_SETVIEWPORT);
@@ -684,31 +684,31 @@ void () observer_next_target =
 //
 void () observer_prev_target =
 {
-    local entity e, curr;
+	local entity e, curr;
 
-    if (!self.movetarget)
-    {
-        observer_next_target();
-        return;
-    }
+	if (!self.movetarget)
+	{
+		observer_next_target();
+		return;
+	}
 
-    curr = self.movetarget;
-    if (curr.style & ELOHIM_OBSERVER || curr.classname != "player" ||
-        !(curr.style & ELOHIM_CONNECTED))
-    {
-        self.movetarget = curr = observer_find_target(curr);
-    }
-    e = observer_find_target(curr);
-    while (e != curr)
-    {
-        self.movetarget = e;
-        e = observer_find_target(e);
-    }
+	curr = self.movetarget;
+	if (curr.style & ELOHIM_OBSERVER || curr.classname != "player" ||
+		!(curr.style & ELOHIM_CONNECTED))
+	{
+		self.movetarget = curr = observer_find_target(curr);
+	}
+	e = observer_find_target(curr);
+	while (e != curr)
+	{
+		self.movetarget = e;
+		e = observer_find_target(e);
+	}
 
-    // Force an immediate update of the heads-up display
-    self.delay = 0;
+	// Force an immediate update of the heads-up display
+	self.delay = 0;
 
-    if ((self.oflags & OBSERVER_DEMO) && (self.movetarget != world))
+	if ((self.oflags & OBSERVER_DEMO) && (self.movetarget != world))
 	{
 		msg_entity = self;
 		WriteByte(MSG_ONE, SVC_SETVIEWPORT);
@@ -772,15 +772,15 @@ void () observer_get_target =
 	angle = self.v_angle;
 	from = self.origin + '0 0 22';
 
-    makevectors(angle);
+	makevectors(angle);
 	if (observer_look_for_target(from))
 		return;
 	angle_y = angle_y + 5;
-    makevectors(angle);
+	makevectors(angle);
 	if (observer_look_for_target(from))
 		return;
 	angle_y = angle_y - 10;
-    makevectors(angle);
+	makevectors(angle);
 	if (observer_look_for_target(from))
 		return;
 
@@ -800,17 +800,17 @@ void () observer_get_target =
 //
 void (entity client) observer_disconnect_notify =
 {
-    local entity e, oself;
+	local entity e, oself;
 
-    e = find(world, classname, "player");
-    while (e)
-    {
-        if ((e.style & ELOHIM_OBSERVER) && (e.movetarget == client))
-        {
-            oself = self;
-            self = e;
-            observer_next_target();
-            if (!self.movetarget)
+	e = find(world, classname, "player");
+	while (e)
+	{
+		if ((e.style & ELOHIM_OBSERVER) && (e.movetarget == client))
+		{
+			oself = self;
+			self = e;
+			observer_next_target();
+			if (!self.movetarget)
 			{
 				if (self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO))
 				{
@@ -820,30 +820,30 @@ void (entity client) observer_disconnect_notify =
 				else if (self.oflags & (OBSERVER_CAMERA))
 					observer_next_camera();
 			}
-            self = oself;
-        }
-        e = find(e, classname, "player");
-    }
+			self = oself;
+		}
+		e = find(e, classname, "player");
+	}
 
-    // CRMOD so cameras don't follow either
-    e = find(world, classname, "elohim_camera");
-    while (e)
-    {
-    	if (e.movetarget == client)
-    	{
-    		oself = self;
-    		self = e;
-    		auto_camera_think();
-    		self = oself;
-    	}
-    	e = find(e, classname, "elohim_camera");
-    }
+	// CRMOD so cameras don't follow either
+	e = find(world, classname, "elohim_camera");
+	while (e)
+	{
+		if (e.movetarget == client)
+		{
+			oself = self;
+			self = e;
+			auto_camera_think();
+			self = oself;
+		}
+		e = find(e, classname, "elohim_camera");
+	}
 
-    if (self == crmod_best_chase_target)
-    	crmod_best_chase_target = world;
+	if (self == crmod_best_chase_target)
+		crmod_best_chase_target = world;
 	if (self == crmod_best_camera)
 		crmod_best_camera = world;
-    // CRMOD END
+	// CRMOD END
 };
 
 //
@@ -936,11 +936,11 @@ void () observer_find_enemy =
 //
 void () observer_set_chase_position =
 {
-    local vector pos;
-    local vector desired_angle;	// CRMOD
-    local vector angle;
+	local vector pos;
+	local vector desired_angle;	// CRMOD
+	local vector angle;
 
-    if (self.oflags & OBSERVER_AUTO)
+	if (self.oflags & OBSERVER_AUTO)
 	{
 		// JP - added this because now this can be called from observer_set_camera_position
 		if (self.oflags & OBSERVER_CHASE)
@@ -951,24 +951,24 @@ void () observer_set_chase_position =
 	// CRMOD - thinking that the direction you are looking is what the chase target
 	// CRMOD - is lookin in.  This way freelook still keeps the player in view.
 
-    if (self.button0)	// freelook
+	if (self.button0)	// freelook
 	{
-    	angle = self.v_angle;
+		angle = self.v_angle;
 		self.crmod_oldangle = self.v_angle;
 	}
-    else
-    {
-    	// CRMOD - tourney cam
-       	if (self.oflags & OBSERVER_TOURNEY)
-    	{
-    		observer_find_enemy();
-    		if (self.crmod_othertarget)
-    		   	desired_angle = angles_bestaim(self.movetarget.origin, self.crmod_othertarget.origin);
-    		else
-    			desired_angle = self.movetarget.v_angle;
-    	}
-    	else
-    		desired_angle = self.movetarget.v_angle;
+	else
+	{
+		// CRMOD - tourney cam
+	   	if (self.oflags & OBSERVER_TOURNEY)
+		{
+			observer_find_enemy();
+			if (self.crmod_othertarget)
+			   	desired_angle = angles_bestaim(self.movetarget.origin, self.crmod_othertarget.origin);
+			else
+				desired_angle = self.movetarget.v_angle;
+		}
+		else
+			desired_angle = self.movetarget.v_angle;
 
 		angle_x = self.crmod_oldangle_x * (1 - CRMOD_ANGLE_SMOOTHING) + desired_angle_x * CRMOD_ANGLE_SMOOTHING;
 		angle_y = angles_pick_angle(self.crmod_oldangle_y, desired_angle_y, CRMOD_ANGLE_SMOOTHING);
@@ -985,25 +985,25 @@ void () observer_set_chase_position =
 		angle_y = 360.0 / 256.0 * rint(angle_y * 256.0 / 360.0);
 	}
 
-    // The "ideal" position is 100 units behind and 40 units above the
-    // chase target.  To deal with walls and ceilings, we first trace a
-    // line 125 units backwards and then move 80% of the way along the
-    // part of the line that was traced.  We then trace a line 50 units up
-    // and move 80% of the way along the part that was traced.
-    //
-    makevectors(angle);
-    pos = self.movetarget.origin;
-    traceline(pos, pos - 120 * v_forward, TRUE, self.movetarget);
-    pos = pos - (trace_fraction * 100) * v_forward;
-    traceline(pos, pos + 50 * v_up, TRUE, self.movetarget);
-    pos = pos + (trace_fraction * 40) * v_up;
-    setorigin(self, pos);
-    //self.velocity = self.movetarget.velocity; // don't think this is needed
+	// The "ideal" position is 100 units behind and 40 units above the
+	// chase target.  To deal with walls and ceilings, we first trace a
+	// line 125 units backwards and then move 80% of the way along the
+	// part of the line that was traced.  We then trace a line 50 units up
+	// and move 80% of the way along the part that was traced.
+	//
+	makevectors(angle);
+	pos = self.movetarget.origin;
+	traceline(pos, pos - 120 * v_forward, TRUE, self.movetarget);
+	pos = pos - (trace_fraction * 100) * v_forward;
+	traceline(pos, pos + 50 * v_up, TRUE, self.movetarget);
+	pos = pos + (trace_fraction * 40) * v_up;
+	setorigin(self, pos);
+	//self.velocity = self.movetarget.velocity; // don't think this is needed
 
-    if (self.button0)
-        return;  // freelook; don't set the viewing angle
+	if (self.button0)
+		return;  // freelook; don't set the viewing angle
 
-    angles_fixangle(angle);
+	angles_fixangle(angle);
 };
 
 //
@@ -1017,38 +1017,38 @@ void () observer_set_chase_position =
 //
 void () observer_set_demo_position =
 {
-    // If we're in auto mode, see if we should pick a new target
-    if ((self.oflags & OBSERVER_AUTO) && (self.oflags & OBSERVER_DEMO))
+	// If we're in auto mode, see if we should pick a new target
+	if ((self.oflags & OBSERVER_AUTO) && (self.oflags & OBSERVER_DEMO))
 	{
-        local entity oldmovetarget = self.movetarget;
-        auto_chase();
+		local entity oldmovetarget = self.movetarget;
+		auto_chase();
 
-        // See if we need to move our viewport
-        if ((self.movetarget != world) && (self.movetarget != oldmovetarget))
-        {
-            msg_entity = self;
-            WriteByte(MSG_ONE, SVC_SETVIEWPORT);
-            WriteEntity(MSG_ONE, self.movetarget);
-        }
-    }
+		// See if we need to move our viewport
+		if ((self.movetarget != world) && (self.movetarget != oldmovetarget))
+		{
+			msg_entity = self;
+			WriteByte(MSG_ONE, SVC_SETVIEWPORT);
+			WriteEntity(MSG_ONE, self.movetarget);
+		}
+	}
 
-    // Don't move us around if we're attempting to follow world (no player to chase)
-    if (self.movetarget == world)
-        return;
+	// Don't move us around if we're attempting to follow world (no player to chase)
+	if (self.movetarget == world)
+		return;
 
-    // See if we're looking at an enemy
-    if (self.oflags & OBSERVER_TOURNEY)
-    {
-        observer_find_enemy();
-    }
+	// See if we're looking at an enemy
+	if (self.oflags & OBSERVER_TOURNEY)
+	{
+		observer_find_enemy();
+	}
 
-    setorigin(self, self.movetarget.origin);
+	setorigin(self, self.movetarget.origin);
 
-    if (self.button0)
-        return;  // freelook; don't set the viewing angle
+	if (self.button0)
+		return;  // freelook; don't set the viewing angle
 
-    self.v_angle = self.angles = self.movetarget.v_angle;	// CRMOD added v_angle
-    self.fixangle = TRUE;
+	self.v_angle = self.angles = self.movetarget.v_angle;	// CRMOD added v_angle
+	self.fixangle = TRUE;
 };
 
 // CRMOD
@@ -1112,18 +1112,18 @@ void () observer_set_camera_position =
 //
 void () observer_impulse_commands =
 {
-    if (self.impulse >= 20)
-        elohim_impulse();
-    else if (!(self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO)))
-    {
-        if (self.impulse == 1)
-            observer_pop_down();
-        else if (self.impulse == 2)
-            observer_pop_forward();
-        else if (self.impulse == 3)
-            observer_pop_up();
-    }
-    self.impulse = 0;
+	if (self.impulse >= 20)
+		elohim_impulse();
+	else if (!(self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO)))
+	{
+		if (self.impulse == 1)
+			observer_pop_down();
+		else if (self.impulse == 2)
+			observer_pop_forward();
+		else if (self.impulse == 3)
+			observer_pop_up();
+	}
+	self.impulse = 0;
 };
 
 //
@@ -1131,18 +1131,18 @@ void () observer_impulse_commands =
 //
 void () observer_help =
 {
-    sprint(self, "Observer commands:\n");
-    sprint(self, " help-walk - help for walk mode\n");
-    sprint(self, " help-fly  - help for fly mode\n");
-    sprint(self, " help-chase- help for chase/demo mode\n");
-    sprint(self, " help-camera - help for camera mode\n");
-    sprint(self, " ready     - exit observer mode\n");
-    sprint(self, " walk/flyme    > choose mode\n");
-    sprint(self, " chase/eyecam  > choose mode \n");
-    sprint(self, " autochase - automatic chasecam mode\n");
-    sprint(self, " camera    - camera mode\n");
-    sprint(self, " autocam   - automatic camera mode\n");
-    sprint(self, " headsup   - toggle heads up display\n");
+	sprint(self, "Observer commands:\n");
+	sprint(self, " help-walk - help for walk mode\n");
+	sprint(self, " help-fly  - help for fly mode\n");
+	sprint(self, " help-chase- help for chase/demo mode\n");
+	sprint(self, " help-camera - help for camera mode\n");
+	sprint(self, " ready     - exit observer mode\n");
+	sprint(self, " walk/flyme    > choose mode\n");
+	sprint(self, " chase/eyecam  > choose mode \n");
+	sprint(self, " autochase - automatic chasecam mode\n");
+	sprint(self, " camera    - camera mode\n");
+	sprint(self, " autocam   - automatic camera mode\n");
+	sprint(self, " headsup   - toggle heads up display\n");
 	sprint(self, " touney    - toggle tournament chase\n");
 };
 
@@ -1151,12 +1151,12 @@ void () observer_help =
 //
 void () observer_walk_help =
 {
-    sprint(self, "Walk mode controls:\n");
-    sprint(self, " jump      - jump\n");
+	sprint(self, "Walk mode controls:\n");
+	sprint(self, " jump      - jump\n");
 	sprint(self, " attack    - fly (through walls)\n");
-    sprint(self, " impulse 1/2/3 - move down/forward/up\n");
-    sprint(self, "                 through obstacle\n");
-    sprint(self, "help-observer - observer mode help\n");
+	sprint(self, " impulse 1/2/3 - move down/forward/up\n");
+	sprint(self, "                 through obstacle\n");
+	sprint(self, "help-observer - observer mode help\n");
 };
 
 //
@@ -1164,12 +1164,12 @@ void () observer_walk_help =
 //
 void () observer_fly_help =
 {
-    sprint(self, "Fly mode controls:\n");
-    sprint(self, " jump   - move up\n");
+	sprint(self, "Fly mode controls:\n");
+	sprint(self, " jump   - move up\n");
 	sprint(self, " attack - fly through walls\n");
-    sprint(self, " impulse 1/2/3 - move down/forward/up\n");
-    sprint(self, "                 through obstacle\n");
-    sprint(self, "help-observer - observer mode help\n");
+	sprint(self, " impulse 1/2/3 - move down/forward/up\n");
+	sprint(self, "                 through obstacle\n");
+	sprint(self, "help-observer - observer mode help\n");
 };
 
 //
@@ -1177,8 +1177,8 @@ void () observer_fly_help =
 //
 void () observer_chase_help =
 {
-    sprint(self, "Chase/eyecam mode controls:\n");
-    sprint(self, " attack    - freelook\n");
+	sprint(self, "Chase/eyecam mode controls:\n");
+	sprint(self, " attack    - freelook\n");
 	sprint(self, " jump      - select next player\n");
 	sprint(self, " attack + jump - previous player\n");
 	sprint(self, " smooth    - toggle camera smoothing\n");
@@ -1186,7 +1186,7 @@ void () observer_chase_help =
 	sprint(self, "             (chase mode only)\n");
 	sprint(self, " tourney   - toggle tourneycam\n");
 	sprint(self, "             (chase mode only)\n");
-    sprint(self, "help-observer - observer mode help\n");
+	sprint(self, "help-observer - observer mode help\n");
 };
 
 // CRMOD
@@ -1195,7 +1195,7 @@ void () observer_chase_help =
 void () observer_camera_help =
 {
 	sprint(self, "Camera mode controls:\n");
-    sprint(self, " attack    - freelook\n");
+	sprint(self, " attack    - freelook\n");
 	sprint(self, " jump      - select next camera\n");
 	sprint(self, " attack + jump - previous camera\n");
 	sprint(self, " smooth    - toggle camera smoothing\n");
@@ -1210,12 +1210,12 @@ void () observer_camera_help =
 //
 void () observer_cancel_leave =
 {
-    if (self.owner.style & ELOHIM_CONFIRM_LEAVE)
-    {
-        self.owner.style = self.owner.style - ELOHIM_CONFIRM_LEAVE;
-        sprint(self.owner, "Cancelled\n");
-    }
-    remove (self);
+	if (self.owner.style & ELOHIM_CONFIRM_LEAVE)
+	{
+		self.owner.style = self.owner.style - ELOHIM_CONFIRM_LEAVE;
+		sprint(self.owner, "Cancelled\n");
+	}
+	remove (self);
 };
 
 //
@@ -1226,12 +1226,12 @@ void () observer_cancel_leave =
 //
 void () observer_confirm =
 {
-    if (self.style & ELOHIM_CONFIRM_LEAVE)
-        return;
+	if (self.style & ELOHIM_CONFIRM_LEAVE)
+		return;
 
-    sprint(self, "Leave match?  Type yes to confirm.\n");
-    self.style = self.style | ELOHIM_CONFIRM_LEAVE;
-    utils_make_scheduled_event(observer_cancel_leave, 5);
+	sprint(self, "Leave match?  Type yes to confirm.\n");
+	self.style = self.style | ELOHIM_CONFIRM_LEAVE;
+	utils_make_scheduled_event(observer_cancel_leave, 5);
 };
 
 //
@@ -1241,11 +1241,11 @@ void () observer_confirm =
 //
 void (float response) observer_confirm_leave_response =
 {
-    self.style = self.style - ELOHIM_CONFIRM_LEAVE;
-    if (response)
-        observer_start();
-    else
-        sprint(self, "Cancelled\n");
+	self.style = self.style - ELOHIM_CONFIRM_LEAVE;
+	if (response)
+		observer_start();
+	else
+		sprint(self, "Cancelled\n");
 };
 
 //
@@ -1255,21 +1255,21 @@ void (float response) observer_confirm_leave_response =
 //
 void () observer_impulse =
 {
-    if (self.style & ELOHIM_OBSERVER)
-    {
-        if (self.impulse == 141)
-            observer_walk_start();
-        else if (self.impulse == 142)
-            observer_fly_start();
-        else if (self.impulse == 143 || self.impulse == 226)
-            observer_chase_start();
-        else if (self.impulse == 148)
-            observer_heads_up();
-        else if (self.impulse == 149)
-            observer_demo_start();
-        else if (self.impulse == 150)
-        	stuffcmd(self,"smooth\n");
-        else if (self.impulse == 151)
+	if (self.style & ELOHIM_OBSERVER)
+	{
+		if (self.impulse == 141)
+			observer_walk_start();
+		else if (self.impulse == 142)
+			observer_fly_start();
+		else if (self.impulse == 143 || self.impulse == 226)
+			observer_chase_start();
+		else if (self.impulse == 148)
+			observer_heads_up();
+		else if (self.impulse == 149)
+			observer_demo_start();
+		else if (self.impulse == 150)
+			stuffcmd(self,"smooth\n");
+		else if (self.impulse == 151)
 			observer_toggle_tourney();
 		// CRMOD no longer used else if (self.impulse == 152)
 		// CRMOD no longer used	utils_toggle_oflag(OBSERVER_AUTO, "Automatic Chase/Camera Mode");
@@ -1281,11 +1281,11 @@ void () observer_impulse =
 			auto_chase_start();
 		else if (self.impulse == 157)
 			auto_demo_start();
-    }
-    else
-    {                                                                              // CRMOD more commands to go observer
-        if ((self.impulse >= 140 && self.impulse <= 143) || self.impulse == 149 || (self.impulse >= 153 && self.impulse <= 155 || self.impulse == 157))
-        {
+	}
+	else
+	{                                                                              // CRMOD more commands to go observer
+		if ((self.impulse >= 140 && self.impulse <= 143) || self.impulse == 149 || (self.impulse >= 153 && self.impulse <= 155 || self.impulse == 157))
+		{
 			if (self.impulse != 140)
 			{
 				observer_clear_flags();
@@ -1309,24 +1309,24 @@ void () observer_impulse =
 				// CRMOD END
 			}
 
-            if ((elohim_playmode & ELOHIM_MATCH_MODE) &&
-                (elohim_state & ELOHIM_MATCH_STARTED))
-                observer_confirm();
-            else
-                observer_start();
-        }
-        else if (self.impulse >= 147 && self.impulse != 156)
-            sprint(self, "You must be an observer first\n");
-    }
+			if ((elohim_playmode & ELOHIM_MATCH_MODE) &&
+				(elohim_state & ELOHIM_MATCH_STARTED))
+				observer_confirm();
+			else
+				observer_start();
+		}
+		else if (self.impulse >= 147 && self.impulse != 156)
+			sprint(self, "You must be an observer first\n");
+	}
 
-    if (self.impulse == 144)
-        observer_walk_help();
-    else if (self.impulse == 145)
-        observer_fly_help();
-    else if (self.impulse == 146)
-        observer_chase_help();
-    else if (self.impulse == 156)
-    	observer_camera_help();
+	if (self.impulse == 144)
+		observer_walk_help();
+	else if (self.impulse == 145)
+		observer_fly_help();
+	else if (self.impulse == 146)
+		observer_chase_help();
+	else if (self.impulse == 156)
+		observer_camera_help();
 };
 
 //
@@ -1343,20 +1343,20 @@ void (float jump) observer_jump =
 	if (self.flags & FL_WATERJUMP)
 		return;
 
-    if (self.waterlevel >= 2)
+	if (self.waterlevel >= 2)
 	{
-        if (self.waterlevel == 3)
-            self.velocity_z = 320;
-        else
-            self.velocity_z = 100;
+		if (self.waterlevel == 3)
+			self.velocity_z = 320;
+		else
+			self.velocity_z = 100;
 		return;
 	}
 
-    if (!(self.flags & FL_ONGROUND) || !jump)
+	if (!(self.flags & FL_ONGROUND) || !jump)
 		return;
 
 	self.flags = self.flags - FL_ONGROUND;	// don't stairwalk
-    self.velocity_z = 270;
+	self.velocity_z = 270;
 };
 
 //
@@ -1368,8 +1368,8 @@ void (float jump) observer_jump =
 //
 void () observer_check_size =
 {
-    if (self.maxs_x < 16 || self.maxs_y < 16)
-        setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
+	if (self.maxs_x < 16 || self.maxs_y < 16)
+		setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
 };
 
 //
@@ -1386,7 +1386,7 @@ void () observer_check_size =
 //
 void () observer_update_display =
 {
-    // local string w, armour, aval, healthammo, ammo;
+	// local string w, armour, aval, healthammo, ammo;
 	local entity player;	// CRMOD cameras
 	local string score, pad, teamname;
 
@@ -1413,46 +1413,46 @@ void () observer_update_display =
 	}
 
 
-    self.delay = time + 0.5;
-    if ((elohim_state & ELOHIM_MATCH_PAUSED) ||
-        (self.style & (ELOHIM_SETTING_OPTIONS | ELOHIM_MOTD)))
-        return;
+	self.delay = time + 0.5;
+	if ((elohim_state & ELOHIM_MATCH_PAUSED) ||
+		(self.style & (ELOHIM_SETTING_OPTIONS | ELOHIM_MOTD)))
+		return;
 
-    // CRMOD account for cameras
+	// CRMOD account for cameras
 	player = self.movetarget;
 	if ((player != world) && (player.classname == "elohim_camera"))
 		player = player.movetarget;
 
-    // New HUD
-    hud_update();
+	// New HUD
+	hud_update();
 
-    // Skip old observer hud stuff below
-    return;
+	// Skip old observer hud stuff below
+	return;
 
-    // TODO come back and see if there's more to re-enable from this
+	// TODO come back and see if there's more to re-enable from this
 
-    // if (!player)
-    // {
+	// if (!player)
+	// {
 	// 	if (elohim_state & ELOHIM_MATCH_STARTED)
 	// 		centerprint4(self, "\n\n\n\n\n\n\n\n\n\n\n\n               ", teamname, score, pad);
 	// 	else
 	// 		centerprint(self, " ");
-    //     return;
-    // }
+	//     return;
+	// }
 
-    // if (self.style & ELOHIM_HEADS_UP)
-    // {
-    //     w = strings_get_weapon(player);
-    //     armour = strings_get_armour_type(player);
-    //     aval = strings_get_armour_val(player);
-    //     healthammo = strings_get_health_ammo(player);
-    //     ammo = ftos(player.currentammo);
+	// if (self.style & ELOHIM_HEADS_UP)
+	// {
+	//     w = strings_get_weapon(player);
+	//     armour = strings_get_armour_type(player);
+	//     aval = strings_get_armour_val(player);
+	//     healthammo = strings_get_health_ammo(player);
+	//     ammo = ftos(player.currentammo);
 
-    //     centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\n\n\n",
-    //         player.netname, w, armour, aval, healthammo, ammo);
-    // }
-    // else
-    // {
+	//     centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\n\n\n",
+	//         player.netname, w, armour, aval, healthammo, ammo);
+	// }
+	// else
+	// {
 	// 	local string othertarget;
 
 	// 	if ((self.oflags & OBSERVER_TOURNEY) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
@@ -1462,7 +1462,7 @@ void () observer_update_display =
 
 	// 	centerprint7(self, "\n\n\n\n\n\n\n\n\n\n", othertarget, "                       \n\n",
 	// 				 player.netname, teamname, score, pad);
-    // }
+	// }
 };
 
 //
@@ -1472,71 +1472,71 @@ void () observer_update_display =
 //
 void () observer_update_status_bar =
 {
-    local entity player;
-    if (self.movetarget == world)
-    {
-        self.health = 666;
-        self.items = 0;
-        self.armorvalue = 0;
-        self.ammo_shells = 0;
-        self.ammo_nails = 0;
-        self.ammo_rockets = 0;
-        self.ammo_cells = 0;
-        self.currentammo = 0;
-        self.show_hostile = 0;
-        self.weapon = 0;
-	    self.weaponmodel = string_null;
-    }
-    else
-    {
-        // CRMOD account for cameras
-        if (self.movetarget.classname == "player")
-    		player = self.movetarget;
+	local entity player;
+	if (self.movetarget == world)
+	{
+		self.health = 666;
+		self.items = 0;
+		self.armorvalue = 0;
+		self.ammo_shells = 0;
+		self.ammo_nails = 0;
+		self.ammo_rockets = 0;
+		self.ammo_cells = 0;
+		self.currentammo = 0;
+		self.show_hostile = 0;
+		self.weapon = 0;
+		self.weaponmodel = string_null;
+	}
+	else
+	{
+		// CRMOD account for cameras
+		if (self.movetarget.classname == "player")
+			player = self.movetarget;
   		else if (self.movetarget.classname == "elohim_camera")
-    	{
-    		if (self.movetarget.movetarget != world)
-	    		player = self.movetarget.movetarget;
-	    	else
-	    	{
-	    		self.health = 666;
-		        self.items = 0;
-        		self.armorvalue = 0;
-		        self.ammo_shells = 0;
-		        self.ammo_nails = 0;
-		        self.ammo_rockets = 0;
-		        self.ammo_cells = 0;
-		        self.currentammo = 0;
-        		self.show_hostile = 0;
-		        self.weapon = 0;
-			    self.weaponmodel = string_null;
-			    return;
+		{
+			if (self.movetarget.movetarget != world)
+				player = self.movetarget.movetarget;
+			else
+			{
+				self.health = 666;
+				self.items = 0;
+				self.armorvalue = 0;
+				self.ammo_shells = 0;
+				self.ammo_nails = 0;
+				self.ammo_rockets = 0;
+				self.ammo_cells = 0;
+				self.currentammo = 0;
+				self.show_hostile = 0;
+				self.weapon = 0;
+				self.weaponmodel = string_null;
+				return;
 			}
 		}
-    	else
-    		return;
+		else
+			return;
 
-        self.health = player.health;
-        self.items = player.items;
-        self.armorvalue = player.armorvalue;
-        self.ammo_shells = player.ammo_shells;
-        self.ammo_nails = player.ammo_nails;
-        self.ammo_rockets = player.ammo_rockets;
-        self.ammo_cells = player.ammo_cells;
-        self.currentammo = player.currentammo;
-        self.show_hostile = player.show_hostile;
-        self.weapon = player.weapon;
+		self.health = player.health;
+		self.items = player.items;
+		self.armorvalue = player.armorvalue;
+		self.ammo_shells = player.ammo_shells;
+		self.ammo_nails = player.ammo_nails;
+		self.ammo_rockets = player.ammo_rockets;
+		self.ammo_cells = player.ammo_cells;
+		self.currentammo = player.currentammo;
+		self.show_hostile = player.show_hostile;
+		self.weapon = player.weapon;
 		if (self.oflags & OBSERVER_DEMO)
 		{
 			self.weaponmodel = player.weaponmodel;
 			self.weaponframe = player.weaponframe;
 		}
 		else
-		    self.weaponmodel = string_null;
+			self.weaponmodel = string_null;
 		if (self.health < 0)
 			self.health = 1000;
-        self.height = player.height; // Team
+		self.height = player.height; // Team
 		// CRMOD END
-    }
+	}
 };
 
 //
@@ -1638,65 +1638,65 @@ void () observer_fly_through_obstacle =
 //
 void () observer_fly_move =
 {
-    local float dz, zvel, right_coef, forward_coef, norm;
-    local vector f;
+	local float dz, zvel, right_coef, forward_coef, norm;
+	local vector f;
 
-    // Check if the observer is pressing up or down by looking at the
-    // change in velocity_z.  zvel is set to 1 if the observer is pressing
-    // up (or jump), -1 if the observer is pressing down, and 0 otherwise.
-    // Note that velocity_z can change as a result of hitting the ground/
-    // ceiling, so it is necessary to verify that the change in velocity_z
-    // has the same sign as velocity_z.
-    //
-    dz = self.velocity_z - self.speed;
-    if (self.button2 || (dz > 0 && self.velocity_z > 0))
-        zvel = 1;
-    else if (dz < 0 && self.velocity_z < 0)
-        zvel = -1;
-    else
-        zvel = 0;
+	// Check if the observer is pressing up or down by looking at the
+	// change in velocity_z.  zvel is set to 1 if the observer is pressing
+	// up (or jump), -1 if the observer is pressing down, and 0 otherwise.
+	// Note that velocity_z can change as a result of hitting the ground/
+	// ceiling, so it is necessary to verify that the change in velocity_z
+	// has the same sign as velocity_z.
+	//
+	dz = self.velocity_z - self.speed;
+	if (self.button2 || (dz > 0 && self.velocity_z > 0))
+		zvel = 1;
+	else if (dz < 0 && self.velocity_z < 0)
+		zvel = -1;
+	else
+		zvel = 0;
 
-    // If there is no horizonal movement, then move up/down.
-    if (!self.velocity_x && !self.velocity_y)
-    {
-        self.speed = self.velocity_z = zvel * 300;
+	// If there is no horizonal movement, then move up/down.
+	if (!self.velocity_x && !self.velocity_y)
+	{
+		self.speed = self.velocity_z = zvel * 300;
 		if (self.button0)
 			observer_fly_through_obstacle();
-        return;
-    }
+		return;
+	}
 
-    // Project the velocity onto the xy plane.  v_right gives one basis
-    // vector for the xy plane; '-vright_y vright_x 0' gives the other one
-    // (in the forward direction).  The resulting forward component gives
-    // the forward component of motion, which will be in the v_forward
-    // direction.  The orthogonal component gives the strafing component
-    // of motion, which will be in the v_right direction.  Note that if
-    // the player is pointing up or down the forward component will appear
-    // smaller (since the magnintude of the forward component is the length
-    // of v_foward projected onto the xy plane).  The purpose of dividing
-    // by vlen(f) is to compensate for this.
-    //
-    makevectors(self.v_angle);
-    f = v_forward;
-    f_z = 0;
-    right_coef = self.velocity * v_right;
-    forward_coef = self.velocity_y * v_right_x - self.velocity_x * v_right_y;
-    forward_coef = forward_coef / vlen(f);
-    self.velocity = right_coef * v_right + forward_coef * v_forward;
+	// Project the velocity onto the xy plane.  v_right gives one basis
+	// vector for the xy plane; '-vright_y vright_x 0' gives the other one
+	// (in the forward direction).  The resulting forward component gives
+	// the forward component of motion, which will be in the v_forward
+	// direction.  The orthogonal component gives the strafing component
+	// of motion, which will be in the v_right direction.  Note that if
+	// the player is pointing up or down the forward component will appear
+	// smaller (since the magnintude of the forward component is the length
+	// of v_foward projected onto the xy plane).  The purpose of dividing
+	// by vlen(f) is to compensate for this.
+	//
+	makevectors(self.v_angle);
+	f = v_forward;
+	f_z = 0;
+	right_coef = self.velocity * v_right;
+	forward_coef = self.velocity_y * v_right_x - self.velocity_x * v_right_y;
+	forward_coef = forward_coef / vlen(f);
+	self.velocity = right_coef * v_right + forward_coef * v_forward;
 
-    // Now compute the observer's velocity by taking zvel into account
-    // and imposing a maximum speed limit.
-    norm = vlen(self.velocity);
-    if (zvel)
-    {
-        if (norm > 280)
-            self.velocity = self.velocity * (280 / norm);
-        self.velocity_z = 150 * zvel;
-    }
-    else if (norm > 320)
-        self.velocity = self.velocity * (320 / norm);
+	// Now compute the observer's velocity by taking zvel into account
+	// and imposing a maximum speed limit.
+	norm = vlen(self.velocity);
+	if (zvel)
+	{
+		if (norm > 280)
+			self.velocity = self.velocity * (280 / norm);
+		self.velocity_z = 150 * zvel;
+	}
+	else if (norm > 320)
+		self.velocity = self.velocity * (320 / norm);
 
-    self.speed = self.velocity_z;
+	self.speed = self.velocity_z;
 
 	if (self.button0)
 		observer_fly_through_obstacle();
@@ -1711,29 +1711,29 @@ void () observer_fly_move =
 //
 void () observer_pre_think =
 {
-    local float jump;
+	local float jump;
 
-    // Deal with button2.  jump is set to TRUE is button2 was just pressed,
-    // FALSE otherwise.
-    if (self.button2)
-    {
-        if (self.flags & FL_JUMPRELEASED)
-        {
-            jump = TRUE;
-            self.flags = self.flags - FL_JUMPRELEASED;
-        }
-        else
-            jump = FALSE;
-    }
-    else
-    {
-        jump = FALSE;
-        self.flags = self.flags | FL_JUMPRELEASED;
-    }
+	// Deal with button2.  jump is set to TRUE is button2 was just pressed,
+	// FALSE otherwise.
+	if (self.button2)
+	{
+		if (self.flags & FL_JUMPRELEASED)
+		{
+			jump = TRUE;
+			self.flags = self.flags - FL_JUMPRELEASED;
+		}
+		else
+			jump = FALSE;
+	}
+	else
+	{
+		jump = FALSE;
+		self.flags = self.flags | FL_JUMPRELEASED;
+	}
 
-    if (self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO | OBSERVER_CAMERA))
-    {
-        if (jump)
+	if (self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO | OBSERVER_CAMERA))
+	{
+		if (jump)
 		{
 			if (self.movetarget.classname == "player")
 			{
@@ -1744,40 +1744,40 @@ void () observer_pre_think =
 			}
 			else
 			{
-    			if (self.button0)
-    				observer_prev_camera();
-    			else
-    				observer_next_camera();
+				if (self.button0)
+					observer_prev_camera();
+				else
+					observer_next_camera();
 			}
 			self.crmod_cam_delay = time + 6;
 		}
-    }
-    else
-    {
-        if (self.oflags & OBSERVER_WALK && !self.button0)
-        {
-            WaterMove();
+	}
+	else
+	{
+		if (self.oflags & OBSERVER_WALK && !self.button0)
+		{
+			WaterMove();
 
-            if (self.waterlevel == 2)
-                CheckWaterJump ();
+			if (self.waterlevel == 2)
+				CheckWaterJump ();
 
-            if (self.button2)
-                observer_jump(jump);
+			if (self.button2)
+				observer_jump(jump);
 
-            self.movetype = MOVETYPE_WALK;
-        }
-        else
-        {
+			self.movetype = MOVETYPE_WALK;
+		}
+		else
+		{
 			self.waterlevel = 0;
-            observer_fly_move();
-            self.flags = self.flags | FL_ONGROUND;
-            self.movetype = MOVETYPE_FLY;
-        }
-        observer_check_teleport();
+			observer_fly_move();
+			self.flags = self.flags | FL_ONGROUND;
+			self.movetype = MOVETYPE_FLY;
+		}
+		observer_check_teleport();
 
 		// check for player in sight every frame
 		observer_get_target();
-    }
+	}
 };
 
 //
@@ -1787,38 +1787,38 @@ void () observer_pre_think =
 //
 void () observer_post_think =
 {
-    if (self.oflags & OBSERVER_CHASE)
-        observer_set_chase_position();
-    else if (self.oflags & OBSERVER_DEMO)
-        observer_set_demo_position();
-    else if (self.oflags & OBSERVER_CAMERA)
-    	observer_set_camera_position();
+	if (self.oflags & OBSERVER_CHASE)
+		observer_set_chase_position();
+	else if (self.oflags & OBSERVER_DEMO)
+		observer_set_demo_position();
+	else if (self.oflags & OBSERVER_CAMERA)
+		observer_set_camera_position();
 
-    // When an observer touches a door they are not teleported through
-    // the door immediately as this doesn't seem to work.  Instead, the
-    // POP_FORWARD flag is set and they are teleported through the next
-    // time observer_post_think is called.
-    //
-    if (self.style & ELOHIM_POP_FORWARD)
-    {
-        self.style = self.style - ELOHIM_POP_FORWARD;
-        setorigin(self, self.dest);
-        self.velocity = self.dest1;
-    }
+	// When an observer touches a door they are not teleported through
+	// the door immediately as this doesn't seem to work.  Instead, the
+	// POP_FORWARD flag is set and they are teleported through the next
+	// time observer_post_think is called.
+	//
+	if (self.style & ELOHIM_POP_FORWARD)
+	{
+		self.style = self.style - ELOHIM_POP_FORWARD;
+		setorigin(self, self.dest);
+		self.velocity = self.dest1;
+	}
 
-    // CRMOD - this was moved here, so the observers.health could be
-    //         compared to movetarget's in tourney and auto modes
-    //         to see if movetarget was damaged
+	// CRMOD - this was moved here, so the observers.health could be
+	//         compared to movetarget's in tourney and auto modes
+	//         to see if movetarget was damaged
 
-    // Update the status bar every frame
-    observer_update_status_bar();
+	// Update the status bar every frame
+	observer_update_status_bar();
 
-    // Update the heads up display every 0.5 seconds
-    if (time > self.delay)
-        observer_update_display();
+	// Update the heads up display every 0.5 seconds
+	if (time > self.delay)
+		observer_update_display();
 
-    if (self.impulse)
-        observer_impulse_commands();
+	if (self.impulse)
+		observer_impulse_commands();
 };
 
 //
@@ -1831,19 +1831,19 @@ void () observer_post_think =
 //
 void () observer_door_touch =
 {
-    local float temp;
+	local float temp;
 
-    // Ignore observers that are in chase mode or who are above the door
-    if (other.origin_z > self.absmax_z || self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO))
-        return;
+	// Ignore observers that are in chase mode or who are above the door
+	if (other.origin_z > self.absmax_z || self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO))
+		return;
 
-    temp = utils_min(self.size_x, self.size_y) + 40;
-    other.dest1 = other.dest = other.velocity;
-    other.dest_z = 0;
-    other.dest = other.dest * (temp / vlen(other.dest));
-    other.dest = other.origin + other.dest;
-    if (pointcontents(other.dest) != CONTENT_SOLID)
-        other.style = other.style | ELOHIM_POP_FORWARD;
+	temp = utils_min(self.size_x, self.size_y) + 40;
+	other.dest1 = other.dest = other.velocity;
+	other.dest_z = 0;
+	other.dest = other.dest * (temp / vlen(other.dest));
+	other.dest = other.origin + other.dest;
+	if (pointcontents(other.dest) != CONTENT_SOLID)
+		other.style = other.style | ELOHIM_POP_FORWARD;
 };
 
 //
@@ -1853,20 +1853,20 @@ void () observer_door_touch =
 //
 void () observer_heads_up =
 {
-    if (self.style & ELOHIM_HEADS_UP)
-    {
-        self.style = self.style - ELOHIM_HEADS_UP;
-        sprint(self, "Heads up display disabled\n");
-        // BROKEN
-        // stuffcmd(self, "viewsize 100\n");
-    }
-    else
-    {
-        self.style = self.style | ELOHIM_HEADS_UP;
-        sprint(self, "Heads up display enabled\n");
-        // BROKEN
-        // stuffcmd(self, "viewsize 120\n");
-    }
-    self.delay = 0;
+	if (self.style & ELOHIM_HEADS_UP)
+	{
+		self.style = self.style - ELOHIM_HEADS_UP;
+		sprint(self, "Heads up display disabled\n");
+		// BROKEN
+		// stuffcmd(self, "viewsize 100\n");
+	}
+	else
+	{
+		self.style = self.style | ELOHIM_HEADS_UP;
+		sprint(self, "Heads up display enabled\n");
+		// BROKEN
+		// stuffcmd(self, "viewsize 120\n");
+	}
+	self.delay = 0;
 };
 

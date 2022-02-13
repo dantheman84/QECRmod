@@ -82,11 +82,11 @@ void (vector v) angles_fixangle =
 {
 	self.crmod_oldangle = v;
 	// Set the new angles.  The 0.1 angles are subtracted to ensure
-    // that self.angles will get rounded off to angle (which was obtained
-    // by rounding off self.movetarget.v_angles).  Don't ask me why you
-    // have to subtract; logic dictates that you should be adding.  But
-    // I tried adding and it didn't work; I tried subtracting and it did.
-    // Take it up with id.
+	// that self.angles will get rounded off to angle (which was obtained
+	// by rounding off self.movetarget.v_angles).  Don't ask me why you
+	// have to subtract; logic dictates that you should be adding.  But
+	// I tried adding and it didn't work; I tried subtracting and it did.
+	// Take it up with id.
 	self.v_angle = self.angles = v - '0.1 0.1 0';
 	self.fixangle = TRUE;
 };

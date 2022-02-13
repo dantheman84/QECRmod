@@ -11,13 +11,13 @@
 //
 void () debug_info =
 {
-    local entity e;
+	local entity e;
 	local string temp;
 	
-    sprint(self, "clients:\n");
-    e = find(world, classname, "player");
-    while (e)
-    {
+	sprint(self, "clients:\n");
+	e = find(world, classname, "player");
+	while (e)
+	{
 		if (e.style & ELOHIM_CONNECTED)
 		{
 			temp = ftos(e.colormap);
@@ -25,16 +25,16 @@ void () debug_info =
 			temp = ftos(e.crmod_chase_score);
 			sprint2(self, temp, "\n");
 		}
-        e = find(e, classname, "player");
-    }
+		e = find(e, classname, "player");
+	}
 	sprint(self, "cameras:\n");
-    e = find(world, classname, "elohim_camera");
-    while (e)
-    {
-        temp = ftos(e.crmod_chase_score);
-        sprint2(self, temp, " ");
-        e = find(e, classname, "elohim_camera");
-    }
+	e = find(world, classname, "elohim_camera");
+	while (e)
+	{
+		temp = ftos(e.crmod_chase_score);
+		sprint2(self, temp, " ");
+		e = find(e, classname, "elohim_camera");
+	}
 	sprint(self, "\n");
 };
 
@@ -46,7 +46,7 @@ void () debug_info =
 void () debug_flags =
 {
 	sprint(self, "Server flags:\n");
-    sprint(self, "\n");
+	sprint(self, "\n");
 
 	// playmode flags
 	if (elohim_playmode & ELOHIM_SAME_LEVEL)
@@ -80,7 +80,7 @@ void () debug_flags =
 	if (elohim_playmode & ELOHIM_EXTENDED_OBITS)
 		sprint(self, "ELOHIM_EXTENDED_OBITS\n");
 
-    sprint(self, "\n");
+	sprint(self, "\n");
 
 	// state flags
 	if (elohim_state & ELOHIM_TIMER_STARTED)
@@ -96,7 +96,7 @@ void () debug_flags =
 	if (elohim_state & ELOHIM_KICKING)
 		sprint(self, "ELOHIM_KICKING\n");
 
-    sprint(self, "\n");
+	sprint(self, "\n");
 };
 
 //
@@ -224,66 +224,66 @@ void () debug_parms =
 //
 void () debug_client_flags = 
 {
-    if (!self.movetarget)
-    {
-        sprint(self, "No movetarget\n");
-        return;
-    }
-    sprint3(self, "Client flags for ", self.movetarget.netname, ":\n");
-    sprint(self, "\n");
-    if (self.movetarget.style & ELOHIM_NEW_CLIENT)
-        sprint(self, "ELOHIM_NEW_CLIENT\n");
-    if (self.movetarget.style & ELOHIM_ADMINISTRATOR)
-        sprint(self, "ELOHIM_ADMINISTRATOR\n");
+	if (!self.movetarget)
+	{
+		sprint(self, "No movetarget\n");
+		return;
+	}
+	sprint3(self, "Client flags for ", self.movetarget.netname, ":\n");
+	sprint(self, "\n");
+	if (self.movetarget.style & ELOHIM_NEW_CLIENT)
+		sprint(self, "ELOHIM_NEW_CLIENT\n");
+	if (self.movetarget.style & ELOHIM_ADMINISTRATOR)
+		sprint(self, "ELOHIM_ADMINISTRATOR\n");
    	if (self.movetarget.style & CRMOD_DETECTING_QSMACK)	// CRMOD was SMOOTH
 		sprint(self, "CRMOD_DETECTING_QSMACK\n");					// CRMOD was SMOOTH
 	if (self.movetarget.style & ELOHIM_POP_FORWARD)
-        sprint(self, "ELOHIM_POP_FORWARD\n");
-    if (self.movetarget.style & ELOHIM_READY)
-        sprint(self, "ELOHIM_READY\n");
-    if (self.movetarget.style & ELOHIM_YES)
-        sprint(self, "ELOHIM_YES\n");
-    if (self.movetarget.style & ELOHIM_HEADS_UP)
-        sprint(self, "ELOHIM_HEADS_UP\n");
-    if (self.movetarget.style & ELOHIM_SETTING_OPTIONS)
-        sprint(self, "ELOHIM_SETTING_OPTIONS\n");
-    if (self.movetarget.style & ELOHIM_MOTD)
-        sprint(self, "ELOHIM_MOTD\n");
-    if (self.movetarget.style & ELOHIM_OK_TO_SHOOT)
-        sprint(self, "ELOHIM_OK_TO_SHOOT\n");
-    if (self.movetarget.style & ELOHIM_KICK_CONFIRM)
-        sprint(self, "ELOHIM_KICK_CONFIRM\n");
-    if (self.movetarget.style & ELOHIM_CONNECTED)
-        sprint(self, "ELOHIM_CONNECTED\n");
-    if (self.movetarget.style & ELOHIM_FOUND_BINDINGS)
-        sprint(self, "ELOHIM_FOUND_BINDINGS\n");
-    if (self.movetarget.style & ELOHIM_CONFIRM_LEAVE)
-        sprint(self, "ELOHIM_CONFIRM_LEAVE\n");
+		sprint(self, "ELOHIM_POP_FORWARD\n");
+	if (self.movetarget.style & ELOHIM_READY)
+		sprint(self, "ELOHIM_READY\n");
+	if (self.movetarget.style & ELOHIM_YES)
+		sprint(self, "ELOHIM_YES\n");
+	if (self.movetarget.style & ELOHIM_HEADS_UP)
+		sprint(self, "ELOHIM_HEADS_UP\n");
+	if (self.movetarget.style & ELOHIM_SETTING_OPTIONS)
+		sprint(self, "ELOHIM_SETTING_OPTIONS\n");
+	if (self.movetarget.style & ELOHIM_MOTD)
+		sprint(self, "ELOHIM_MOTD\n");
+	if (self.movetarget.style & ELOHIM_OK_TO_SHOOT)
+		sprint(self, "ELOHIM_OK_TO_SHOOT\n");
+	if (self.movetarget.style & ELOHIM_KICK_CONFIRM)
+		sprint(self, "ELOHIM_KICK_CONFIRM\n");
+	if (self.movetarget.style & ELOHIM_CONNECTED)
+		sprint(self, "ELOHIM_CONNECTED\n");
+	if (self.movetarget.style & ELOHIM_FOUND_BINDINGS)
+		sprint(self, "ELOHIM_FOUND_BINDINGS\n");
+	if (self.movetarget.style & ELOHIM_CONFIRM_LEAVE)
+		sprint(self, "ELOHIM_CONFIRM_LEAVE\n");
 	if (self.movetarget.style & CRMOD_SMART_WEAPON)
 		sprint(self, "CRMOD_SMART_WEAPON\n");
-    if (self.movetarget.style & ELOHIM_OBSERVER)
-        sprint(self, "ELOHIM_OBSERVER\n");
-    if (self.movetarget.style & CRMOD_QSMACK)
-        sprint(self, "CRMOD_QSMACK\n");
-    sprint(self, "\n");
+	if (self.movetarget.style & ELOHIM_OBSERVER)
+		sprint(self, "ELOHIM_OBSERVER\n");
+	if (self.movetarget.style & CRMOD_QSMACK)
+		sprint(self, "CRMOD_QSMACK\n");
+	sprint(self, "\n");
 
-    if (self.movetarget.oflags & OBSERVER_WALK)
-        sprint(self, "OBSERVER_WALK\n");
-    if (self.movetarget.oflags & OBSERVER_FLY)
-        sprint(self, "OBSERVER_FLY\n");
-    if (self.movetarget.oflags & OBSERVER_CHASE)
-        sprint(self, "OBSERVER_CHASE\n");
-    if (self.movetarget.oflags & OBSERVER_DEMO)
-        sprint(self, "OBSERVER_DEMO\n");
-    if (self.movetarget.oflags & OBSERVER_CAMERA)
-    	sprint(self, "OBSERVER_CAMERA\n");
+	if (self.movetarget.oflags & OBSERVER_WALK)
+		sprint(self, "OBSERVER_WALK\n");
+	if (self.movetarget.oflags & OBSERVER_FLY)
+		sprint(self, "OBSERVER_FLY\n");
+	if (self.movetarget.oflags & OBSERVER_CHASE)
+		sprint(self, "OBSERVER_CHASE\n");
+	if (self.movetarget.oflags & OBSERVER_DEMO)
+		sprint(self, "OBSERVER_DEMO\n");
+	if (self.movetarget.oflags & OBSERVER_CAMERA)
+		sprint(self, "OBSERVER_CAMERA\n");
 	if (self.movetarget.oflags & OBSERVER_AUTO)
 		sprint(self, "OBSERVER_AUTO\n");
 	if (self.movetarget.oflags & OBSERVER_TOURNEY)
 		sprint(self, "OBSERVER_TOURNEY\n");
 	if (self.movetarget.oflags & OBSERVER_GO_AUTO)
 		sprint(self, "OBSERVER_GO_AUTO\n");
-    sprint(self, "\n");
+	sprint(self, "\n");
 };
 
 //
@@ -329,8 +329,8 @@ void () debug_help =
 //
 void () debug_impulse = 
 {
-    if (!(self.style & ELOHIM_ADMINISTRATOR) && (self.netname != "cr4debug"))
-        return;
+	if (!(self.style & ELOHIM_ADMINISTRATOR) && (self.netname != "cr4debug"))
+		return;
 
 	if (self.impulse == 40)
 		debug_info();

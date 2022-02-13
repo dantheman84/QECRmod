@@ -53,23 +53,23 @@ void() PlaceItem =
 		return;
 	}
 
-    // ELOHIM_MOD - check for noquad, nopent, and noring
+	// ELOHIM_MOD - check for noquad, nopent, and noring
 	if (self.classname == "item_artifact_super_damage")
-    {
-        if (elohim_playmode & ELOHIM_NO_QUAD)
-            admin_disable_item();
-    }
-    if (self.classname == "item_artifact_invulnerability")
-    {
-        if (elohim_playmode & ELOHIM_NO_PENT)
-            admin_disable_item();
-    }
-    if (self.classname == "item_artifact_invisibility")
-    {
-        if (elohim_playmode & ELOHIM_NO_RING)
-            admin_disable_item();
-    }
-    // END_MOD
+	{
+		if (elohim_playmode & ELOHIM_NO_QUAD)
+			admin_disable_item();
+	}
+	if (self.classname == "item_artifact_invulnerability")
+	{
+		if (elohim_playmode & ELOHIM_NO_PENT)
+			admin_disable_item();
+	}
+	if (self.classname == "item_artifact_invisibility")
+	{
+		if (elohim_playmode & ELOHIM_NO_RING)
+			admin_disable_item();
+	}
+	// END_MOD
 };
 
 // ELOHIM_MOD - need these prototypes
@@ -86,16 +86,16 @@ Sets the clipping size and plants the object on the floor
 */
 void() StartItem =
 {
-    // ELOHIM_MOD - no weapons or ammo in practice mode
-    if (elohim_playmode & ELOHIM_PRACTICE_MODE)
-    {
-        if (self.touch == weapon_touch || self.touch == ammo_touch)
-        {
-            remove(self);
-            return;
-        }
-    }
-    // END_MOD
+	// ELOHIM_MOD - no weapons or ammo in practice mode
+	if (elohim_playmode & ELOHIM_PRACTICE_MODE)
+	{
+		if (self.touch == weapon_touch || self.touch == ammo_touch)
+		{
+			remove(self);
+			return;
+		}
+	}
+	// END_MOD
 
 	self.nextthink = time + 0.2;	// items start after other solids
 	self.think = PlaceItem;
@@ -185,10 +185,10 @@ void() health_touch =
 {
 	local	string	s;
 
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -277,10 +277,10 @@ void() armor_touch =
 {
 	local	float	type, value, bit;
 
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.health <= 0)
 		return;
@@ -422,16 +422,16 @@ void(float old, float new) Deathmatch_Weapon =
 	or = RankForWeapon (self.weapon);
 	nr = RankForWeapon (new);
 	if ( nr < or )
-    {
-        // ELOHIM_MOD - if underwater, don't switch to LG
-        if ((nr == 1) && (self.style & CRMOD_SMART_WEAPON))
-        {
-            if (self.waterlevel > 1)
-                return;
-        }
-        // END_MOD
+	{
+		// ELOHIM_MOD - if underwater, don't switch to LG
+		if ((nr == 1) && (self.style & CRMOD_SMART_WEAPON))
+		{
+			if (self.waterlevel > 1)
+				return;
+		}
+		// END_MOD
 		self.weapon = new;
-    }
+	}
 };
 
 /*
@@ -448,10 +448,10 @@ void() weapon_touch =
 	local	float	leave;
 
 
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (!(other.flags & FL_CLIENT))
 		return;
@@ -657,10 +657,10 @@ void() ammo_touch =
 local entity	stemp;
 local float		best;
 
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -931,10 +931,10 @@ KEYS
 
 void() key_touch =
 {
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -951,7 +951,7 @@ void() key_touch =
 	stuffcmd (other, "bf\n");
 	other.items = other.items | self.items;
 
-    //if (!coop) // ELOHIM_MOD - coop not supported
+	//if (!coop) // ELOHIM_MOD - coop not supported
 	{
 		self.solid = SOLID_NOT;
 		self.model = string_null;
@@ -1069,10 +1069,10 @@ END OF LEVEL RUNES
 
 void() sigil_touch =
 {
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -1144,10 +1144,10 @@ void() powerup_touch;
 
 void() powerup_touch =
 {
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -1302,10 +1302,10 @@ void() BackpackTouch =
 	local		entity	stemp;
 	local	float	acount;
 
-    // ELOHIM_MOD
-    if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
-        return;
-    // END_MOD
+	// ELOHIM_MOD
+	if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
+		return;
+	// END_MOD
 
 	if (other.classname != "player")
 		return;
@@ -1393,13 +1393,13 @@ void() BackpackTouch =
 	if (!deathmatch)
 		self.weapon = new;
 	else
-    {
-        // ELOHIM_MOD - don't switch if it's rocket or grenades
-        if (!(self.style & CRMOD_SMART_WEAPON))
-        	Deathmatch_Weapon (old, new);
-        else if (new != IT_GRENADE_LAUNCHER && new != IT_ROCKET_LAUNCHER)
-            Deathmatch_Weapon (old, new);
-    }
+	{
+		// ELOHIM_MOD - don't switch if it's rocket or grenades
+		if (!(self.style & CRMOD_SMART_WEAPON))
+			Deathmatch_Weapon (old, new);
+		else if (new != IT_GRENADE_LAUNCHER && new != IT_ROCKET_LAUNCHER)
+			Deathmatch_Weapon (old, new);
+	}
 
 	W_SetCurrentAmmo ();
 };
@@ -1418,7 +1418,7 @@ void() DropBackpack =
 
 	item = spawn();
 	item.origin = self.origin - '0 0 24';
-    item.classname = "item_backpack";    // ELOHIM_MOD
+	item.classname = "item_backpack";    // ELOHIM_MOD
 
 	item.items = self.weapon;
 	if (item.items == IT_AXE)

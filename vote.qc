@@ -35,29 +35,29 @@ void () SUB_Null;
 //
 float (string s1, string s2, void () accept) vote_init =
 {
-    // Check to see if there's already a vote in progress
-    if (elohim_request)
-    {
-        sprint(self, "There is already a vote in progress\n");
-        return FALSE;
-    }
+	// Check to see if there's already a vote in progress
+	if (elohim_request)
+	{
+		sprint(self, "There is already a vote in progress\n");
+		return FALSE;
+	}
 
-    elohim_request = spawn();
-    elohim_request.classname = "elohim_request";
-    elohim_request.th_die = SUB_Null;
-    elohim_request.think = vote_repeat;
-    elohim_request.use = accept;
-    elohim_request.wad = s1;
-    elohim_request.map = s2;
-    elohim_request.count = 0;
-    utils_do_players(vote_clear);
+	elohim_request = spawn();
+	elohim_request.classname = "elohim_request";
+	elohim_request.th_die = SUB_Null;
+	elohim_request.think = vote_repeat;
+	elohim_request.use = accept;
+	elohim_request.wad = s1;
+	elohim_request.map = s2;
+	elohim_request.count = 0;
+	utils_do_players(vote_clear);
 
-    // If there's only one voter then it will pass as soon as that
-    // person votes yes; not need to print the request.
-    if (!vote_majority())
-        vote_repeat();
+	// If there's only one voter then it will pass as soon as that
+	// person votes yes; not need to print the request.
+	if (!vote_majority())
+		vote_repeat();
 
-    return TRUE;
+	return TRUE;
 };
 
 //
@@ -65,7 +65,7 @@ float (string s1, string s2, void () accept) vote_init =
 //
 void () vote_clear =
 {
-    self.style = self.style - (self.style & ELOHIM_YES);
+	self.style = self.style - (self.style & ELOHIM_YES);
 };
 
 //
@@ -75,22 +75,22 @@ void () vote_clear =
 //
 void () vote_yes =
 {
-    if (self.style & ELOHIM_ADMINISTRATOR)
-    {
-        // accept immediately
-        vote_accept();
-        return;
-    }
+	if (self.style & ELOHIM_ADMINISTRATOR)
+	{
+		// accept immediately
+		vote_accept();
+		return;
+	}
 
-    if (self.style & ELOHIM_YES)
-    {
-        sprint(self, "\nWise man say: \"Vote early, vote often\"\n");
-        return;
-    }
+	if (self.style & ELOHIM_YES)
+	{
+		sprint(self, "\nWise man say: \"Vote early, vote often\"\n");
+		return;
+	}
 
-    self.style = self.style | ELOHIM_YES;
-    if (vote_majority())
-        vote_accept();
+	self.style = self.style | ELOHIM_YES;
+	if (vote_majority())
+		vote_accept();
 };
 
 //
@@ -100,14 +100,14 @@ void () vote_yes =
 //
 void () vote_no =
 {
-    if (self.style & ELOHIM_ADMINISTRATOR)
-    {
-        // reject immediately
-        vote_reject();
-        return;
-    }
+	if (self.style & ELOHIM_ADMINISTRATOR)
+	{
+		// reject immediately
+		vote_reject();
+		return;
+	}
 
-    vote_clear();
+	vote_clear();
 };
 
 //
@@ -118,18 +118,18 @@ void () vote_no =
 //
 float () vote_majority =
 {
-    local entity player;
-    local float vote_count, players, observers, obs_vote;
+	local entity player;
+	local float vote_count, players, observers, obs_vote;
 
 
-    // CRMOD observers weight now 'equals' that of the players
-    players = observers = vote_count = 0;
+	// CRMOD observers weight now 'equals' that of the players
+	players = observers = vote_count = 0;
 
 	player = find(world, classname, "player");
 	while (player)
 	{
 		if ((player.style & ELOHIM_CONNECTED) && (!(player.style & CRMOD_QSMACK)))
-        {
+		{
 			if (player.style & ELOHIM_OBSERVER)
 				observers = observers + 1;
 			else
@@ -149,27 +149,27 @@ float () vote_majority =
 
 	// CRMOD END
 
-    player = find(world, classname, "player");
-    while (player)
-    {
-        if ((player.style & ELOHIM_CONNECTED) && (!(player.style & CRMOD_QSMACK)))		// CRMOD don't count qsmack
-        {
-            local float vote;
+	player = find(world, classname, "player");
+	while (player)
+	{
+		if ((player.style & ELOHIM_CONNECTED) && (!(player.style & CRMOD_QSMACK)))		// CRMOD don't count qsmack
+		{
+			local float vote;
 			if (player.style & ELOHIM_OBSERVER)
-                vote = obs_vote;				// CRMOD
-            else
-                vote = 100;
+				vote = obs_vote;				// CRMOD
+			else
+				vote = 100;
 
-            if (player.style & ELOHIM_YES || player == self)
-                vote_count = vote_count + vote;
-            else
-                vote_count = vote_count - vote;
-        }
-        player = find(player, classname, "player");
-    }
-    if (vote_count > 0)
-        return TRUE;
-    return FALSE;
+			if (player.style & ELOHIM_YES || player == self)
+				vote_count = vote_count + vote;
+			else
+				vote_count = vote_count - vote;
+		}
+		player = find(player, classname, "player");
+	}
+	if (vote_count > 0)
+		return TRUE;
+	return FALSE;
 };
 
 //
@@ -181,12 +181,12 @@ float () vote_majority =
 //
 void () vote_repeat =
 {
-    bprint4("Request to ", elohim_request.wad, elohim_request.map, "\n");
-    bprint("Type 'yes' or 'no' in console to vote\n");
-    elohim_request.nextthink = time + 7;
-    elohim_request.count = elohim_request.count + 1;
-    if (elohim_request.count == 3)
-        elohim_request.think = vote_reject;
+	bprint4("Request to ", elohim_request.wad, elohim_request.map, "\n");
+	bprint("Type 'yes' or 'no' in console to vote\n");
+	elohim_request.nextthink = time + 7;
+	elohim_request.count = elohim_request.count + 1;
+	if (elohim_request.count == 3)
+		elohim_request.think = vote_reject;
 };
 
 //
@@ -194,9 +194,9 @@ void () vote_repeat =
 //
 void () vote_accept =
 {
-    elohim_request.use();
-    remove(elohim_request);
-    elohim_request = world;
+	elohim_request.use();
+	remove(elohim_request);
+	elohim_request = world;
 };
 
 //
@@ -207,10 +207,10 @@ void () vote_accept =
 //
 void () vote_reject =
 {
-    bprint("Vote cancelled\n");
-    elohim_request.th_die();
-    remove(elohim_request);
-    elohim_request = world;
+	bprint("Vote cancelled\n");
+	elohim_request.th_die();
+	remove(elohim_request);
+	elohim_request = world;
 };
 
 //
@@ -218,14 +218,14 @@ void () vote_reject =
 //
 void () vote_impulse =
 {
-    if (!elohim_request)
-    {
-        sprint(self, "Nothing to vote on\n");
-        return;
-    }
+	if (!elohim_request)
+	{
+		sprint(self, "Nothing to vote on\n");
+		return;
+	}
 
-    if (self.impulse == 115)
-        vote_yes();
-    else if (self.impulse == 116)
-        vote_no();
+	if (self.impulse == 115)
+		vote_yes();
+	else if (self.impulse == 116)
+		vote_no();
 };

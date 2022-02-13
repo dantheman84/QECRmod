@@ -445,7 +445,7 @@ If the trigger_teleport has a targetname, it will only teleport entities when it
 */
 void() trigger_teleport =
 {
-    local vector o;
+	local vector o;
 
 	InitTrigger ();
 	self.touch = teleport_touch;
@@ -457,8 +457,8 @@ void() trigger_teleport =
 	if (!(self.spawnflags & SILENT))
 	{
 		precache_sound ("ambience/hum1.wav");
-        o = (self.mins + self.maxs) * 0.5;
-        ambientsound (self.origin, "ambience/hum1.wav",0.5 , ATTN_STATIC);
+		o = (self.mins + self.maxs) * 0.5;
+		ambientsound (self.origin, "ambience/hum1.wav",0.5 , ATTN_STATIC);
 	}
 };
 
@@ -488,11 +488,11 @@ Only used on start map.
 */
 void() trigger_setskill =
 {
-    // ELOHIM_MOD - setskill triggers removed
-    //InitTrigger ();
-    //self.touch = trigger_skill_touch;
-    remove(self);
-    // END_MOD
+	// ELOHIM_MOD - setskill triggers removed
+	//InitTrigger ();
+	//self.touch = trigger_skill_touch;
+	remove(self);
+	// END_MOD
 };
 
 

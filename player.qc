@@ -431,12 +431,12 @@ void() PlayerDead =
 // allow respawn after a certain time
 	self.deadflag = DEAD_DEAD;
 
-    // ELOHIM_MOD - autorespawn after 5 seconds in match mode
-    if (elohim_playmode & ELOHIM_MATCH_MODE)
-    {
-        self.nextthink = time + 5;
-        self.think = respawn;
-    }
+	// ELOHIM_MOD - autorespawn after 5 seconds in match mode
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
+	{
+		self.nextthink = time + 5;
+		self.think = respawn;
+	}
 };
 
 vector(float dm) VelocityForDamage =
@@ -480,12 +480,12 @@ void(string gibname, float dm) ThrowGib =
 	new.think = SUB_Remove;
 	new.ltime = time;
 
-    // ELOHIM_MOD - remove sooner for low gibs
-    if (elohim_playmode & ELOHIM_LOW_GIBS)
-        new.nextthink = time + 3 + random() * 3;
-    else
-        new.nextthink = time + 10 + random()*10;
-    // END_MOD
+	// ELOHIM_MOD - remove sooner for low gibs
+	if (elohim_playmode & ELOHIM_LOW_GIBS)
+		new.nextthink = time + 3 + random() * 3;
+	else
+		new.nextthink = time + 10 + random()*10;
+	// END_MOD
 
 	new.frame = 0;
 	new.flags = 0;
@@ -510,17 +510,17 @@ void(string gibname, float dm) ThrowHead =
 
 void() GibPlayer =
 {
-    ThrowHead ("progs/h_player.mdl", self.health);
+	ThrowHead ("progs/h_player.mdl", self.health);
 
-    // ELOHIM_MOD - check for no gibs and low gibs
-    if (!(elohim_playmode & ELOHIM_NO_GIBS))
-    {
-        ThrowGib ("progs/gib1.mdl", self.health);
-        ThrowGib ("progs/gib2.mdl", self.health);
-        if (!(elohim_playmode & ELOHIM_LOW_GIBS))
-            ThrowGib ("progs/gib3.mdl", self.health);
-    }
-    // END_MOD
+	// ELOHIM_MOD - check for no gibs and low gibs
+	if (!(elohim_playmode & ELOHIM_NO_GIBS))
+	{
+		ThrowGib ("progs/gib1.mdl", self.health);
+		ThrowGib ("progs/gib2.mdl", self.health);
+		if (!(elohim_playmode & ELOHIM_LOW_GIBS))
+			ThrowGib ("progs/gib3.mdl", self.health);
+	}
+	// END_MOD
 
 	self.deadflag = DEAD_DEAD;
 
@@ -558,10 +558,10 @@ void() PlayerDie =
 	self.effects = self.effects - (self.effects & EF_DIMLIGHT);
 	// END_MOD
 
-    // ELOHIM_MOD - no paks in practice mode; '|| coop' removed
-    if (deathmatch && !(elohim_playmode & ELOHIM_PRACTICE_MODE))
+	// ELOHIM_MOD - no paks in practice mode; '|| coop' removed
+	if (deathmatch && !(elohim_playmode & ELOHIM_PRACTICE_MODE))
 		DropBackpack();
-    // END_MOD
+	// END_MOD
 
 	self.crmod_chase_score = ELOHIM_NEGINF; // ELOHIM_MOD - don't want to autochase
 	self.crmod_cam_delay = time + 1;		// ELOHIM_MOD - well maybe for a second :)
@@ -575,11 +575,11 @@ void() PlayerDie =
 	if (self.velocity_z < 10)
 		self.velocity_z = self.velocity_z + random()*300;
 
-    // ELOHIM_MOD - check for no gibs
-    if (self.health < -40 && !(elohim_playmode & ELOHIM_NO_GIBS)) // END_MOD
+	// ELOHIM_MOD - check for no gibs
+	if (self.health < -40 && !(elohim_playmode & ELOHIM_NO_GIBS)) // END_MOD
 	{
 		GibPlayer ();
-        PlayerDead(); // ELOHIM_MOD - check for match mode autorespawn
+		PlayerDead(); // ELOHIM_MOD - check for match mode autorespawn
 		return;
 	}
 
@@ -594,10 +594,10 @@ void() PlayerDie =
 		return;
 	}
 
-    // ELOHIM_MOD - this is ID's old debug code
-    //i = cvar("temp1");
-    //if (!i)
-    // END_MOD
+	// ELOHIM_MOD - this is ID's old debug code
+	//i = cvar("temp1");
+	//if (!i)
+	// END_MOD
 		i = 1 + floor(random()*6);
 
 	if (i == 1)

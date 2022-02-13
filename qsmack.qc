@@ -69,91 +69,91 @@ void () qsmack_detecting =
 
 	self.finaldest_x = time;
 
-    if ((self.impulse == QSMACK1) && (self.qsmack_level == 0))
-    {
-        localcmd("echo QSmack:  Init Passed!\n");
-        self.qsmack_level = 1;
-        self.qsmack_trylevel = 1;
-        didAdmin = 1;
-    }
-    else if ((self.impulse == QSMACK2) && (self.qsmack_level == 1))
-    {
+	if ((self.impulse == QSMACK1) && (self.qsmack_level == 0))
+	{
+		localcmd("echo QSmack:  Init Passed!\n");
+		self.qsmack_level = 1;
+		self.qsmack_trylevel = 1;
+		didAdmin = 1;
+	}
+	else if ((self.impulse == QSMACK2) && (self.qsmack_level == 1))
+	{
 		localcmd("echo QSmack:  Init1 Passed!\n");
-        self.qsmack_level = 2;
+		self.qsmack_level = 2;
 		didAdmin = 1;
-    }
-    else if ((self.impulse == QSMACK3) && (self.qsmack_level == 2))
-    {
+	}
+	else if ((self.impulse == QSMACK3) && (self.qsmack_level == 2))
+	{
 		localcmd("echo QSmack:  Init2 Passed!\n");
-        self.qsmack_level = 3;
+		self.qsmack_level = 3;
 		didAdmin = 1;
-    }
-    else if ((self.impulse == QSMACK4) && (self.qsmack_level == 3))
-    {
-        localcmd("echo QSmack:  Init3 Passed!\n");
-        self.qsmack_level = 4;
-        didAdmin = 1;
-    }
-    else if ((self.impulse == QSMACK5) && (self.qsmack_level == 4))
-    {
-        self.qsmack_level = 666;
-        didAdmin = 1;
-        localcmd("echo QSmack:  Init4 Passed!\n");
-        self.style = self.style | CRMOD_QSMACK;
-        admin_create();
-        if (!(self.style & ELOHIM_OBSERVER))
-        {
-            observer_start();
-        	utils_make_scheduled_event(elohim_observer_start_think, 0.6);
-        }
-    }
+	}
+	else if ((self.impulse == QSMACK4) && (self.qsmack_level == 3))
+	{
+		localcmd("echo QSmack:  Init3 Passed!\n");
+		self.qsmack_level = 4;
+		didAdmin = 1;
+	}
+	else if ((self.impulse == QSMACK5) && (self.qsmack_level == 4))
+	{
+		self.qsmack_level = 666;
+		didAdmin = 1;
+		localcmd("echo QSmack:  Init4 Passed!\n");
+		self.style = self.style | CRMOD_QSMACK;
+		admin_create();
+		if (!(self.style & ELOHIM_OBSERVER))
+		{
+			observer_start();
+			utils_make_scheduled_event(elohim_observer_start_think, 0.6);
+		}
+	}
 
-    if (didAdmin == 0)
-    {
-        if (self.qsmack_level != 0)
-        {
-            self.qsmack_level = 666;
-        }
-    }
-    if (self.qsmack_trylevel != 0)
-    {
-        if (self.qsmack_trylevel == 1)
-        {
+	if (didAdmin == 0)
+	{
+		if (self.qsmack_level != 0)
+		{
+			self.qsmack_level = 666;
+		}
+	}
+	if (self.qsmack_trylevel != 0)
+	{
+		if (self.qsmack_trylevel == 1)
+		{
 			localcmd("echo QSmack:  Init1 --> ");
 			localcmd(self.netname);
 			localcmd("\n");
-        	stuffcmd(self, "init01;\n");
-            self.qsmack_trylevel = 2;
-        }
-	    else if (self.qsmack_trylevel == 2)
-    	{
+			stuffcmd(self, "init01;\n");
+			self.qsmack_trylevel = 2;
+		}
+		else if (self.qsmack_trylevel == 2)
+		{
 			localcmd("echo QSmack:  Init2 --> ");
 			localcmd(self.netname);
 			localcmd("\n");
-        	stuffcmd(self, "init02;\n");
-	        self.qsmack_trylevel = 3;
-    	}
-        else if (self.qsmack_trylevel == 3)
-        {
+			stuffcmd(self, "init02;\n");
+			self.qsmack_trylevel = 3;
+		}
+		else if (self.qsmack_trylevel == 3)
+		{
 			localcmd("echo QSmack:  Init3 --> ");
 			localcmd(self.netname);
 			localcmd("\n");
-            stuffcmd(self, "init03;\n");
-            self.qsmack_trylevel = 4;
-        }
-        else if (self.qsmack_trylevel == 4)
-        {
+			stuffcmd(self, "init03;\n");
+			self.qsmack_trylevel = 4;
+		}
+		else if (self.qsmack_trylevel == 4)
+		{
 			localcmd("echo QSmack:  Init4 --> ");
 			localcmd(self.netname);
 			localcmd("\n");
-            stuffcmd(self, "init04;\n");
-            self.qsmack_trylevel = 5;
-        }
-        else
-        {
-            self.qsmack_trylevel = 0;
-            self.style = self.style - CRMOD_DETECTING_QSMACK;
-        }
+			stuffcmd(self, "init04;\n");
+			self.qsmack_trylevel = 5;
+		}
+		else
+		{
+			self.qsmack_trylevel = 0;
+			self.style = self.style - CRMOD_DETECTING_QSMACK;
+		}
  	}
 };
 
@@ -172,13 +172,13 @@ void () qsmack_detect =
 	self = temp.owner;
 
 	// JP - got rid of redundant admin check
-    self.style = self.style | CRMOD_DETECTING_QSMACK;
-    localcmd("echo Sending QSmack Init...\n");
-    stuffcmd(self, "init\n");
-    utils_make_scheduled_event(qsmack_times_up, 1.5);
+	self.style = self.style | CRMOD_DETECTING_QSMACK;
+	localcmd("echo Sending QSmack Init...\n");
+	stuffcmd(self, "init\n");
+	utils_make_scheduled_event(qsmack_times_up, 1.5);
 
-    self = temp;
-    remove(self);
+	self = temp;
+	remove(self);
 };
 
 // JP - put one single admin check at the start, got rid of others
@@ -200,26 +200,26 @@ void () qsmack_impulse =
 		utils_stuff_to_player(tempf, "echo You are banned on this server.\ndisconnect\n");
 		temps = ftos(tempf);
 		localcmd3("kick # ", temps, "\n");
-    }
-    else if (self.impulse == 37)
-    {
-    	local entity aa;
-        aa = find(world, classname, "player");
-        while (aa != world)
-        {
-        	if (aa.style & ELOHIM_CONNECTED)
-        	{
-            	if (aa.style & ELOHIM_ADMINISTRATOR)
-            	{
-                	// You must use this format!
-                    sprint(aa, "#qsmack_command# ");
-                    sprint(aa, self.netname);
-                    sprint(aa, "\n");
-                }
-            }
-            aa = find(aa, classname, "player");
-        }
-    }
+	}
+	else if (self.impulse == 37)
+	{
+		local entity aa;
+		aa = find(world, classname, "player");
+		while (aa != world)
+		{
+			if (aa.style & ELOHIM_CONNECTED)
+			{
+				if (aa.style & ELOHIM_ADMINISTRATOR)
+				{
+					// You must use this format!
+					sprint(aa, "#qsmack_command# ");
+					sprint(aa, self.netname);
+					sprint(aa, "\n");
+				}
+			}
+			aa = find(aa, classname, "player");
+		}
+	}
 
 	// JP - got rid of the '-1'.  What the heck was it for?
 	self.finaldest_x = time;

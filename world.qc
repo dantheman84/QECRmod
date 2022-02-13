@@ -341,20 +341,20 @@ void() worldspawn =
 
 	place_my_items (); //spawn stuff
 
-    // ELOHIM_MOD - do elohim specific stuff
-    elohim_init_world();
-    // END_MOD
+	// ELOHIM_MOD - do elohim specific stuff
+	elohim_init_world();
+	// END_MOD
 };
 
 void() StartFrame =
 {
-    // teamplay = cvar("teamplay"); // ELOHIM_MOD - moved to elohim_start_frame
-    // skill = cvar("skill"); // ELOHIM_MOD - unused
+	// teamplay = cvar("teamplay"); // ELOHIM_MOD - moved to elohim_start_frame
+	// skill = cvar("skill"); // ELOHIM_MOD - unused
 	framecount = framecount + 1;
 
-    // ELOHIM_MOD - do elohim specific stuff
-    elohim_start_frame();
-    // END_MOD
+	// ELOHIM_MOD - do elohim specific stuff
+	elohim_start_frame();
+	// END_MOD
 };
 
 /*

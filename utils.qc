@@ -41,104 +41,104 @@ void (string s1, string s2, string s3, string s4, string s5, string s6) bprint6 
 //
 void (string s1, string s2) localcmd2 =
 {
-    localcmd(s1);
-    localcmd(s2);
+	localcmd(s1);
+	localcmd(s2);
 };
 
 void (string s1, string s2, string s3) localcmd3 =
 {
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
 };
 
 void (string s1, string s2, string s3, string s4) localcmd4 =
 {
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
 };
 
 void (string s1, string s2, string s3, string s4, string s5) localcmd5 =
 {
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
-    localcmd(s5);
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
+	localcmd(s5);
 };
 
 void (string s1, string s2, string s3, string s4, string s5, string s6) localcmd6 =
 {
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
-    localcmd(s5);
-    localcmd(s6);
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
+	localcmd(s5);
+	localcmd(s6);
 };
 
 void (string s1, string s2, string s3, string s4, string s5, string s6, string s7) localcmd7 =
 {
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
-    localcmd(s5);
-    localcmd(s6);
-    localcmd(s7);
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
+	localcmd(s5);
+	localcmd(s6);
+	localcmd(s7);
 };
 
 void (string s1) cprint =
 {
-    localcmd("cmd ");
-    localcmd(s1);
+	localcmd("cmd ");
+	localcmd(s1);
 };
 
 void (string s1, string s2) cprint2 =
 {
-    localcmd("cmd ");
-    localcmd(s1);
-    localcmd(s2);
+	localcmd("cmd ");
+	localcmd(s1);
+	localcmd(s2);
 };
 
 void (string s1, string s2, string s3) cprint3 =
 {
-    localcmd("cmd ");
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
+	localcmd("cmd ");
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
 };
 
 void (string s1, string s2, string s3, string s4) cprint4 =
 {
-    localcmd("cmd ");
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
+	localcmd("cmd ");
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
 };
 
 void (string s1, string s2, string s3, string s4, string s5) cprint5 =
 {
-    localcmd("cmd ");
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
-    localcmd(s5);
+	localcmd("cmd ");
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
+	localcmd(s5);
 };
 
 void (string s1, string s2, string s3, string s4, string s5, string s6) cprint6 =
 {
-    localcmd("cmd ");
-    localcmd(s1);
-    localcmd(s2);
-    localcmd(s3);
-    localcmd(s4);
-    localcmd(s5);
-    localcmd(s6);
+	localcmd("cmd ");
+	localcmd(s1);
+	localcmd(s2);
+	localcmd(s3);
+	localcmd(s4);
+	localcmd(s5);
+	localcmd(s6);
 };
 
 //
@@ -148,10 +148,10 @@ void (string s1, string s2, string s3, string s4, string s5, string s6) cprint6 
 //
 void (float f) utils_bprint_float =
 {
-    local string s;
+	local string s;
 
-    s = ftos(f);
-    bprint2(s, "\n");
+	s = ftos(f);
+	bprint2(s, "\n");
 };
 
 //
@@ -161,10 +161,10 @@ void (float f) utils_bprint_float =
 //
 void (float f) utils_print_float =
 {
-    local string s;
+	local string s;
 
-    s = ftos(f);
-    sprint2(self, s, "\n");
+	s = ftos(f);
+	sprint2(self, s, "\n");
 };
 
 //
@@ -216,26 +216,26 @@ void (float f, float n) utils_print_floatn =
 //
 void (float f) utils_print_int3 =
 {
-    local float n;
-    local string s;
+	local float n;
+	local string s;
 
-    n = rint(f);
-    if (n < 0)
-    {
-        if (n < -99)
-            sprint(self, "-99");
-        else if (n > -10)
-            sprint(self, " ");
-    }
-    else
-    {
-        if (n < 100)
-            sprint(self, " ");
-        if (n < 10)
-            sprint(self, " ");
-    }
-    s = ftos(n);
-    sprint(self, s);
+	n = rint(f);
+	if (n < 0)
+	{
+		if (n < -99)
+			sprint(self, "-99");
+		else if (n > -10)
+			sprint(self, " ");
+	}
+	else
+	{
+		if (n < 100)
+			sprint(self, " ");
+		if (n < 10)
+			sprint(self, " ");
+	}
+	s = ftos(n);
+	sprint(self, s);
 };
 
 //
@@ -245,26 +245,26 @@ void (float f) utils_print_int3 =
 //
 void (float f) utils_cprint_int3 =
 {
-    local float n;
-    local string s;
+	local float n;
+	local string s;
 
-    n = rint(f);
-    if (n < 0)
-    {
-        if (n < -99)
-            localcmd("-99");
-        else if (n > -10)
-            localcmd(" ");
-    }
-    else
-    {
-        if (n < 100)
-            localcmd(" ");
-        if (n < 10)
-            localcmd(" ");
-    }
-    s = ftos(n);
-    localcmd(s);
+	n = rint(f);
+	if (n < 0)
+	{
+		if (n < -99)
+			localcmd("-99");
+		else if (n > -10)
+			localcmd(" ");
+	}
+	else
+	{
+		if (n < 100)
+			localcmd(" ");
+		if (n < 10)
+			localcmd(" ");
+	}
+	s = ftos(n);
+	localcmd(s);
 };
 
 //
@@ -275,10 +275,10 @@ void (float f) utils_cprint_int3 =
 //
 void (vector v) utils_print_vec =
 {
-    local string s;
+	local string s;
 
-    s = vtos(v);
-    sprint2(self, s, "\n");
+	s = vtos(v);
+	sprint2(self, s, "\n");
 };
 
 //
@@ -289,10 +289,10 @@ void (vector v) utils_print_vec =
 //
 void (float b) utils_print_bit =
 {
-    if (b)
-        sprint(self, "1");
-    else
-        sprint(self, "0");
+	if (b)
+		sprint(self, "1");
+	else
+		sprint(self, "0");
 };
 
 //
@@ -303,28 +303,28 @@ void (float b) utils_print_bit =
 //
 void (float n) utils_print_bin =
 {
-    local float bit;
+	local float bit;
 
-    if (!n)
-    {
-        sprint(self, "0\n");
-        return;
-    }
+	if (!n)
+	{
+		sprint(self, "0\n");
+		return;
+	}
 
-    bit = 32768 * 32768 * 2;
-    while (bit > 0.5)
-    {
-        if (n & bit)
-        {
-            while (bit > 0.5)
-            {
-                utils_print_bit(n & bit);
-                bit = bit / 2;
-            }
-        }
-        bit = bit / 2;
-    }
-    sprint(self, "\n");
+	bit = 32768 * 32768 * 2;
+	while (bit > 0.5)
+	{
+		if (n & bit)
+		{
+			while (bit > 0.5)
+			{
+				utils_print_bit(n & bit);
+				bit = bit / 2;
+			}
+		}
+		bit = bit / 2;
+	}
+	sprint(self, "\n");
 };
 
 //
@@ -335,18 +335,18 @@ void (float n) utils_print_bin =
 //
 void (entity e) utils_dump_position =
 {
-    sprint(self, "origin = ");
-    utils_print_vec(e.origin);
-    sprint(self, "mins = ");
-    utils_print_vec(e.mins);
-    sprint(self, "maxs = ");
-    utils_print_vec(e.maxs);
-    sprint(self, "size = ");
-    utils_print_vec(e.size);
-    sprint(self, "absmin = ");
-    utils_print_vec(e.absmin);
-    sprint(self, "absmax = ");
-    utils_print_vec(e.absmax);
+	sprint(self, "origin = ");
+	utils_print_vec(e.origin);
+	sprint(self, "mins = ");
+	utils_print_vec(e.mins);
+	sprint(self, "maxs = ");
+	utils_print_vec(e.maxs);
+	sprint(self, "size = ");
+	utils_print_vec(e.size);
+	sprint(self, "absmin = ");
+	utils_print_vec(e.absmin);
+	sprint(self, "absmax = ");
+	utils_print_vec(e.absmax);
 };
 
 //
@@ -354,9 +354,9 @@ void (entity e) utils_dump_position =
 //
 float (float a, float b) utils_min =
 {
-    if (a < b)
-        return a;
-    return b;
+	if (a < b)
+		return a;
+	return b;
 };
 
 //
@@ -364,9 +364,9 @@ float (float a, float b) utils_min =
 //
 float (float a, float b) utils_max =
 {
-    if (a > b)
-        return a;
-    return b;
+	if (a > b)
+		return a;
+	return b;
 };
 
 //
@@ -374,14 +374,14 @@ float (float a, float b) utils_max =
 //
 float (float a, float b, float c) utils_min3 =
 {
-    local float d;
-    if (a < b)
-        d = a;
-    else
-        d = b;
-    if (d < c)
-        return d;
-    return c;
+	local float d;
+	if (a < b)
+		d = a;
+	else
+		d = b;
+	if (d < c)
+		return d;
+	return c;
 };
 
 //
@@ -389,14 +389,14 @@ float (float a, float b, float c) utils_min3 =
 //
 float (float a, float b, float c) utils_max3 =
 {
-    local float d;
-    if (a > b)
-        d = a;
-    else
-        d = b;
-    if (d > c)
-        return d;
-    return c;
+	local float d;
+	if (a > b)
+		d = a;
+	else
+		d = b;
+	if (d > c)
+		return d;
+	return c;
 };
 
 //
@@ -408,13 +408,13 @@ float (float a, float b, float c) utils_max3 =
 //
 entity (void() think_function, float think_time) utils_make_scheduled_event =
 {
-    local entity temp;
-    temp = spawn();
-    temp.classname = "elohim_temp";
-    temp.owner = self;
-    temp.nextthink = time + think_time;
-    temp.think = think_function;
-    return temp;
+	local entity temp;
+	temp = spawn();
+	temp.classname = "elohim_temp";
+	temp.owner = self;
+	temp.nextthink = time + think_time;
+	temp.think = think_function;
+	return temp;
 };
 
 //
@@ -424,10 +424,10 @@ entity (void() think_function, float think_time) utils_make_scheduled_event =
 //
 void (string variable, float value) utils_set_cvar =
 {
-    local string temp;
+	local string temp;
 
-    temp = ftos(value);
-    cvar_set(variable, temp);
+	temp = ftos(value);
+	cvar_set(variable, temp);
 };
 
 //
@@ -438,16 +438,16 @@ void (string variable, float value) utils_set_cvar =
 //
 void (void () dofunc, string item_name) utils_do_item =
 {
-    local entity oldself;
+	local entity oldself;
 
-    oldself = self;
-    self = find(world, classname, item_name);
-    while (self)
-    {
-        dofunc();
-        self = find(self, classname, item_name);
-    }
-    self = oldself;
+	oldself = self;
+	self = find(world, classname, item_name);
+	while (self)
+	{
+		dofunc();
+		self = find(self, classname, item_name);
+	}
+	self = oldself;
 };
 
 //
@@ -457,25 +457,25 @@ void (void () dofunc, string item_name) utils_do_item =
 //
 void (void () dofunc) utils_do_items =
 {
-    utils_do_item(dofunc, "item_health");
-    utils_do_item(dofunc, "item_armor1");
-    utils_do_item(dofunc, "item_armor2");
-    utils_do_item(dofunc, "item_armorInv");
-    utils_do_item(dofunc, "item_shells");
-    utils_do_item(dofunc, "item_spikes");
-    utils_do_item(dofunc, "item_rockets");
-    utils_do_item(dofunc, "item_cells");
-    utils_do_item(dofunc, "weapon_nailgun");
-    utils_do_item(dofunc, "weapon_supernailgun");
-    utils_do_item(dofunc, "weapon_supershotgun");
-    utils_do_item(dofunc, "weapon_rocketlauncher");
-    utils_do_item(dofunc, "weapon_grenadelauncher");
-    utils_do_item(dofunc, "weapon_lightning");
-    utils_do_item(dofunc, "item_sigil");
-    utils_do_item(dofunc, "item_artifact_invulnerability");
-    utils_do_item(dofunc, "item_artifact_envirosuit");
-    utils_do_item(dofunc, "item_artifact_invisibility");
-    utils_do_item(dofunc, "item_artifact_super_damage");
+	utils_do_item(dofunc, "item_health");
+	utils_do_item(dofunc, "item_armor1");
+	utils_do_item(dofunc, "item_armor2");
+	utils_do_item(dofunc, "item_armorInv");
+	utils_do_item(dofunc, "item_shells");
+	utils_do_item(dofunc, "item_spikes");
+	utils_do_item(dofunc, "item_rockets");
+	utils_do_item(dofunc, "item_cells");
+	utils_do_item(dofunc, "weapon_nailgun");
+	utils_do_item(dofunc, "weapon_supernailgun");
+	utils_do_item(dofunc, "weapon_supershotgun");
+	utils_do_item(dofunc, "weapon_rocketlauncher");
+	utils_do_item(dofunc, "weapon_grenadelauncher");
+	utils_do_item(dofunc, "weapon_lightning");
+	utils_do_item(dofunc, "item_sigil");
+	utils_do_item(dofunc, "item_artifact_invulnerability");
+	utils_do_item(dofunc, "item_artifact_envirosuit");
+	utils_do_item(dofunc, "item_artifact_invisibility");
+	utils_do_item(dofunc, "item_artifact_super_damage");
 };
 
 //
@@ -486,17 +486,17 @@ void (void () dofunc) utils_do_items =
 //
 void (void () dofunc) utils_do_players =
 {
-    local entity oldself;
+	local entity oldself;
 
-    oldself = self;
-    self = find(world, classname, "player");
-    while (self)
-    {
-        if (self.style & ELOHIM_CONNECTED)
-            dofunc();
-        self = find(self, classname, "player");
-    }
-    self = oldself;
+	oldself = self;
+	self = find(world, classname, "player");
+	while (self)
+	{
+		if (self.style & ELOHIM_CONNECTED)
+			dofunc();
+		self = find(self, classname, "player");
+	}
+	self = oldself;
 };
 
 //
@@ -506,13 +506,13 @@ void (void () dofunc) utils_do_players =
 //
 float (string s) utils_stof =
 {
-    local float f, temp;
+	local float f, temp;
 
-    temp = cvar("v_kickpitch");
-    cvar_set("v_kickpitch", s);
-    f = cvar("v_kickpitch");
-    utils_set_cvar("v_kickpitch", temp);
-    return f;
+	temp = cvar("v_kickpitch");
+	cvar_set("v_kickpitch", s);
+	f = cvar("v_kickpitch");
+	utils_set_cvar("v_kickpitch", temp);
+	return f;
 };
 
 // CRMOD
@@ -562,7 +562,7 @@ float (entity a, entity b) utils_new_visible =
 		return (4 - crosswater);
 
 	// If the player is right on the other side of the wall, return 2 - crosswater
-    dist = vlen(trace_endpos - b.origin);
+	dist = vlen(trace_endpos - b.origin);
 	if (dist < 200)
 		return (2 - crosswater);
 
@@ -681,7 +681,7 @@ float (float num) utils_find_zero =
 //
 float (string cname) utils_illegal_name =
 {
-    if (cname == "" || cname == "unconnected" ||
+	if (cname == "" || cname == "unconnected" ||
 		cname == elohim_teamname1 || cname == elohim_teamname2)
 	{
 		return TRUE;

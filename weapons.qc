@@ -245,13 +245,13 @@ void(float shotcount, vector dir, vector spread) FireBullets =
 	local	vector direction;
 	local	vector	src;
 
-    // makevectors(self.v_angle); // ELOHIM_MOD - not needed
+	// makevectors(self.v_angle); // ELOHIM_MOD - not needed
 
 	if (!(elohim_playmode & ELOHIM_MATCH_MODE) || (elohim_state & ELOHIM_MATCH_STARTED))
 		self.dest1_x = self.dest1_x + 4 * shotcount; // ELOHIM_MOD - stats
 
 	// CRMOD - count damage fired with quad
-    if (self.super_damage_finished > time)                     // CRMOD - stats
+	if (self.super_damage_finished > time)                     // CRMOD - stats
 		self.crmod_qdwep_y = self.crmod_qdwep_y + 16 * shotcount;  // CRMOD - stats
 
 	src = self.origin + v_forward*10;
@@ -284,12 +284,12 @@ void() W_FireShotgun =
 
 	//self.punchangle_x = -2;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_shells = self.ammo_shells - 1;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_shells = self.ammo_shells - 1;
+	// END_MOD
 
-    makevectors(self.v_angle); // ELOHIM_MOD - added this
+	makevectors(self.v_angle); // ELOHIM_MOD - added this
 	dir = aim (self, 100000);
 	FireBullets (6, dir, '0.04 0.04 0');
 };
@@ -314,12 +314,12 @@ void() W_FireSuperShotgun =
 
 	//self.punchangle_x = -4;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_shells = self.ammo_shells - 2;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_shells = self.ammo_shells - 2;
+	// END_MOD
 
-    makevectors(self.v_angle); // ELOHIM_MOD - added this
+	makevectors(self.v_angle); // ELOHIM_MOD - added this
 	dir = aim (self, 100000);
 	if (elohim_playmode & ELOHIM_GGMOD)
 	{
@@ -376,10 +376,10 @@ void() T_MissileTouch =
 
 	if (other.health)
 	{
-        // ELOHIM_MOD - no monsters
-        //if (other.classname == "monster_shambler")
-        //    damg = damg * 0.5;  // mostly immune
-        // END_MOD
+		// ELOHIM_MOD - no monsters
+		//if (other.classname == "monster_shambler")
+		//    damg = damg * 0.5;  // mostly immune
+		// END_MOD
 
 		T_Damage (other, self, self.owner, damg );
 	}
@@ -427,8 +427,8 @@ void() T_MissileTouch =
 	if (self.dmg)
 	{
 		self.owner.dest_x = self.owner.dest_x + 120;
-        if (self.owner.super_damage_finished > time)
-        	self.owner.crmod_qdwep_y = self.owner.crmod_qdwep_y + 480;
+		if (self.owner.super_damage_finished > time)
+			self.owner.crmod_qdwep_y = self.owner.crmod_qdwep_y + 480;
 	}
 	// END_MOD
 
@@ -453,10 +453,10 @@ void() W_FireRocket =
 {
 	local	entity missile;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+	// END_MOD
 
 	sound (self, CHAN_WEAPON, "weapons/sgun1.wav", 1, ATTN_NORM);
 
@@ -580,14 +580,14 @@ void() W_FireLightning =
 	}
 	//self.punchangle_x = -2;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_cells = self.ammo_cells - 1;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
+	// END_MOD
 
 	org = self.origin + '0 0 16';
 
-    makevectors (self.v_angle); // ELOHIM_MOD - added this
+	makevectors (self.v_angle); // ELOHIM_MOD - added this
 	traceline (org, org + v_forward*600, TRUE, self);
 
 	WriteByte (MSG_BROADCAST, SVC_TEMPENTITY);
@@ -600,11 +600,11 @@ void() W_FireLightning =
 	WriteCoord (MSG_BROADCAST, trace_endpos_y);
 	WriteCoord (MSG_BROADCAST, trace_endpos_z);
 
-    self.dest1_z = self.dest1_z + 30; // ELOHIM_MOD - stats
+	self.dest1_z = self.dest1_z + 30; // ELOHIM_MOD - stats
 
 	// CRMOD - count damage fired with quad.
-    if (self.super_damage_finished > time)                     // CRMOD - stats
-    	self.crmod_qdwep_y = self.crmod_qdwep_y + 120;             // CRMOD - stats
+	if (self.super_damage_finished > time)                     // CRMOD - stats
+		self.crmod_qdwep_y = self.crmod_qdwep_y + 120;             // CRMOD - stats
 
 	LightningDamage (self.origin, trace_endpos + v_forward*4, self, 30);
 };
@@ -649,10 +649,10 @@ void() W_FireGrenade =
 {
 	local	entity missile;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_rockets = self.ammo_rockets - 1;
+	// END_MOD
 
 	sound (self, CHAN_WEAPON, "weapons/grenade.wav", 1, ATTN_NORM);
 
@@ -740,12 +740,12 @@ void() W_FireSuperSpikes =
 	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
 	self.attack_finished = time + 0.2;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_nails = self.ammo_nails - 2;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_nails = self.ammo_nails - 2;
+	// END_MOD
 
-    makevectors(self.v_angle); // ELOHIM_MOD - added this
+	makevectors(self.v_angle); // ELOHIM_MOD - added this
 	if (elohim_playmode & ELOHIM_GGMOD)
 	{
 		dir = aim (self, 2750);
@@ -755,11 +755,11 @@ void() W_FireSuperSpikes =
 		dir = aim (self, 1000);
 	}
 	launch_spike (self.origin + '0 0 16', dir);
-    self.dest1_y = self.dest1_y + 18; // ELOHIM_MOD - stats
+	self.dest1_y = self.dest1_y + 18; // ELOHIM_MOD - stats
 
 	// CRMOD - count damage fired with quad.
-    if (self.super_damage_finished > time)                     // CRMOD - stats
-    	self.crmod_qdwep_y = self.crmod_qdwep_y + 72;              // CRMOD - stats
+	if (self.super_damage_finished > time)                     // CRMOD - stats
+		self.crmod_qdwep_y = self.crmod_qdwep_y + 72;              // CRMOD - stats
 	newmis.touch = superspike_touch;
 	setmodel (newmis, "progs/s_spike.mdl");
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
@@ -788,10 +788,10 @@ void(float ox) W_FireSpikes =
 	sound (self, CHAN_WEAPON, "weapons/rocket1i.wav", 1, ATTN_NORM);
 	self.attack_finished = time + 0.2;
 
-    // ELOHIM_MOD - infinite ammo in practice mode
-    if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
-        self.currentammo = self.ammo_nails = self.ammo_nails - 1;
-    // END_MOD
+	// ELOHIM_MOD - infinite ammo in practice mode
+	if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
+		self.currentammo = self.ammo_nails = self.ammo_nails - 1;
+	// END_MOD
 
 	if (elohim_playmode & ELOHIM_GGMOD)
 	{
@@ -802,11 +802,11 @@ void(float ox) W_FireSpikes =
 		dir = aim (self, 1000);
 	}
 	launch_spike (self.origin + '0 0 16' + v_right*ox, dir);
-    self.dest1_y = self.dest1_y + 9; // ELOHIM_MOD - stats
+	self.dest1_y = self.dest1_y + 9; // ELOHIM_MOD - stats
 
 	// CRMOD - count damage fired with quad.
-    if (self.super_damage_finished > time)                     // CRMOD - stats
-    	self.crmod_qdwep_y = self.crmod_qdwep_y + 36;              // CRMOD - stats
+	if (self.super_damage_finished > time)                     // CRMOD - stats
+		self.crmod_qdwep_y = self.crmod_qdwep_y + 36;              // CRMOD - stats
 
 	//self.punchangle_x = -2;
 };
@@ -1023,9 +1023,9 @@ void() W_Attack =
 	if (!W_CheckNoAmmo ())
 		return;
 
-    // ELOHIM_MOD - makevectors is not needed here
-    // makevectors (self.v_angle);         // calculate forward angle for velocity
-    // END_MOD
+	// ELOHIM_MOD - makevectors is not needed here
+	// makevectors (self.v_angle);         // calculate forward angle for velocity
+	// END_MOD
 
 	self.show_hostile = time + 1;	// wake monsters up
 
@@ -1178,7 +1178,7 @@ CheatCommand
 */
 void() CheatCommand =
 {
-    if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
+	if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
 		return;
 
 	self.ammo_rockets = 100;
@@ -1367,7 +1367,7 @@ void() ServerflagsCommand =
 
 void() QuadCheat =
 {
-    if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
+	if (deathmatch) // ELOHIM_MOD 'deathmatch || coop' => 'deathmatch'
 		return;
 	self.super_time = 1;
 	self.super_damage_finished = time + 30;
@@ -1386,19 +1386,19 @@ void() ImpulseCommands =
 	if (self.impulse >= 1 && self.impulse <= 8)
 		W_ChangeWeapon ();
 
-    else if (self.impulse == 9)
+	else if (self.impulse == 9)
 		CheatCommand ();
-    else if (self.impulse == 10)
+	else if (self.impulse == 10)
 		CycleWeaponCommand ();
 
-    // ELOHIM_MOD - got rid of server flags cheat
-    //else if (self.impulse == 11)
-    //    ServerflagsCommand ();
-    // END_MOD
+	// ELOHIM_MOD - got rid of server flags cheat
+	//else if (self.impulse == 11)
+	//    ServerflagsCommand ();
+	// END_MOD
 
-    else if (self.impulse == 12)
+	else if (self.impulse == 12)
 		CycleWeaponReverseCommand ();
-    else if (self.impulse == 255)
+	else if (self.impulse == 255)
 		QuadCheat ();
 
 	self.impulse = 0;
@@ -1421,26 +1421,26 @@ void() W_WeaponFrame =
 	if (time < self.attack_finished)
 		return;
 
-    if (self.delayed_impulse)
+	if (self.delayed_impulse)
 	{
 		self.impulse = self.delayed_impulse;
 		self.delayed_impulse = 0;
-        ImpulseCommands ();
+		ImpulseCommands ();
 	}
 	// END_MOD
 
 // check for attack
-    // ELOHIM_MOD - don't fire unless ELOHIM_OK_TO_SHOOT is set
+	// ELOHIM_MOD - don't fire unless ELOHIM_OK_TO_SHOOT is set
 	if (self.button0)
 	{
-        if (self.style & ELOHIM_OK_TO_SHOOT)
-        {
-            SuperDamageSound ();
-            W_Attack ();
-        }
+		if (self.style & ELOHIM_OK_TO_SHOOT)
+		{
+			SuperDamageSound ();
+			W_Attack ();
+		}
 	}
-    else
-        self.style = self.style | ELOHIM_OK_TO_SHOOT;
+	else
+		self.style = self.style | ELOHIM_OK_TO_SHOOT;
 };
 
 /*

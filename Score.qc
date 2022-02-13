@@ -128,12 +128,12 @@ void (float client) score_write_time =
 		WriteString(MSG_ONE, "Match Over");
 	else
 	{
-        local float minutes;
-        local float seconds;
+		local float minutes;
+		local float seconds;
 		local float temp;
 
-        minutes = elohim_match_timer.lip;
-        seconds = elohim_match_timer.count;
+		minutes = elohim_match_timer.lip;
+		seconds = elohim_match_timer.count;
 
 		if (minutes > 10)
 		{
@@ -251,17 +251,17 @@ void () score_show_teamscores =
 	if (self.style & ELOHIM_SCOREBOARD)
 		return;
 
-    if (elohim_state & ELOHIM_MATCH_STARTED)
-    {
-        team1 = elohim_team1;
-        team2 = elohim_team2;
-    }
-    else if (elohim_state & ELOHIM_MATCH_OVER)
-    {
-        team1 = elohim_lastteam1;
-        team2 = elohim_lastteam2;
-    }
-    else
+	if (elohim_state & ELOHIM_MATCH_STARTED)
+	{
+		team1 = elohim_team1;
+		team2 = elohim_team2;
+	}
+	else if (elohim_state & ELOHIM_MATCH_OVER)
+	{
+		team1 = elohim_lastteam1;
+		team2 = elohim_lastteam2;
+	}
+	else
 		return;
 
 	msg_entity = self;
