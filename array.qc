@@ -184,5 +184,6 @@ entity (float index) array_get_kick =
         return array_kick14;
     if (index == 15)
         return array_kick15;
+    return world; // Warning fix?
 };
 

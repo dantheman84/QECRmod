@@ -128,7 +128,6 @@ void (float client) score_write_time =
 		WriteString(MSG_ONE, "Match Over");
 	else
 	{
-        local float timeleft;
         local float minutes;
         local float seconds;
 		local float temp;

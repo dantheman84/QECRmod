@@ -126,7 +126,6 @@ void () console_ping_think =
 //
 void () console_ping =
 {
-    local entity client;
     local entity ping;
 
     /*
@@ -223,6 +222,7 @@ void () console_show_debug_info =
 //
 void () console_show_score =
 {
+    local string temp;//R00k moved up here
     local float team1, team2;
 
     if (elohim_state & ELOHIM_MATCH_STARTED)
@@ -249,8 +249,6 @@ void () console_show_score =
         cprint("Match over\n");
     else
     {
-        local string temp;
-
         temp = ftos(elohim_match_timer.lip);
         cprint3("\"Time remaining:  ", temp, ":");
         temp = ftos(elohim_match_timer.count);
@@ -261,7 +259,6 @@ void () console_show_score =
 
     local string score;
     local string teamname;
-    local string temp;
 
     teamname = strings_get_teamname(team1);
     score = ftos(elohim_teamfrags1);
@@ -919,8 +916,6 @@ void (string name) console_kill_entity =
 //
 void (float command) console_command =
 {
-    local string temp;
-
     if (command == 1)
         console_ping();
     else if (command == 2)

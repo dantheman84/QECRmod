@@ -205,6 +205,7 @@ entity() FindIntermission =
 		return spot;
 
 	objerror ("FindIntermission: no spot");
+	return world; // Warning fix
 };
 
 
@@ -382,8 +383,6 @@ void() execute_changelevel =
 
 void() changelevel_touch =
 {
-	local entity	pos;
-
     // ELOHIM_MOD - do nothing in match mode
     if (elohim_playmode & ELOHIM_MATCH_MODE)
         return;
@@ -958,7 +957,6 @@ void() CheckRules =
 
 void() PlayerDeathThink =
 {
-	local entity	old_self;
 	local float		forward;
 
 	if ((self.flags & FL_ONGROUND))
@@ -993,8 +991,6 @@ void() PlayerDeathThink =
 
 void() PlayerJump =
 {
-	local vector start, end;
-
 	if (self.flags & FL_WATERJUMP)
 		return;
 
@@ -1185,9 +1181,6 @@ Called every frame before physics are run
 */
 void() PlayerPreThink =
 {
-	local	float	mspeed, aspeed;
-	local	float	r;
-
     // ELOHIM_MOD
     //
     // - moved intermission_running test inside of if (gameover)
@@ -1440,9 +1433,6 @@ Called every frame after physics are run
 */
 void() PlayerPostThink =
 {
-	local	float	mspeed, aspeed;
-	local	float	r;
-
     // ELOHIM_MOD
     //
     // - don't do post think stuff while observing
@@ -1646,7 +1636,7 @@ called when a player dies
 */
 void(entity targ, entity attacker) ClientObituary =
 {
-	local	float rnum, rnum2;
+	local	float rnum;
 	local	string deathstring, deathstring2;
 	rnum = random();
 

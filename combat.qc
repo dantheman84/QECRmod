@@ -109,6 +109,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 	local	entity	oldself;
 	local	float	save;
 	local	float	take;
+	local 	string 	temp; // Warning fixed using R00k's example
 
 	if (!targ.takedamage)
 		return;
@@ -203,7 +204,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
         if (targ.classname == "player" && attacker.classname == "player"
             && targ != attacker)
         {
-            local string temp;
             temp = ftos(damage);
             centerprint4(attacker, targ.netname, ": ", temp, "\n\n\n\n\n\n\n\n");
         }
@@ -248,7 +248,6 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
             if (targ.classname == "player" && attacker.classname == "player"
                 && targ != attacker)
             {
-                local string temp;
                 temp = ftos(attacker.health);
                 centerprint5(targ, "\n\n\n\n", attacker.netname, " has ", temp, " health");
                 sprint5(targ, "\n\n\n\n", attacker.netname, " has ", temp, " health\n");
@@ -286,7 +285,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 
 	if (self.th_pain)
 	{
-		self.th_pain (attacker, take);
+		self.th_pain (); // Warning fixed
+		// self.th_pain (attacker, take);
 
         // ELOHIM_MOD - unused
         /*

@@ -45,8 +45,6 @@ void () observer_find_teleport =
 {
     local entity e;
     local float d, mindist;
-    local string temp;
-    local vector vtemp;
 
     // find the closest teleport
     mindist = 99999999;
@@ -394,8 +392,6 @@ void () observer_demo_start =
 //
 void () observer_start =
 {
-    local float go_auto;
-
     self.crmod_chase_score = ELOHIM_NEGINF;  // CRMOD make sure they don't have some high rating that can't be beat by the other players
 
     self.style = self.style | ELOHIM_OBSERVER;
@@ -942,8 +938,6 @@ void () observer_set_chase_position =
 {
     local vector pos;
     local vector desired_angle;	// CRMOD
-    local float da;
-    local string temp;
     local vector angle;
 
     if (self.oflags & OBSERVER_AUTO)
@@ -1216,8 +1210,6 @@ void () observer_camera_help =
 //
 void () observer_cancel_leave =
 {
-    local entity oself;
-
     if (self.owner.style & ELOHIM_CONFIRM_LEAVE)
     {
         self.owner.style = self.owner.style - ELOHIM_CONFIRM_LEAVE;
@@ -1394,7 +1386,7 @@ void () observer_check_size =
 //
 void () observer_update_display =
 {
-    local string w, armour, aval, healthammo, ammo;
+    // local string w, armour, aval, healthammo, ammo;
 	local entity player;	// CRMOD cameras
 	local string score, pad, teamname;
 
@@ -1439,38 +1431,38 @@ void () observer_update_display =
 
     // TODO come back and see if there's more to re-enable from this
 
-    if (!player)
-    {
-		if (elohim_state & ELOHIM_MATCH_STARTED)
-			centerprint4(self, "\n\n\n\n\n\n\n\n\n\n\n\n               ", teamname, score, pad);
-		else
-			centerprint(self, " ");
-        return;
-    }
+    // if (!player)
+    // {
+	// 	if (elohim_state & ELOHIM_MATCH_STARTED)
+	// 		centerprint4(self, "\n\n\n\n\n\n\n\n\n\n\n\n               ", teamname, score, pad);
+	// 	else
+	// 		centerprint(self, " ");
+    //     return;
+    // }
 
-    if (self.style & ELOHIM_HEADS_UP)
-    {
-        w = strings_get_weapon(player);
-        armour = strings_get_armour_type(player);
-        aval = strings_get_armour_val(player);
-        healthammo = strings_get_health_ammo(player);
-        ammo = ftos(player.currentammo);
+    // if (self.style & ELOHIM_HEADS_UP)
+    // {
+    //     w = strings_get_weapon(player);
+    //     armour = strings_get_armour_type(player);
+    //     aval = strings_get_armour_val(player);
+    //     healthammo = strings_get_health_ammo(player);
+    //     ammo = ftos(player.currentammo);
 
-        centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\n\n\n",
-            player.netname, w, armour, aval, healthammo, ammo);
-    }
-    else
-    {
-		local string othertarget;
+    //     centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    //         player.netname, w, armour, aval, healthammo, ammo);
+    // }
+    // else
+    // {
+	// 	local string othertarget;
 
-		if ((self.oflags & OBSERVER_TOURNEY) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
-			othertarget = self.crmod_othertarget.netname;
-		else
-			othertarget = "";
+	// 	if ((self.oflags & OBSERVER_TOURNEY) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
+	// 		othertarget = self.crmod_othertarget.netname;
+	// 	else
+	// 		othertarget = "";
 
-		centerprint7(self, "\n\n\n\n\n\n\n\n\n\n", othertarget, "                       \n\n",
-					 player.netname, teamname, score, pad);
-    }
+	// 	centerprint7(self, "\n\n\n\n\n\n\n\n\n\n", othertarget, "                       \n\n",
+	// 				 player.netname, teamname, score, pad);
+    // }
 };
 
 //
@@ -1647,7 +1639,7 @@ void () observer_fly_through_obstacle =
 void () observer_fly_move =
 {
     local float dz, zvel, right_coef, forward_coef, norm;
-    local vector newvel, f;
+    local vector f;
 
     // Check if the observer is pressing up or down by looking at the
     // change in velocity_z.  zvel is set to 1 if the observer is pressing
@@ -1840,7 +1832,6 @@ void () observer_post_think =
 void () observer_door_touch =
 {
     local float temp;
-    local string stemp;
 
     // Ignore observers that are in chase mode or who are above the door
     if (other.origin_z > self.absmax_z || self.oflags & (OBSERVER_CHASE | OBSERVER_DEMO))

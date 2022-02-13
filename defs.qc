@@ -404,11 +404,9 @@ float   MSG_INIT                = 3;            // write to the init string
 //
 // globals
 //
-float   movedist;
 float   gameover;               // set when a rule exits
 
 string  string_null;    // null string, nothing should be held here
-float   empty_float;
 
 entity  newmis;                 // launch_spike sets this after spawning it
 
@@ -448,7 +446,9 @@ float   framecount;
 //.void()     th_missile; // ELOHIM_MOD - unused
 //.void()     th_melee; // ELOHIM_MOD - unused
 
-.void(entity attacker, float damage)            th_pain;
+// Fixed implicit cast warning since callers don't provide parameters
+.void()            th_pain;
+// .void(entity attacker, float damage)            th_pain;
 .void()         th_die;
 
 // ELOHIM_MOD - unused
@@ -610,7 +610,8 @@ void() traceoff                                         = #30;
 void(entity e) eprint                           = #31;          // prints an entire edict
 float(float yaw, float dist) walkmove   = #32;  // returns TRUE or FALSE
 // #33 was removed
-float(float yaw, float dist) droptofloor= #34;  // TRUE if landed on floor
+float() droptofloor= #34;  // TRUE if landed on floor, fixed warning since no callers passed parameters
+// float(float yaw, float dist) droptofloor= #34;  // TRUE if landed on floor
 void(float style, string value) lightstyle = #35;
 float(float v) rint                                     = #36;          // round to nearest int
 float(float v) floor                            = #37;          // largest integer <= v

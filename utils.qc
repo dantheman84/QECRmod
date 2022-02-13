@@ -420,14 +420,14 @@ entity (void() think_function, float think_time) utils_make_scheduled_event =
 //
 //  S E T  C V A R
 //
-//  Set the console variable 'var' to 'value'.
+//  Set the console variable 'variable' to 'value'.
 //
-void (string var, float value) utils_set_cvar =
+void (string variable, float value) utils_set_cvar =
 {
     local string temp;
 
     temp = ftos(value);
-    cvar_set(var, temp);
+    cvar_set(variable, temp);
 };
 
 //

@@ -209,6 +209,7 @@ void () match_bprint_time =
 void () match_sprint_status =
 {
     local float team1, team2;
+    local string temp;
 
     if (elohim_state & ELOHIM_MATCH_STARTED)
     {
@@ -233,8 +234,6 @@ void () match_sprint_status =
         sprint(self, "Match over\n");
     else
     {
-        local string temp;
-
         temp = ftos(elohim_match_timer.lip);
         sprint3(self, "Time remaining:  ", temp, ":");
         temp = ftos(elohim_match_timer.count);
@@ -245,7 +244,6 @@ void () match_sprint_status =
 
     local string score;
     local string teamname;
-    local string temp;
 
     teamname = strings_get_teamname(team1);
     score = ftos(elohim_teamfrags1);
@@ -376,7 +374,6 @@ void () match_timer_think2 =
     {
         if (self.count == 10)
             bprint("Match ends in T minus\n");
-        local string temp;
         temp = ftos(self.count);
         bprint3("  ", temp, " seconds\n");
     }

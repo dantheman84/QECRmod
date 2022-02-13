@@ -33,7 +33,7 @@ void () SUB_Null;
 //
 //  Returns TRUE if successful, FALSE otherwise.
 //
-void (string s1, string s2, void () accept) vote_init =
+float (string s1, string s2, void () accept) vote_init =
 {
     // Check to see if there's already a vote in progress
     if (elohim_request)

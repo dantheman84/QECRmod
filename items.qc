@@ -183,7 +183,6 @@ void() item_health =
 
 void() health_touch =
 {
-	local	float amount;
 	local	string	s;
 
     // ELOHIM_MOD
@@ -932,9 +931,6 @@ KEYS
 
 void() key_touch =
 {
-local entity	stemp;
-local float		best;
-
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
@@ -1073,9 +1069,6 @@ END OF LEVEL RUNES
 
 void() sigil_touch =
 {
-local entity	stemp;
-local float		best;
-
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;
@@ -1151,9 +1144,6 @@ void() powerup_touch;
 
 void() powerup_touch =
 {
-local entity	stemp;
-local float		best;
-
     // ELOHIM_MOD
     if (elohim_playmode & ELOHIM_MATCH_MODE && !(elohim_state & ELOHIM_MATCH_STARTED))
         return;

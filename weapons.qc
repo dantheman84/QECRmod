@@ -95,8 +95,7 @@ SpawnMeatSpray
 */
 void(vector org, vector vel) SpawnMeatSpray =
 {
-	local	entity missile, mpuff;
-	local	vector	org;
+	local	entity missile;
 
 	missile = spawn ();
 	missile.owner = self;
@@ -452,7 +451,7 @@ W_FireRocket
 */
 void() W_FireRocket =
 {
-	local	entity missile, mpuff;
+	local	entity missile;
 
     // ELOHIM_MOD - infinite ammo in practice mode
     if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
@@ -648,7 +647,7 @@ W_FireGrenade
 */
 void() W_FireGrenade =
 {
-	local	entity missile, mpuff;
+	local	entity missile;
 
     // ELOHIM_MOD - infinite ammo in practice mode
     if (!(elohim_playmode & ELOHIM_PRACTICE_MODE))
@@ -737,7 +736,6 @@ void(vector org, vector dir) launch_spike =
 void() W_FireSuperSpikes =
 {
 	local vector	dir;
-	local entity	old;
 
 	sound (self, CHAN_WEAPON, "weapons/spike2.wav", 1, ATTN_NORM);
 	self.attack_finished = time + 0.2;
@@ -771,7 +769,6 @@ void() W_FireSuperSpikes =
 void(float ox) W_FireSpikes =
 {
 	local vector	dir;
-	local entity	old;
 
 	makevectors (self.v_angle);
 
@@ -820,7 +817,6 @@ void(float ox) W_FireSpikes =
 
 void() spike_touch =
 {
-local float rand;
 	if (other == self.owner)
 		return;
 
@@ -860,7 +856,6 @@ local float rand;
 
 void() superspike_touch =
 {
-local float rand;
 	if (other == self.owner)
 		return;
 
@@ -1515,8 +1510,6 @@ LaunchLaser
 */
 void(vector org, vector vec) LaunchLaser =
 {
-	local	vector	vec;
-
 	if (self.classname == "monster_enforcer")
 		sound (self, CHAN_WEAPON, "enforcer/enfire.wav", 1, ATTN_NORM);
 

@@ -1039,7 +1039,8 @@ void (float fDoKick) admin_confirm_kick_response =
 //
 void () admin_do_kick =
 {
-    return;
+    // Function had early return in QECRmod... maybe crashed QE?
+    // return;
     bprint2(kick_target.netname, " kicked by administrator\n");
     cprint3("\"", kick_target.netname, " kicked by administrator\"\n");
     elohim_kick_player(kick_target);

@@ -191,6 +191,7 @@ string (float value) options_szovertime =
         else if (value == 10)
             return "Οφεςτινε    ±°      \n";
     }
+    return "";
 };
 
 //
@@ -609,8 +610,6 @@ void () options_start_setting =
 //
 void () options_change =
 {
-    local float temp;
-
     if (self.t_length == 0)
     {
         // change mode

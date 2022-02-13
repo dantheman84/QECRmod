@@ -12,6 +12,7 @@
 void () debug_info =
 {
     local entity e;
+	local string temp;
 	
     sprint(self, "clients:\n");
     e = find(world, classname, "player");
@@ -19,7 +20,6 @@ void () debug_info =
     {
 		if (e.style & ELOHIM_CONNECTED)
 		{
-			local string temp;
 			temp = ftos(e.colormap);
 			sprint4(self, temp, " ", e.netname, "   ");
 			temp = ftos(e.crmod_chase_score);
@@ -31,7 +31,6 @@ void () debug_info =
     e = find(world, classname, "elohim_camera");
     while (e)
     {
-        local string temp;
         temp = ftos(e.crmod_chase_score);
         sprint2(self, temp, " ");
         e = find(e, classname, "elohim_camera");

@@ -172,7 +172,6 @@ void () elohim_init_world =
 		// Check to see if this is a dedicated server.
 		// Dedicated servers do not have an ambient_fade cvar, so the
 		// value returned by cvar() will not change.
-		local float temp;
 		temp = cvar("ambient_fade");
 		utils_set_cvar("ambient_fade", temp + 1);
 		if (temp == cvar("ambient_fade"))
@@ -262,10 +261,11 @@ void () elohim_init_world =
 void () elohim_load_cameras =
 {
     return;
-    cprint3("\"Searching for optional file cameras/", mapname, ".cam\"\n");
-    cprint("\"It is OPTIONAL - there is nothing wrong if it can't be found.\"\n");
-    localcmd3("exec cameras/", mapname, ".cam;wait\n");
-    remove(self);
+    // May crash QE?
+    // cprint3("\"Searching for optional file cameras/", mapname, ".cam\"\n");
+    // cprint("\"It is OPTIONAL - there is nothing wrong if it can't be found.\"\n");
+    // localcmd3("exec cameras/", mapname, ".cam;wait\n");
+    // remove(self);
 };
 
 //
@@ -274,11 +274,12 @@ void () elohim_load_cameras =
 void () elohim_load_entities =
 {
     return;
-    cprint3("\"Searching for optional file entities/", mapname, ".ent\"\n");
-    cprint("\"It is OPTIONAL - there is nothing wrong if it can't be found.\"\n");
-    localcmd3("exec entities/", mapname, ".ent;wait\n");
-    self.think = elohim_load_cameras;
-    self.nextthink = time + 0.2;
+    // Crashes QE!
+    // cprint3("\"Searching for optional file entities/", mapname, ".ent\"\n");
+    // cprint("\"It is OPTIONAL - there is nothing wrong if it can't be found.\"\n");
+    // localcmd3("exec entities/", mapname, ".ent;wait\n");
+    // self.think = elohim_load_cameras;
+    // self.nextthink = time + 0.2;
 };
 
 //

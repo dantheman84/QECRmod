@@ -245,7 +245,7 @@ void () auto_demo_start =
 //
 void () auto_chase =
 {
-	local float temp1, temp2, temp3, vSwitch;
+	local float temp1, temp2, vSwitch;
 	local entity inflictor;
 
 	vSwitch = FALSE;
