@@ -22,6 +22,7 @@ string request_mapname;     // Used for requesting a new level
 float request_timelimit;    // Used for requesting a new time limit
 float request_gibs;         // Used to set gib level
 float request_mode;         // Used to request a new mode
+float request_deathmatch;   // Used to request new deathmatch mode
 entity kick_target;         // Player to kick
 
 //
@@ -127,6 +128,12 @@ void () admin_send_aliases2 =
 	// Qsmack commands
 	stuffcmd(self, "alias qsmack impulse 37\n");
 
+	// set deathmatch mode 1 (weapon spawn)
+	stuffcmd(self, "alias setdm1 impulse 205\n");
+
+	// set deathmatch mode 3 (weapon stay)
+	stuffcmd(self, "alias setdm3 impulse 206\n");
+
 	// kick a player
 	stuffcmd(self, "alias kick! impulse 213\n");
 	stuffcmd(self, "alias skick impulse 213\n");
@@ -140,13 +147,11 @@ void () admin_send_aliases2 =
 	// help
 	stuffcmd(self, "alias help-admin impulse 200\n");
 
-	// QECRmod overridden to set deathmatch 1
 	// enable/disable practice mode spooging
-	stuffcmd(self, "alias setdm1 impulse 224\n");
+	stuffcmd(self, "alias setcharge impulse 224\n");
 
-	// QECRmod overridden to set deathmatch 3
 	// enable/disable mode voting
-	stuffcmd(self, "alias setdm3 impulse 228\n");
+	stuffcmd(self, "alias modevote impulse 228\n");
 
 	// set options
 	stuffcmd(self, "alias options impulse 229\n");
@@ -419,6 +424,43 @@ void (float newmode) admin_request_set_mode =
 	}
 	else
 		sprint(self, "Mode voting has been disabled\n");
+};
+
+//
+//  S E T  D E A T H M A T C H
+//
+void () admin_set_deathmatch =
+{
+	local string temp;
+
+	deathmatch = request_deathmatch;
+	temp = ftos(deathmatch);
+	localcmd3("deathmatch ", temp, "\n");
+	bprint3("deathmatch changed to ", temp, "\n");
+	cprint3("deathmatch changed to ", temp, "\n");
+};
+
+//
+//  R E Q U E S T  S E T  D E A T H M A T C H
+//
+//  Request to enable/disable deathmatch.
+//
+void (float val) admin_request_set_deathmatch =
+{
+	// Do it right away if we're an administrator, otherwise vote
+	if (self.style & ELOHIM_ADMINISTRATOR)
+	{
+		request_deathmatch = val;
+		admin_set_deathmatch();
+	}
+	else
+	{
+		request_deathmatch = val;
+		local string newstate;
+		newstate = ftos(val);
+		if (vote_init("deathmatch ", newstate, admin_set_deathmatch))
+			vote_yes();
+	}
 };
 
 //
@@ -1312,22 +1354,6 @@ void () admin_help =
 	sprint(self, " makecam    - add camera\n");
 };
 
-
-
-//
-//  D M S E T
-//
-void (float val) admin_dmset = 
-{
-	local string temp;
-
-	deathmatch = val;
-	temp = ftos(deathmatch);
-	localcmd3("deathmatch ", temp, "\n");
-	bprint2("deathmatch changed to ", temp);
-		cprint2("deathmatch changed to ", temp);
-};
-
 //
 //  I M P U L S E
 //
@@ -1338,6 +1364,10 @@ void () admin_impulse =
 	// votable commands
 	if (self.impulse >= 190 && self.impulse <= 196)
 		admin_init_warp(self.impulse - 190);
+	else if (self.impulse == 205)
+		admin_request_set_deathmatch(1);
+	else if (self.impulse == 206)
+		admin_request_set_deathmatch(3);
 	else if (self.impulse == 207)
 		admin_request_set_ggmod();
 	else if (self.impulse >= 208 && self.impulse <= 210)
@@ -1376,9 +1406,9 @@ void () admin_impulse =
 	else if (self.impulse == 214)
 		match_end();
 	else if (self.impulse == 224)
-		admin_dmset(1);
+		admin_set_spooge();
 	else if (self.impulse == 228)
-	   admin_dmset(3);
+		admin_set_mode_vote();
 	else if (self.impulse == 229)
 		options_start_setting();
 	else if (self.impulse == 246)
