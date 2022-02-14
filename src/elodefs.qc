@@ -30,6 +30,7 @@ float CRMOD_SMART_WEAPON = 16384;    // whether or not to use `smart' weapon swi
 float ELOHIM_OBSERVER = 32768;		 // set if the client is an observer
 float CRMOD_QSMACK = 65536;			// set for qsmack bots
 float ELOHIM_SCOREBOARD = 131072;	// player is looking at teamscores
+float CRMOD_AUTOSTATS = 262144;	    // player has autostats enabled
 
 // observer flags  (/me kills jp)
 float OBSERVER_WALK = 1;        // set in walk mode

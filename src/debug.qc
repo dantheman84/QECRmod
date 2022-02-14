@@ -265,6 +265,8 @@ void () debug_client_flags =
 		sprint(self, "ELOHIM_OBSERVER\n");
 	if (self.movetarget.style & CRMOD_QSMACK)
 		sprint(self, "CRMOD_QSMACK\n");
+	if (self.movetarget.style & CRMOD_AUTOSTATS)
+		sprint(self, "CRMOD_AUTOSTATS\n");
 	sprint(self, "\n");
 
 	if (self.movetarget.oflags & OBSERVER_WALK)

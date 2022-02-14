@@ -317,6 +317,9 @@ void () match_end =
 	elohim_match_timer.nextthink = time + 5;
 
 	score_update_time();
+
+	// Dump statistics for anyone who has autostats set
+	utils_do_players(stats_autodump);
 };
 
 //
@@ -1218,6 +1221,7 @@ void () match_request_unpause =
 				sprint(self, "There are no teams present\n");
 			else
 				sprint(self, "There is only one team present\n");
+			// Disabling this line allows match dev testing with only one team present :)
 			return;
 		}
 		// request to force the timer to start.

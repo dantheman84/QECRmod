@@ -374,6 +374,7 @@ void () elohim_set_aliases =
 		stuffcmd(self, "alias eff impulse 111\n");                  // CRMOD - so people don't have to spell out efficiency
 		stuffcmd(self, "alias stats impulse 112\n");
 		stuffcmd(self, "alias quadstats impulse 113\n");    // CRMOD - new impulse
+		stuffcmd(self, "alias autostats impulse 204\n");
 		stuffcmd(self, "alias autoweapon impulse 114\n");
 		stuffcmd(self, "alias aw impulse 114\n");
 		stuffcmd(self, "alias vinfo impulse 117\n");
@@ -899,6 +900,9 @@ void () elohim_impulse =
 
 		else if ((self.impulse >= 140 && self.impulse <= 159) || self.impulse == 226)
 		observer_impulse();
+
+		else if (self.impulse == 204)
+			utils_toggle_flag(CRMOD_AUTOSTATS, "Autostats");
 
 		else if (self.impulse >= 190)
 		admin_impulse();

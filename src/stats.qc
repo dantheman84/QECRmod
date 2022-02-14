@@ -271,3 +271,46 @@ void () stats_show_summary =
 	}
 };
 
+//
+//  A U T O D U M P
+//
+//  Dump statistics if player has autostats enabled.
+//
+void() stats_autodump =
+{
+	if (self.style & CRMOD_AUTOSTATS)
+	{
+		sprint(self, "[CRMod match statistics]\n");
+
+		// Kex doesn't like doing more than scr_maxlines of prints, which defaults to 4 and maxes at 20
+		// Print stats in reverse order so most important ones are hopefully present
+
+		if (!(elohim_playmode & ELOHIM_NO_QUAD))//R00k -added-
+		{
+			stats_show_quadstats();
+			sprint(self, "\n");
+		}
+
+		stats_show_efficiency();
+		sprint(self, "\n");
+
+		stats_show_killstats();
+		sprint(self, "\n");
+
+		stats_show_summary();
+		sprint(self, "\n");
+
+		// TODO
+		// if (teamplay)
+		// {
+		// 	stats_show_teamstats();
+		// 	sprint(self, "\n");
+		// }
+		//
+		// if ((elohim_playmode & ELOHIM_MATCH_MODE) && (teamplay == 2))
+		// {
+		// 	stats_show_badstats();
+		// 	sprint(self, "\n");
+		// }
+	}
+};
