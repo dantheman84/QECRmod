@@ -570,6 +570,42 @@ string (float num) strings_get_teamname3 =
 };
 
 //
+//  G E T  T E A M N A M E 4  B R O N Z E
+//
+//  For when 9 characters is too many and you want it bronze.. I'm so sorry JP.
+//
+string (float num) strings_get_teamname4_bronze =
+{
+	if (num == 1)
+		return "\sBrown   ";
+	if (num == 2)
+		return "\sLt Blue ";
+	if (num == 3)
+		return "\sGreen   ";
+	if (num == 4)
+		return "\sRed     ";
+	if (num == 5)
+		return "\sOlive   ";
+	if (num == 6)
+		return "\sGold    ";
+	if (num == 7)
+		return "\sFlesh   ";
+	if (num == 8)
+		return "\sLavender";
+	if (num == 9)
+		return "\sPurple  ";
+	if (num == 10)
+		return "\sBeige   ";
+	if (num == 11)
+		return "\sAqua    ";
+	if (num == 12)
+		return "\sYellow  ";
+	if (num == 13)
+		return "\sBlue    ";
+	return "\sNo team "; // can happen sometimes
+};
+
+//
 //  G E T  T E A M N A M E  U P  B Y
 //
 //  Return the "colour up by " string corresponding to a given team.

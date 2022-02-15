@@ -123,6 +123,34 @@ float elohim_score_number;		// either difference in score or tied score
 string ELOHIM_STRING_TIED;		// initialized to "   Tied at "
 float elohim_score_count;		// number of clients looking at score
 
+// team stats
+float crmod_teamra1;            // team 1 red armor pickups
+float crmod_teamya1;            // team 1 yellow armor pickups
+float crmod_teamga1;            // team 1 green armor pickups
+float crmod_teamquad1;          // team 1 quad pickups
+float crmod_teampent1;          // team 1 pentagram pickups
+float crmod_teameyes1;          // team 1 eyes pickups
+float crmod_teammega1;          // team 1 mega health pickups
+float crmod_teamrl1;            // team 1 rocket launcher pickups
+float crmod_teamlg1;            // team 1 lightning gun pickups
+float crmod_teamgl1;            // team 1 grenade launcher pickups
+float crmod_teamsn1;            // team 1 super nailgun pickups
+float crmod_teamng1;            // team 1 nailgun pickups
+float crmod_teamss1;            // team 1 super shotgun pickups
+float crmod_teamquad2;          // team 2 quad pickups
+float crmod_teampent2;          // team 2 pentagram pickups
+float crmod_teameyes2;          // team 2 eyes pickups
+float crmod_teammega2;          // team 2 mega health pickups
+float crmod_teamrl2;            // team 2 rocket launcher pickups
+float crmod_teamlg2;            // team 2 lightning gun pickups
+float crmod_teamgl2;            // team 2 grenade launcher pickups
+float crmod_teamsn2;            // team 2 super nailgun pickups
+float crmod_teamng2;            // team 2 nailgun pickups
+float crmod_teamss2;            // team 2 super shotgun pickups
+float crmod_teamra2;            // team 2 red armor pickups
+float crmod_teamya2;            // team 2 yellow armor pickups
+float crmod_teamga2;            // team 2 green armor pickups
+
 // auto parameters
 float auto_parm1;	// activity bonus factor (default 20)
 float auto_parm2;	// proximity bonus for cameras (default 100)

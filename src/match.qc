@@ -455,6 +455,9 @@ void () match_begin =
 		utils_make_scheduled_event(match_remove_starts, 2);
 	}
 
+	// Reset team match stats
+	stats_reset_team();
+
 	// Initialize the score module
 	score_init();
 };

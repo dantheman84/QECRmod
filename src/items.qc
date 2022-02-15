@@ -222,6 +222,13 @@ void() health_touch =
 	// Megahealth = rot down the player's super health
 	if (self.healtype == 2)
 	{
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teammega1 = crmod_teammega1 + 1;
+			else
+				crmod_teammega2 = crmod_teammega2 + 1;
+		}
 		other.items = other.items | IT_SUPERHEALTH;
 		self.nextthink = time + 5;
 		self.think = item_megahealth_rot;
@@ -307,6 +314,37 @@ void() armor_touch =
 	}
 	if (other.armortype*other.armorvalue >= type*value)
 		return;
+
+	if (bit == IT_ARMOR2)
+	{
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamga1 = crmod_teamga1 + 1;
+			else
+				crmod_teamga2 = crmod_teamga2 + 1;
+		}
+	}
+	if (bit == IT_ARMOR2)
+	{
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamya1 = crmod_teamya1 + 1;
+			else
+				crmod_teamya2 = crmod_teamya2 + 1;
+		}
+	}
+	if (bit == IT_ARMOR3)
+	{
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamra1 = crmod_teamra1 + 1;
+			else
+				crmod_teamra2 = crmod_teamra2 + 1;
+		}
+	}
 
 	other.armortype = type;
 	other.armorvalue = value;
@@ -474,6 +512,13 @@ void() weapon_touch =
 		hadammo = other.ammo_nails;
 		new = IT_NAILGUN;
 		other.ammo_nails = other.ammo_nails + 30;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamng1 = crmod_teamng1 + 1;
+			else
+				crmod_teamng2 = crmod_teamng2 + 1;
+		}
 	}
 	else if (self.classname == "weapon_supernailgun")
 	{
@@ -482,6 +527,13 @@ void() weapon_touch =
 		hadammo = other.ammo_rockets;
 		new = IT_SUPER_NAILGUN;
 		other.ammo_nails = other.ammo_nails + 30;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamsn1 = crmod_teamsn1 + 1;
+			else
+				crmod_teamsn2 = crmod_teamsn2 + 1;
+		}
 	}
 	else if (self.classname == "weapon_supershotgun")
 	{
@@ -490,6 +542,13 @@ void() weapon_touch =
 		hadammo = other.ammo_rockets;
 		new = IT_SUPER_SHOTGUN;
 		other.ammo_shells = other.ammo_shells + 5;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamss1 = crmod_teamss1 + 1;
+			else
+				crmod_teamss2 = crmod_teamss2 + 1;
+		}
 	}
 	else if (self.classname == "weapon_rocketlauncher")
 	{
@@ -498,6 +557,13 @@ void() weapon_touch =
 		hadammo = other.ammo_rockets;
 		new = IT_ROCKET_LAUNCHER;
 		other.ammo_rockets = other.ammo_rockets + 5;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamrl1 = crmod_teamrl1 + 1;
+			else
+				crmod_teamrl2 = crmod_teamrl2 + 1;
+		}
 	}
 	else if (self.classname == "weapon_grenadelauncher")
 	{
@@ -506,6 +572,13 @@ void() weapon_touch =
 		hadammo = other.ammo_rockets;
 		new = IT_GRENADE_LAUNCHER;
 		other.ammo_rockets = other.ammo_rockets + 5;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamgl1 = crmod_teamgl1 + 1;
+			else
+				crmod_teamgl2 = crmod_teamgl2 + 1;
+		}
 	}
 	else if (self.classname == "weapon_lightning")
 	{
@@ -514,6 +587,13 @@ void() weapon_touch =
 		hadammo = other.ammo_rockets;
 		new = IT_LIGHTNING;
 		other.ammo_cells = other.ammo_cells + 15;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamlg1 = crmod_teamlg1 + 1;
+			else
+				crmod_teamlg2 = crmod_teamlg2 + 1;
+		}
 	}
 	else
 		objerror ("weapon_touch: unknown classname");
@@ -1188,12 +1268,26 @@ void() powerup_touch =
 	{
 		other.invincible_time = 1;
 		other.invincible_finished = time + 30;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teampent1 = crmod_teampent1 + 1;
+			else
+				crmod_teampent2 = crmod_teampent2 + 1;
+		}
 	}
 
 	if (self.classname == "item_artifact_invisibility")
 	{
 		other.invisible_time = 1;
 		other.invisible_finished = time + 30;
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teameyes1 = crmod_teameyes1 + 1;
+			else
+				crmod_teameyes2 = crmod_teameyes2 + 1;
+		}
 	}
 
 	if (self.classname == "item_artifact_super_damage")
@@ -1201,6 +1295,13 @@ void() powerup_touch =
 		other.super_time = 1;
 		other.super_damage_finished = time + 30;
 		other.crmod_qdwep_z = other.crmod_qdwep_z + 1;  //CRMOD - stats
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			if (other.height == elohim_team1)
+				crmod_teamquad1 = crmod_teamquad1 + 1;
+			else
+				crmod_teamquad2 = crmod_teamquad2 + 1;
+		}
 	}
 
 	activator = other;

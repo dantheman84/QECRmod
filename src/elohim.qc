@@ -95,6 +95,8 @@ void () stats_show_quadstats;
 void () stats_show_killstats;
 void () stats_show_efficiency;
 void () stats_show_summary;
+void () stats_autodump;
+void () stats_show_teamstats;
 void () motd_init_world;
 void () motd_create;
 void () score_init_world;
@@ -375,6 +377,8 @@ void () elohim_set_aliases =
 		stuffcmd(self, "alias stats impulse 112\n");
 		stuffcmd(self, "alias quadstats impulse 113\n");    // CRMOD - new impulse
 		stuffcmd(self, "alias autostats impulse 204\n");
+		stuffcmd(self, "alias allstats impulse 203\n");
+		stuffcmd(self, "alias teamstats impulse 202\n");
 		stuffcmd(self, "alias autoweapon impulse 114\n");
 		stuffcmd(self, "alias aw impulse 114\n");
 		stuffcmd(self, "alias vinfo impulse 117\n");
@@ -900,6 +904,12 @@ void () elohim_impulse =
 
 		else if ((self.impulse >= 140 && self.impulse <= 159) || self.impulse == 226)
 		observer_impulse();
+
+		else if (self.impulse == 202)
+			stats_show_teamstats();
+
+		else if (self.impulse == 203)
+			stats_autodump();
 
 		else if (self.impulse == 204)
 			utils_toggle_flag(CRMOD_AUTOSTATS, "Autostats");

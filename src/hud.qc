@@ -55,11 +55,11 @@ void hud_update() =
 	msg_entity = self;
 	WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
-	// 1 base(?) + 1 format string + 63 format parameters
-	WriteShort (MSG_ONE, 66); // QE reserved
+	// 1 base(?) + 1 format string + 96 format parameters
+	WriteShort (MSG_ONE, 98); // QE reserved
 
 	// Print newlines to push hud to bottom of screen
-	local float newlines = 6;
+	local float newlines = 0;
 	local float i;
 	for(i = 0; i < newlines; i = i + 1)
 	{
@@ -68,6 +68,13 @@ void hud_update() =
 
 	// Write format string
 	WriteString(MSG_ONE,
+		// Team names for match observer mode
+		"{}                                  {}\n"
+		// Team item stats for match observer mode
+		"{}{}{}{}{}                                    {}{}{}{}{}\n"
+		"{}{}{}{}{}                                    {}{}{}{}{}\n"
+		"{}{}{}{}{}                                    {}{}{}{}{}\n"
+		"\n\n"
 		// Item timers for observer mode
 		"                                           {}{}{}{}{}\n"
 		"                                           {}{}{}{}{}\n"
@@ -94,6 +101,140 @@ void hud_update() =
 		// Shells
 		"                                           {}\x10{}{}\x11\n"
 	);
+
+	/* Only print team item stats in observer HUD when in match mode */
+	if ((self.style & ELOHIM_OBSERVER) && (elohim_playmode & ELOHIM_MATCH_MODE))
+	{
+		/* Team names */
+		WriteString(MSG_ONE, strings_get_teamname4_bronze(elohim_team1));
+		WriteString(MSG_ONE, strings_get_teamname4_bronze(elohim_team2));
+
+		/* Quad */
+		WriteString(MSG_ONE, " \sq");
+		WriteString(MSG_ONE, "\x10");
+		if (crmod_teamquad1 < 10)
+		{
+			WriteString(MSG_ONE, "  ");
+		}
+		else if (crmod_teamquad1 < 100)
+		{
+			WriteString(MSG_ONE, " ");
+		}
+		else // >= 100
+		{
+			WriteString(MSG_ONE, "");
+		}
+		WriteString(MSG_ONE, ftos(crmod_teamquad1));
+		WriteString(MSG_ONE, "\x11");
+
+		WriteString(MSG_ONE, " \sq");
+		WriteString(MSG_ONE, "\x10");
+		if (crmod_teamquad2 < 10)
+		{
+			WriteString(MSG_ONE, "  ");
+		}
+		else if (crmod_teamquad2 < 100)
+		{
+			WriteString(MSG_ONE, " ");
+		}
+		else // >= 100
+		{
+			WriteString(MSG_ONE, "");
+		}
+		WriteString(MSG_ONE, ftos(crmod_teamquad2));
+		WriteString(MSG_ONE, "\x11");
+
+		/* Red Armor */
+		WriteString(MSG_ONE, "\sra");
+		WriteString(MSG_ONE, "\x10");
+		if (crmod_teamra1 < 10)
+		{
+			WriteString(MSG_ONE, "  ");
+		}
+		else if (crmod_teamra1 < 100)
+		{
+			WriteString(MSG_ONE, " ");
+		}
+		else // >= 100
+		{
+			WriteString(MSG_ONE, "");
+		}
+		WriteString(MSG_ONE, ftos(crmod_teamra1));
+		WriteString(MSG_ONE, "\x11");
+
+		WriteString(MSG_ONE, "\sra");
+		WriteString(MSG_ONE, "\x10");
+		if (crmod_teamra2 < 10)
+		{
+			WriteString(MSG_ONE, "  ");
+		}
+		else if (crmod_teamra2 < 100)
+		{
+			WriteString(MSG_ONE, " ");
+		}
+		else // >= 100
+		{
+			WriteString(MSG_ONE, "");
+		}
+		WriteString(MSG_ONE, ftos(crmod_teamra2));
+		WriteString(MSG_ONE, "\x11");
+
+		/* Mega Health */
+		WriteString(MSG_ONE, "\smh");
+		WriteString(MSG_ONE, "\x10");
+		if (crmod_teammega1 < 10)
+		{
+			WriteString(MSG_ONE, "  ");
+		}
+		else if (crmod_teammega1 < 100)
+		{
+			WriteString(MSG_ONE, " ");
+		}
+		else // >= 100
+		{
+			WriteString(MSG_ONE, "");
+		}
+		WriteString(MSG_ONE, ftos(crmod_teammega1));
+		WriteString(MSG_ONE, "\x11");
+
+		WriteString(MSG_ONE, "\smh");
+		WriteString(MSG_ONE, "\x10");
+		if (crmod_teammega2 < 10)
+		{
+			WriteString(MSG_ONE, "  ");
+		}
+		else if (crmod_teammega2 < 100)
+		{
+			WriteString(MSG_ONE, " ");
+		}
+		else // >= 100
+		{
+			WriteString(MSG_ONE, "");
+		}
+		WriteString(MSG_ONE, ftos(crmod_teammega2));
+		WriteString(MSG_ONE, "\x11");
+	}
+	else
+	{
+		/* Print empty team item stat format string parameters when not observer or not match mode */
+
+		// Team names (8 characters)
+		WriteString(MSG_ONE, "        ");
+		WriteString(MSG_ONE, "        ");
+		for(i = 0; i < 6; i = i + 1)
+		{
+			// Outside (usually 2 red characters)
+			WriteString(MSG_ONE, "  ");
+			// Open bracket
+			WriteString(MSG_ONE, " ");
+			// Padding
+			WriteString(MSG_ONE, "   ");
+			// Number
+			WriteString(MSG_ONE, "");
+			// Close bracket
+			WriteString(MSG_ONE, " ");
+		}
+	}
 
 	local entity item;
 	local float item_slots = 8;

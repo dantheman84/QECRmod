@@ -24,19 +24,52 @@ void () stats_reset =
 };
 
 //
+//  R E S E T  T E A M  S T A T S
+//
+void () stats_reset_team =
+{
+	crmod_teamquad1 = 0;
+	crmod_teampent1 = 0;
+	crmod_teameyes1 = 0;
+	crmod_teammega1 = 0;
+	crmod_teamrl1 = 0;
+	crmod_teamlg1 = 0;
+	crmod_teamgl1 = 0;
+	crmod_teamsn1 = 0;
+	crmod_teamng1 = 0;
+	crmod_teamss1 = 0;
+	crmod_teamra1 = 0;
+	crmod_teamya1 = 0;
+	crmod_teamga1 = 0;
+	crmod_teamquad2 = 0;
+	crmod_teampent2 = 0;
+	crmod_teameyes2 = 0;
+	crmod_teammega2 = 0;
+	crmod_teamrl2 = 0;
+	crmod_teamlg2 = 0;
+	crmod_teamgl2 = 0;
+	crmod_teamsn2 = 0;
+	crmod_teamng2 = 0;
+	crmod_teamss2 = 0;
+	crmod_teamra2 = 0;
+	crmod_teamya2 = 0;
+	crmod_teamga2 = 0;
+};
+
+//
 //  S H O W  Q U A D S T A T S
 //
 void () stats_show_quadstats =
 {
 	local entity player;
 
-
-	sprint(self, "quads - quads picked up\n");
-	sprint(self, "eff   - quad weapon efficiency\n");
-	sprint(self, "opp   - number of opponents killed\n");
-	sprint(self, "slf   - number of times killed self\n");
-	sprint(self, "tm    - number of teammates killed\n");
-	sprint(self, "\n");
+	// Don't take up exta lines from scr_maxlines limit in QE
+	// sprint(self, "quads - quads picked up\n");
+	// sprint(self, "eff   - quad weapon efficiency\n");
+	// sprint(self, "opp   - number of opponents killed\n");
+	// sprint(self, "slf   - number of times killed self\n");
+	// sprint(self, "tm    - number of teammates killed\n");
+	// sprint(self, "\n");
 	sprint(self, "quads|eff|opp|slf|tm |     name\n");
 	sprint(self, "-----+---+---+---+---+---------------\n");
 
@@ -78,11 +111,12 @@ void () stats_show_killstats =
 {
 	local entity player;
 
-	sprint(self, "opp - number of opponents killed\n");
-	sprint(self, "slf - number of times killed self\n");
-	sprint(self, "tm  - number of teammates killed\n");
-	sprint(self, "kld - number of times killed by enemy\n");
-	sprint(self, "\n");
+	// Don't take up exta lines from scr_maxlines limit in QE
+	// sprint(self, "opp - number of opponents killed\n");
+	// sprint(self, "slf - number of times killed self\n");
+	// sprint(self, "tm  - number of teammates killed\n");
+	// sprint(self, "kld - number of times killed by enemy\n");
+	// sprint(self, "\n");
 	sprint(self, "frags|opp|slf|tm |kld|     name\n");
 	sprint(self, "-----+---+---+---+---+---------------\n");
 
@@ -152,11 +186,12 @@ void () stats_show_efficiency =
 	local entity player;
 	local float tot_fired, tot_done;
 
-	sprint(self, "bul - bullet efficiency\n");
-	sprint(self, "nls - nail efficiency\n");
-	sprint(self, "rox - rocket efficiency\n");
-	sprint(self, "lg  - lightning gun efficiency\n");
-	sprint(self, "\n");
+	// Don't take up exta lines from scr_maxlines limit in QE
+	// sprint(self, "bul - bullet efficiency\n");
+	// sprint(self, "nls - nail efficiency\n");
+	// sprint(self, "rox - rocket efficiency\n");
+	// sprint(self, "lg  - lightning gun efficiency\n");
+	// sprint(self, "\n");
 	sprint(self, "bul|nls|rox|lg |total|     name\n");
 	sprint(self, "---+---+---+---+-----+---------------\n");
 
@@ -208,9 +243,10 @@ void () stats_show_summary =
 	local float wfrac, wtot, kfrac, ktot, doit, currteam;
 	local string teamname;
 
-	sprint(self, "kill  - kill efficiency\n");
-	sprint(self, "weapn - weapon efficiency\n");
-	sprint(self, "\n");
+	// Don't take up exta lines from scr_maxlines limit in QE
+	// sprint(self, "kill  - kill efficiency\n");
+	// sprint(self, "weapn - weapon efficiency\n");
+	// sprint(self, "\n");
 	if (elohim_state & ELOHIM_MATCH_STARTED)
 	{
 		sprint(self, "   team  |kill |weapn|     name\n");
@@ -272,6 +308,92 @@ void () stats_show_summary =
 };
 
 //
+//  S H O W  T E A M  S T A T S
+//
+void() stats_show_teamstats =
+{
+	local string s;
+
+	if (!(teamplay && (elohim_playmode & ELOHIM_MATCH_MODE)))
+	{
+		sprint(self, "Teamstats valid in match mode only\n");
+		return;
+	}
+	if (!elohim_team1)
+	{
+		sprint(self, "No teams present\n");
+		return;
+	}
+	if ((elohim_state & ELOHIM_MATCH_STARTED) && !(self.style & ELOHIM_OBSERVER))
+	{
+		sprint(self, "Teamstats available to observers or after match only\n");
+		return;
+	}
+
+	sprint(self, " Q | P | E | MH| RL| LG| GL| SN| NG| SS| RA| YA| GA| Team\n");
+	sprint(self, "---+---+---+---+---+---+---+---+---+---+---+---+---+----------\n");
+	utils_print_int3(crmod_teamquad1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teampent1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teameyes1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teammega1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamrl1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamlg1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamgl1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamsn1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamng1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamss1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamra1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamya1);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamga1);
+	sprint(self, "|");
+	s = strings_get_teamname2(elohim_team1);
+	sprint(self, s);
+	sprint(self, "\n");
+
+	utils_print_int3(crmod_teamquad2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teampent2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teameyes2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teammega2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamrl2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamlg2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamgl2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamsn2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamng2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamss2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamra2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamya2);
+	sprint(self, "|");
+	utils_print_int3(crmod_teamga2);
+	sprint(self, "|");
+	s = strings_get_teamname2(elohim_team2);
+	sprint(self, s);
+	sprint(self, "\n");
+};
+
+//
 //  A U T O D U M P
 //
 //  Dump statistics if player has autostats enabled.
@@ -300,17 +422,10 @@ void() stats_autodump =
 		stats_show_summary();
 		sprint(self, "\n");
 
-		// TODO
-		// if (teamplay)
-		// {
-		// 	stats_show_teamstats();
-		// 	sprint(self, "\n");
-		// }
-		//
-		// if ((elohim_playmode & ELOHIM_MATCH_MODE) && (teamplay == 2))
-		// {
-		// 	stats_show_badstats();
-		// 	sprint(self, "\n");
-		// }
+		if (elohim_playmode & ELOHIM_MATCH_MODE)
+		{
+			stats_show_teamstats();
+			sprint(self, "\n");
+		}
 	}
 };
