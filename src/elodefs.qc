@@ -65,6 +65,7 @@ float ELOHIM_NO_SPOOGE = 2048;			// disable spooging in practice mode
 float CRMOD_QSMACK_ON = 4096;			// CRMOD is server using Qsmack?
 float ELOHIM_EXTENDED_OBITS = 8192;
 float ELOHIM_GGMOD = 16384;
+float ELOHIM_QUAD_DROP = 32768;
 
 // server state - not preserved across level changes
 float ELOHIM_TIMER_STARTED = 1;

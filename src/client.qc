@@ -1587,6 +1587,11 @@ void() ClientDisconnect =
 
 	set_suicide_frame ();
 
+	if (self.super_damage_finished > 0 && !(elohim_playmode & ELOHIM_MATCH_MODE))
+	{
+		drop_powerup ("quad",(self.super_damage_finished - time));
+	}
+
 	// ELOHIM_MOD
 	elohim_client_disconnect();
 	// END_MOD

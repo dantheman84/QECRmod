@@ -82,6 +82,9 @@ void () admin_send_aliases1 =
 	stuffcmd(self, "alias setpent impulse 222\n");
 	stuffcmd(self, "alias setring impulse 223\n");
 
+	// toggle quad drop behavior
+	stuffcmd(self, "alias quaddrop impulse 201\n");
+
 	// gib aliases
 	stuffcmd(self, "alias nogibs impulse 225\n");
 	stuffcmd(self, "alias lowgibs impulse 226\n");
@@ -698,6 +701,51 @@ void () admin_request_set_ggmod =
 			newstate = "disable";
 
 		if (vote_init(newstate, " ggmod", admin_set_ggmod))
+			vote_yes();
+	}
+};
+
+//
+//  S E T  Q U A D  D R O P
+//
+//  Enable/disable quad drop.
+//
+void () admin_set_quad_drop =
+{
+	if (!(elohim_playmode & ELOHIM_QUAD_DROP))
+	{
+		bprint("Quad Drop enabled\n");
+		cprint("Quad Drop enabled\n");
+		elohim_playmode = elohim_playmode | ELOHIM_QUAD_DROP;
+	}
+	else
+	{
+		bprint("Quad Drop disabled\n");
+		cprint("Quad Drop disabled\n");
+		elohim_playmode = elohim_playmode - ELOHIM_QUAD_DROP;
+	}
+};
+
+//
+//  R E Q U E S T  S E T  Q U A D  D R O P
+//
+//  Request to enable/disable quad drop.
+//
+void () admin_request_set_quad_drop =
+{
+	// Do it right away if we're an administrator, otherwise vote
+	if (self.style & ELOHIM_ADMINISTRATOR)
+		admin_set_quad_drop();
+	else
+	{
+		local string newstate;
+
+		if (!(elohim_playmode & ELOHIM_QUAD_DROP))
+			newstate = "enable";
+		else
+			newstate = "disable";
+
+		if (vote_init(newstate, " quad drop", admin_set_quad_drop))
 			vote_yes();
 	}
 };
@@ -1364,6 +1412,8 @@ void () admin_impulse =
 	// votable commands
 	if (self.impulse >= 190 && self.impulse <= 196)
 		admin_init_warp(self.impulse - 190);
+	else if (self.impulse == 201)
+		admin_request_set_quad_drop();
 	else if (self.impulse == 205)
 		admin_request_set_deathmatch(1);
 	else if (self.impulse == 206)

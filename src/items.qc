@@ -1560,3 +1560,159 @@ void() DropBackpack =
 	item.nextthink = time + 120;	// remove after 2 minutes
 	item.think = SUB_Remove;
 };
+
+// Copied from RuneQuake, used for quad drop
+void ()
+powerup_denied =
+{
+    local entity e;
+    local float dist;
+
+    // q3 style denied
+    e = find (world, classname, "player");
+    while (e)
+    {
+        // XXX I think dead people can still see this message, or there's a race.
+        if (e != other && e.health > 0)
+        {
+            dist = vlen (self.origin - e.origin);
+            if (dist < 125)
+                sprint (e, "{141} \bdenied!\n");
+        }
+        e = find (e, classname, "player");
+    }
+};
+
+// Copied from RuneQuake, used for quad drop
+void ()
+drop_powerup_touch =
+{
+	local float it, time_left;
+
+	if (other.classname != "player")
+		return;
+
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
+	{
+		if (!(elohim_state & ELOHIM_MATCH_STARTED))
+			return;
+	}
+
+	if (other.health <= 0)
+		return;
+
+	if (self.netname == "quad")
+	{
+		it                = IT_QUAD;
+		other.super_time        = 1;
+
+		if (other.super_damage_finished <= time)
+		{
+
+			other.super_damage_finished = self.cnt;
+
+		}
+		else
+		{
+			other.super_damage_finished= other.super_damage_finished + (self.cnt - time);
+			if (other.super_damage_finished > time + 30)
+				other.super_damage_finished = time + 30;
+		}
+	}
+	else
+		return;
+
+	//spawn_protect_off_e (other);
+
+	sound (other, CHAN_AUTO, self.noise, 1, ATTN_NORM);
+	self.solid    = SOLID_NOT;
+	other.items    = other.items | it;
+	self.model    = string_null;
+
+	if (self.netname != "biosuit")
+	{
+		time_left = ceil (self.cnt-time);
+		bprint (other.netname);
+		bprint (" recovered a ");
+		bprint (self.netname);
+		bprint (" with ");
+		utils_bprint_float (time_left);
+		bprint (" second");
+		if (time_left != 1)
+			bprint ("s");
+		bprint (" remaining!\n");
+	}
+
+	powerup_denied ();
+	other.effects = other.effects | EF_QUADLIGHT;
+	activator = other;
+
+	SUB_UseTargets (); // fire all targets / killtargets
+
+	//self = other;
+
+	// XXX When a powerup is dropped again, blink_item() makes
+	// both models flash.  I'm not sure why that happens but
+	// I remove the entity now to prevent it.
+
+	//remove (self);
+};
+
+// Copied from RuneQuake, used for quad drop
+void (string type, float finish_time)
+drop_powerup =
+{
+	local entity item;
+	local float time_left;
+	local string it_noise, it_model;
+
+	// Don't drop powerups during match warmup
+	if (elohim_playmode & ELOHIM_MATCH_MODE)
+	{
+		if (!(elohim_state & ELOHIM_MATCH_STARTED))
+			return;
+	}
+
+	if (type == "quad")
+	{
+		it_noise = "items/damage.wav";
+		it_model = "progs/quaddama.mdl";
+
+	}
+	else
+		return;
+
+	time_left = floor (finish_time);
+	bprint (self.netname);
+	bprint (" lost a ");
+	bprint (type);
+	bprint (" with ");
+	utils_bprint_float (time_left);
+	bprint (" second");
+	if (time_left != 1)
+		bprint ("s");
+	bprint (" remaining\n");
+
+	item            = spawn ();
+	item.origin     = self.origin;
+	item.velocity_z = 300;
+	item.velocity_x = -100 + (random () * 200);
+	item.velocity_y = -100 + (random () * 200);
+
+	item.netname  = type;
+	item.flags    = FL_ITEM;
+	item.solid    = SOLID_TRIGGER;
+	item.movetype = MOVETYPE_TOSS;
+	item.noise    = it_noise;
+	item.mdl      = it_model;
+
+	setmodel (item, item.mdl);
+	setsize (item, '-16 -16 -24', '16 16 32');
+
+	item.cnt                     = time + finish_time;
+	item.touch                   = drop_powerup_touch;
+	item.nextthink               = time + finish_time; // blink before removing
+	item.think                   = SUB_Remove;
+	//item.classname             = "dropped_powerup"; // used by vote-powerup-drop
+	//item.super_damage_finished = 0;
+};

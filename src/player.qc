@@ -546,6 +546,13 @@ void() PlayerDie =
 {
 	local	float	i;
 
+	// Drop quad before stripping player of items
+	if (elohim_playmode & ELOHIM_QUAD_DROP)
+	{
+		if (self.super_damage_finished > time)
+				drop_powerup ("quad", self.super_damage_finished - time);
+	}
+
 	self.items = self.items - (self.items & IT_INVISIBILITY);
 	self.invisible_finished = 0;	// don't die as eyes
 	self.invincible_finished = 0;
