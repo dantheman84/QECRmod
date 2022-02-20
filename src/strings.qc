@@ -659,17 +659,9 @@ string (float mapnum) strings_get_mapname =
 		if (mapnum == 3)
 			return "end";
 		if (mapnum == 4)
-			return "aerowalk";
+			return "death32c";
 		if (mapnum == 5)
-			return "ztndm3";
-		if (mapnum == 6)
-			return "ztndm4";
-	if (mapnum == 7)
-			return "ultrav";
-	if (mapnum == 8)
-			return "q3dm6qw";
-	if (mapnum == 9)
-			return "aggressr";
+			return "base32b";
 		return "";
 	}
 	if (mapnum < 20)
@@ -766,8 +758,6 @@ string (float mapnum) strings_get_mapname =
 			return "dm7";
 		if (mapnum == 58)
 			return "dm8";
-		if (mapnum == 59)
-			return "death32c";
 		return "";
 	}
 	return array_get_user_map(mapnum - 60);

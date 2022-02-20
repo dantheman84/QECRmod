@@ -37,12 +37,20 @@ void () admin_send_aliases1 =
 	temp = self;
 	self = self.owner;
 
+	// episode warp aliases since QE won't let us do two impulses at once
+	stuffcmd(self, "alias warp0 impulse 190\n");
+	stuffcmd(self, "alias warp1 impulse 191\n");
+	stuffcmd(self, "alias warp2 impulse 192\n");
+	stuffcmd(self, "alias warp3 impulse 193\n");
+	stuffcmd(self, "alias warp4 impulse 194\n");
+	stuffcmd(self, "alias warp5 impulse 195\n");
+	stuffcmd(self, "alias warp6 impulse 196\n");
+	
 	//
 	// maps
 	//
 	// e.g.:   alias start impulse 150
 	//
-	stuffcmd(self, "alias w5 \"wait;wait;wait;wait;wait\"\n");
 	local float levelnum, episode;
 	local string szTemp;
 	levelnum = 100;
@@ -55,13 +63,10 @@ void () admin_send_aliases1 =
 
 			stuffcmd(self, "alias ");
 			stuffcmd(self, szTemp);
-			stuffcmd(self, " \"impulse ");
-			szTemp = ftos(190 + episode);
-			stuffcmd(self, szTemp);
-			stuffcmd(self, ";w5;");
 			szTemp = ftos(levelnum - 100 - episode * 10);
+			stuffcmd(self, " ");
 			stuffcmd(self, szTemp);
-			stuffcmd(self, "\"\n");
+			stuffcmd(self, "\n");
 		}
 		levelnum = levelnum + 1;
 	}

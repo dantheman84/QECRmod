@@ -50,16 +50,17 @@ void () userdefs_init_world =
 	QSMACK5 = utils_stof(temp);
 
 	// User defined maps
-	array_set_user_map(0, "                ltag0");
-	array_set_user_map(1, "                ltag1");
-	array_set_user_map(2, "                ltag2");
-	array_set_user_map(3, "                ltag3");
-	array_set_user_map(4, "                ltag4");
-	array_set_user_map(5, "                ltag5");
-	array_set_user_map(6, "                ltag6");
-	array_set_user_map(7, "                ltag7");
-	array_set_user_map(8, "                ltag8");
-	array_set_user_map(9, "                ltag9");
+	// Manually controlled (at compile) as opposed to ltag0-ltag9 (config?)
+	array_set_user_map(0, "      aerowalk");
+	array_set_user_map(1, "      ztndm3");
+	array_set_user_map(2, "      ultrav");
+	array_set_user_map(3, "      aggressr");
+	array_set_user_map(4, "      cmt3");
+	array_set_user_map(5, "      schloss");
+	array_set_user_map(6, "      skull");
+	array_set_user_map(7, "      bravado");
+	array_set_user_map(8, "      ztndm4");
+	array_set_user_map(9, "      cmt4");
 
 	// Intro message
 	temp = "0 ntag";

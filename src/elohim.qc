@@ -684,9 +684,7 @@ void () elohim_help =
 //
 void () elohim_help_change =
 {
-		sprint(self, "\n");
-		sprint(self, "Το γθαξηε μεφεμσ¬ εξτες τθε ξανε οζ\n");
-		sprint(self, "τθε μεφεμ ιξ τθε γοξσομε®\n");
+		sprint(self, "To change levels, enter warpX then map name\n");
 };
 
 //
@@ -799,15 +797,15 @@ void () elohim_levels =
 		local string name;
 
 		elohim_help_change();
-		sprint(self, "\n");
 
 		// standard levels
-		sprint(self, " start, start0, start1, end\n");
-		sprint(self, " e1m1-e1m8 Όεπισοδε ±Ύ\n");
-		sprint(self, " e2m1-e2m7 Όεπισοδε ²Ύ\n");
-		sprint(self, " e3m1-e3m7 Όεπισοδε ³Ύ\n");
-		sprint(self, " e4m1-e4m8 Όεπισοδε ΄Ύ\n");
-		sprint(self, " dm1-dm6   ΌδεατθνατγθΎ\n");
+		sprint(self, "warp0: start, start0, start1, end, death32c, base32b\n");
+		sprint(self, "warp1: e1m1-e1m8\n");
+		sprint(self, "warp2: e2m1-e2m7\n");
+		sprint(self, "warp3: e3m1-e3m7\n");
+		sprint(self, "warp4: e4m1-e4m8\n");
+		sprint(self, "warp5: dm1-dm8\n");
+		sprint(self, "warp6:\n");
 
 		// user defined levels
 		index = 0;
