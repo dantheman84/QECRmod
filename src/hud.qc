@@ -56,7 +56,7 @@ void hud_update() =
 	WriteByte (MSG_ONE, SVC_CENTERPRINT);
 
 	// 1 base(?) + 1 format string + 96 format parameters
-	WriteShort (MSG_ONE, 98); // QE reserved
+	WriteShort (MSG_ONE, 108); // QE reserved
 
 	// Print newlines to push hud to bottom of screen
 	local float newlines = 0;
@@ -74,7 +74,8 @@ void hud_update() =
 		"{}{}{}{}{}                                    {}{}{}{}{}\n"
 		"{}{}{}{}{}                                    {}{}{}{}{}\n"
 		"{}{}{}{}{}                                    {}{}{}{}{}\n"
-		"\n\n"
+		"{}{}{}{}{}                                    {}{}{}{}{}\n"
+		"\n"
 		// Item timers for observer mode
 		"                                           {}{}{}{}{}\n"
 		"                                           {}{}{}{}{}\n"
@@ -102,144 +103,235 @@ void hud_update() =
 		"                                           {}\x10{}{}\x11\n"
 	);
 
+	local entity item;
+	local float item_slots;
+	local float item_count;
+	local float item_time;
+	local float teams_printed;
+
+	item_slots = 4;
+	item_count = 0;
+
 	/* Only print team item stats in observer HUD when in match mode */
 	if ((self.style & ELOHIM_OBSERVER) && (elohim_playmode & ELOHIM_MATCH_MODE))
 	{
 		/* Team names */
 		WriteString(MSG_ONE, strings_get_teamname4_bronze(elohim_team1));
 		WriteString(MSG_ONE, strings_get_teamname4_bronze(elohim_team2));
+		teams_printed = 1;
 
-		/* Quad */
-		WriteString(MSG_ONE, " \sq");
-		WriteString(MSG_ONE, "\x10");
-		if (crmod_teamquad1 < 10)
-		{
-			WriteString(MSG_ONE, "  ");
-		}
-		else if (crmod_teamquad1 < 100)
-		{
-			WriteString(MSG_ONE, " ");
-		}
-		else // >= 100
-		{
-			WriteString(MSG_ONE, "");
-		}
-		WriteString(MSG_ONE, ftos(crmod_teamquad1));
-		WriteString(MSG_ONE, "\x11");
+		/* Quad pickup counts */
+		item = find(world, classname, "item_artifact_super_damage");
+		if (item && (item_count < item_slots) && !(elohim_playmode & ELOHIM_NO_QUAD)){
+			WriteString(MSG_ONE, " \sq");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teamquad1 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teamquad1 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teamquad1));
+			WriteString(MSG_ONE, "\x11");
 
-		WriteString(MSG_ONE, " \sq");
-		WriteString(MSG_ONE, "\x10");
-		if (crmod_teamquad2 < 10)
-		{
-			WriteString(MSG_ONE, "  ");
-		}
-		else if (crmod_teamquad2 < 100)
-		{
-			WriteString(MSG_ONE, " ");
-		}
-		else // >= 100
-		{
-			WriteString(MSG_ONE, "");
-		}
-		WriteString(MSG_ONE, ftos(crmod_teamquad2));
-		WriteString(MSG_ONE, "\x11");
+			WriteString(MSG_ONE, " \sq");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teamquad2 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teamquad2 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teamquad2));
+			WriteString(MSG_ONE, "\x11");
 
-		/* Red Armor */
-		WriteString(MSG_ONE, "\sra");
-		WriteString(MSG_ONE, "\x10");
-		if (crmod_teamra1 < 10)
-		{
-			WriteString(MSG_ONE, "  ");
+			item_count = item_count + 1;
 		}
-		else if (crmod_teamra1 < 100)
-		{
-			WriteString(MSG_ONE, " ");
-		}
-		else // >= 100
-		{
-			WriteString(MSG_ONE, "");
-		}
-		WriteString(MSG_ONE, ftos(crmod_teamra1));
-		WriteString(MSG_ONE, "\x11");
 
-		WriteString(MSG_ONE, "\sra");
-		WriteString(MSG_ONE, "\x10");
-		if (crmod_teamra2 < 10)
+		/* Red Armor pickup counts */
+		item = find(world, classname, "item_armorInv");
+		if (item && (item_count < item_slots))
 		{
-			WriteString(MSG_ONE, "  ");
-		}
-		else if (crmod_teamra2 < 100)
-		{
-			WriteString(MSG_ONE, " ");
-		}
-		else // >= 100
-		{
-			WriteString(MSG_ONE, "");
-		}
-		WriteString(MSG_ONE, ftos(crmod_teamra2));
-		WriteString(MSG_ONE, "\x11");
+			WriteString(MSG_ONE, "\sra");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teamra1 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teamra1 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teamra1));
+			WriteString(MSG_ONE, "\x11");
 
-		/* Mega Health */
-		WriteString(MSG_ONE, "\smh");
-		WriteString(MSG_ONE, "\x10");
-		if (crmod_teammega1 < 10)
-		{
-			WriteString(MSG_ONE, "  ");
-		}
-		else if (crmod_teammega1 < 100)
-		{
-			WriteString(MSG_ONE, " ");
-		}
-		else // >= 100
-		{
-			WriteString(MSG_ONE, "");
-		}
-		WriteString(MSG_ONE, ftos(crmod_teammega1));
-		WriteString(MSG_ONE, "\x11");
+			WriteString(MSG_ONE, "\sra");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teamra2 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teamra2 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teamra2));
+			WriteString(MSG_ONE, "\x11");
 
-		WriteString(MSG_ONE, "\smh");
-		WriteString(MSG_ONE, "\x10");
-		if (crmod_teammega2 < 10)
-		{
-			WriteString(MSG_ONE, "  ");
+			item_count = item_count + 1;
 		}
-		else if (crmod_teammega2 < 100)
+
+		/* Mega Health pickup counts */
+		local float has_mega;
+		item = find(world, classname, "item_health");
+		while (item)
 		{
-			WriteString(MSG_ONE, " ");
+			/* Skip health items that aren't mega */
+			if (!(item.spawnflags & 2))
+			{
+				item = find(item, classname, "item_health");
+				continue;
+			}
+			/* Mega health item was found, stop searching */
+			has_mega = 1;
+			break;
 		}
-		else // >= 100
+		if (has_mega && (item_count < item_slots))
 		{
-			WriteString(MSG_ONE, "");
+			/* Mega Health */
+			WriteString(MSG_ONE, "\smh");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teammega1 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teammega1 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teammega1));
+			WriteString(MSG_ONE, "\x11");
+
+			WriteString(MSG_ONE, "\smh");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teammega2 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teammega2 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teammega2));
+			WriteString(MSG_ONE, "\x11");
+			item_count = item_count + 1;
 		}
-		WriteString(MSG_ONE, ftos(crmod_teammega2));
-		WriteString(MSG_ONE, "\x11");
+
+		/* Yellow Armor pickup counts */
+		item = find(world, classname, "item_armor2");
+		if (item && (item_count < item_slots))
+		{
+			WriteString(MSG_ONE, "\sya");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teamya1 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teamya1 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teamya1));
+			WriteString(MSG_ONE, "\x11");
+
+			WriteString(MSG_ONE, "\sya");
+			WriteString(MSG_ONE, "\x10");
+			if (crmod_teamya2 < 10)
+			{
+				WriteString(MSG_ONE, "  ");
+			}
+			else if (crmod_teamya2 < 100)
+			{
+				WriteString(MSG_ONE, " ");
+			}
+			else // >= 100
+			{
+				WriteString(MSG_ONE, "");
+			}
+			WriteString(MSG_ONE, ftos(crmod_teamya2));
+			WriteString(MSG_ONE, "\x11");
+
+			item_count = item_count + 1;
+		}
 	}
-	else
+
+	/* Eat up extra item format string parameters */
+	if (teams_printed == 0)
 	{
-		/* Print empty team item stat format string parameters when not observer or not match mode */
+		WriteString(MSG_ONE, "  ");
+		WriteString(MSG_ONE, "  ");
+	}
+	for(i = 0; i < (item_slots - item_count); i = i + 1)
+	{
+		// Team 1 (left side)
+		// Outside (usually 2 red characters)
+		WriteString(MSG_ONE, "  ");
+		// Open bracket
+		WriteString(MSG_ONE, " ");
+		// Padding
+		WriteString(MSG_ONE, "   ");
+		// Number
+		WriteString(MSG_ONE, "");
+		// Close bracket
+		WriteString(MSG_ONE, " ");
 
-		// Team names (8 characters)
-		WriteString(MSG_ONE, "        ");
-		WriteString(MSG_ONE, "        ");
-		for(i = 0; i < 6; i = i + 1)
-		{
-			// Outside (usually 2 red characters)
-			WriteString(MSG_ONE, "  ");
-			// Open bracket
-			WriteString(MSG_ONE, " ");
-			// Padding
-			WriteString(MSG_ONE, "   ");
-			// Number
-			WriteString(MSG_ONE, "");
-			// Close bracket
-			WriteString(MSG_ONE, " ");
-		}
+		// Team 2 (right side)
+		// Outside (usually 2 red characters)
+		WriteString(MSG_ONE, "  ");
+		// Open bracket
+		WriteString(MSG_ONE, " ");
+		// Padding
+		WriteString(MSG_ONE, "   ");
+		// Number
+		WriteString(MSG_ONE, "");
+		// Close bracket
+		WriteString(MSG_ONE, " ");
 	}
 
-	local entity item;
-	local float item_slots = 8;
-	local float item_count;
-	local float item_time;
+	/* Allow for 8 item timer slots, reset count */
+	item_slots = 8;
 	item_count = 0;
 
 	/* Only print item timers for observer HUD */
@@ -249,6 +341,9 @@ void hud_update() =
 		item = find(world, classname, "item_artifact_super_damage");
 		while (item && (item_count < item_slots))
 		{
+			if (elohim_playmode & ELOHIM_NO_QUAD){
+				break;
+			}
 			WriteString(MSG_ONE, " \sq");
 			WriteString(MSG_ONE, "\x10");
 			if (item.nextthink == 0)
@@ -285,6 +380,9 @@ void hud_update() =
 		item = find(world, classname, "item_artifact_invulnerability");
 		while (item && (item_count < item_slots))
 		{
+			if (elohim_playmode & ELOHIM_NO_PENT){
+				break;
+			}
 			WriteString(MSG_ONE, " \sp");
 			WriteString(MSG_ONE, "\x10");
 			if (item.nextthink == 0)
@@ -321,6 +419,9 @@ void hud_update() =
 		item = find(world, classname, "item_artifact_invisibility");
 		while (item && (item_count < item_slots))
 		{
+			if (elohim_playmode & ELOHIM_NO_RING){
+				break;
+			}
 			WriteString(MSG_ONE, " \se");
 			WriteString(MSG_ONE, "\x10");
 			if (item.nextthink == 0)
