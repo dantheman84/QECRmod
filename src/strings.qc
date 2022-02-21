@@ -456,6 +456,10 @@ string (float num) strings_get_teamname =
 		return "Yellow team";
 	if (num == 13)
 		return "Blue team";
+	if (num == 14)
+		return "Orange team";
+	if (num == 15)
+		return "Blood team";
 	return "???? team"; // shouldn't happen
 };
 
@@ -530,6 +534,10 @@ string (float num) strings_get_teamname2 =
 		return "Yellow    ";
 	if (num == 13)
 		return "Blue      ";
+	if (num == 14)
+		return "Orange    ";
+	if (num == 15)
+		return "Blood     ";
 	return "????      "; // shouldn't happen
 };
 
@@ -566,6 +574,10 @@ string (float num) strings_get_teamname3 =
 		return "Yellow   ";
 	if (num == 13)
 		return "Blue     ";
+	if (num == 14)
+		return "Orange   ";
+	if (num == 15)
+		return "Blood    ";
 	return "????     "; // shouldn't happen
 };
 
@@ -602,6 +614,10 @@ string (float num) strings_get_teamname4_bronze =
 		return "\sYellow  ";
 	if (num == 13)
 		return "\sBlue    ";
+	if (num == 14)
+		return "\sOrange  ";
+	if (num == 15)
+		return "\sBlood   ";
 	return "\sNo team "; // can happen sometimes
 };
 
@@ -638,6 +654,10 @@ string (float num) strings_get_teamname_up_by =
 		return "       Yellow up by ";
 	if (num == 13)
 		return "         Blue up by ";
+	if (num == 14)
+		return "       Orange up by ";
+	if (num == 15)
+		return "        Blood up by ";
 	return "         ???? up by "; // shouldn't happen
 };
 

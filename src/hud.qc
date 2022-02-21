@@ -793,6 +793,10 @@ void hud_update() =
 			WriteString(MSG_ONE, "\sYellow    ");
 		else if (self.height == 13)
 			WriteString(MSG_ONE, "\sBlue      ");
+		else if (self.height == 14)
+			WriteString(MSG_ONE, "\sOrange    ");
+		else if (self.height == 15)
+			WriteString(MSG_ONE, "\sBlood     ");
 		else
 			WriteString(MSG_ONE, "          ");
 	}
