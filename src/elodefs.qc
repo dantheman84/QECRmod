@@ -86,7 +86,7 @@ float elohim_password;      // used to store the administrator password
 float elohim_devparam;      // used for development
 float elohim_playmode;      // current play mode (non volatile flags)
 float elohim_state;         // server state (volatile flags)
-float elohim_timelimit;     // timelimit for matches (default 20 minutes)
+float elohim_timelimit;     // timelimit for matches (default 10 minutes)
 float elohim_overtime;      // length of auto-overtime; 0 if none
 float elohim_nextcheck;     // used for periodic checks
 float elohim_nextcheck2;	// used for frequent periodic checks

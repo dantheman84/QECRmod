@@ -233,7 +233,7 @@ void () elohim_init_world =
 		{
 		elohim_timelimit = cvar("timelimit");
 		if (elohim_timelimit == 0)
-			elohim_timelimit = 20;
+			elohim_timelimit = 10;
 		if (elohim_timelimit < 2)
 			elohim_timelimit = 2;
 		match_show_timelimit();
