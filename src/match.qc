@@ -1318,7 +1318,7 @@ void () match_impulse =
 			if (self.style & ELOHIM_OBSERVER)
 				observer_end();
 			else
-				sprint(self, "You are not an obseraver\n");
+				sprint(self, "You are not an observer\n");
 		}
 		else
 			sprint(self, "Command valid in match mode only\n");
