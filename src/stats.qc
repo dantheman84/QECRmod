@@ -394,34 +394,72 @@ void() stats_show_teamstats =
 };
 
 //
-//  A U T O D U M P
+//  A U T O  S U M M A R Y
 //
-//  Dump statistics if player has autostats enabled.
+//  Dump summary statistics if player has autostats enabled.
 //
-void() stats_autodump =
+void() stats_auto_summary =
 {
 	if (self.style & CRMOD_AUTOSTATS)
 	{
 		sprint(self, "[CRMod match statistics]\n");
 
-		// Kex doesn't like doing more than scr_maxlines of prints, which defaults to 4 and maxes at 20
-		// Print stats in reverse order so most important ones are hopefully present
+		stats_show_summary();
+		sprint(self, "\n");
+	}
+};
 
+//
+//  A U T O  K I L L S T A T S
+//
+//  Dump kill statistics if player has autostats enabled.
+//
+void() stats_auto_killstats =
+{
+	if (self.style & CRMOD_AUTOSTATS)
+	{
+		stats_show_killstats();
+		sprint(self, "\n");
+	}
+};
+//
+//  A U T O  E F F I C I E N C Y
+//
+//  Dump efficiency statistics if player has autostats enabled.
+//
+void() stats_auto_efficiency =
+{
+	if (self.style & CRMOD_AUTOSTATS)
+	{
+		stats_show_efficiency();
+		sprint(self, "\n");
+	}
+};
+//
+//  A U T O  Q U A D S T A T S
+//
+//  Dump quad statistics if player has autostats enabled.
+//
+void() stats_auto_quadstats =
+{
+	if (self.style & CRMOD_AUTOSTATS)
+	{
 		if (!(elohim_playmode & ELOHIM_NO_QUAD))//R00k -added-
 		{
 			stats_show_quadstats();
 			sprint(self, "\n");
 		}
-
-		stats_show_efficiency();
-		sprint(self, "\n");
-
-		stats_show_killstats();
-		sprint(self, "\n");
-
-		stats_show_summary();
-		sprint(self, "\n");
-
+	}
+};
+//
+//  A U T O  T E A M S T A T S
+//
+//  Dump team if player has autostats enabled.
+//
+void() stats_auto_teamstats =
+{
+	if (self.style & CRMOD_AUTOSTATS)
+	{
 		if (elohim_playmode & ELOHIM_MATCH_MODE)
 		{
 			stats_show_teamstats();

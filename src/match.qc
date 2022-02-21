@@ -24,6 +24,11 @@ void () match_enter_ghost_code;
 void (entity ghostent) match_restore_ghost;
 void () admin_disable_item;
 void () console_show_score;
+void () match_autostats_summary;
+void () match_autostats_killstats;
+void () match_autostats_efficiency;
+void () match_autostats_quadstats;
+void () match_autostats_teamstats;
 
 //
 //  S H O W  T I M E L I M I T
@@ -313,14 +318,62 @@ void () match_end =
 	elohim_lastteam2 = elohim_team2;
 	console_show_score();
 
-	elohim_match_timer.think = match_reset;
-	elohim_match_timer.nextthink = time + 5;
+	// Do auto-stats once per second, then match_reset
+	elohim_match_timer.think = match_autostats_summary;
+	elohim_match_timer.nextthink = time + 1;
 
 	score_update_time();
+};
+
+void () match_autostats_summary =
+{
+
+	elohim_match_timer.think = match_autostats_killstats;
+	elohim_match_timer.nextthink = time + 1;
 
 	// Dump statistics for anyone who has autostats set
-	utils_do_players(stats_autodump);
-};
+	utils_do_players(stats_auto_summary);
+}
+
+void () match_autostats_killstats =
+{
+
+	elohim_match_timer.think = match_autostats_efficiency;
+	elohim_match_timer.nextthink = time + 1;
+
+	// Dump statistics for anyone who has autostats set
+	utils_do_players(stats_auto_killstats);
+}
+
+void () match_autostats_efficiency =
+{
+
+	elohim_match_timer.think = match_autostats_quadstats;
+	elohim_match_timer.nextthink = time + 1;
+
+	// Dump statistics for anyone who has autostats set
+	utils_do_players(stats_auto_efficiency);
+}
+
+void () match_autostats_quadstats =
+{
+
+	elohim_match_timer.think = match_autostats_teamstats;
+	elohim_match_timer.nextthink = time + 1;
+
+	// Dump statistics for anyone who has autostats set
+	utils_do_players(stats_auto_quadstats);
+}
+
+void () match_autostats_teamstats =
+{
+
+	elohim_match_timer.think = match_reset;
+	elohim_match_timer.nextthink = time + 1;
+
+	// Dump statistics for anyone who has autostats set
+	utils_do_players(stats_auto_teamstats);
+}
 
 //
 //  T I M E R  T H I N K 2
