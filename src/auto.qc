@@ -238,17 +238,6 @@ void () auto_demo_start =
 };
 
 // CRMOD
-//  A U T O  D E M O  S T A R T
-//    by CK (hacked together from Paul Baker's chase code)
-//
-//  start autochase from anywhere
-void () auto_demo_start =
-{
-	self.oflags = self.oflags | OBSERVER_GO_AUTO;
-	observer_demo_start();
-};
-
-// CRMOD
 // A U T O  C H A S E
 //   by Paul Baker
 //
