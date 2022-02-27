@@ -677,6 +677,11 @@ void () admin_set_ggmod =
 		bprint("GGMod enabled\n");
 		cprint("GGMod enabled\n");
 		elohim_playmode = elohim_playmode | ELOHIM_GGMOD;
+		// GGmod nails travel at 2750 and QE default is 2000
+		if (cvar("sv_maxvelocity") < 2750)
+		{
+			cvar_set("sv_maxvelocity", ftos(2750));
+		}
 	}
 	else
 	{
