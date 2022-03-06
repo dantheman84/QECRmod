@@ -24,5 +24,13 @@ place_my_items =
 	{
 		spawn_item ("item_artifact_super_damage", 0, '-895 -878 248', 0);
 	}
+	else if (mapname == "dm7")
+	{
+		spawn_item ("item_artifact_super_damage", 0, '1197 672 472', 0);
+	}	
+	else if (mapname == "aggressr")
+	{
+		spawn_item ("item_artifact_super_damage", 0, '-616 448 152', 0);
+	}	
 
 };
