@@ -689,6 +689,7 @@ void () admin_set_ggmod =
 		cprint("GGMod disabled\n");
 		elohim_playmode = elohim_playmode - ELOHIM_GGMOD;
 	}
+	utils_set_cvar("samelevel", elohim_playmode);
 };
 
 //
@@ -734,6 +735,7 @@ void () admin_set_quad_drop =
 		cprint("Quad Drop disabled\n");
 		elohim_playmode = elohim_playmode - ELOHIM_QUAD_DROP;
 	}
+	utils_set_cvar("samelevel", elohim_playmode);
 };
 
 //
