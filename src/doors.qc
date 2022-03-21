@@ -428,6 +428,12 @@ Key doors are allways wait -1.
 void() func_door =
 
 {
+	
+	// dantheman - Removed gates from Horde1, had to use JP's ent mod to figure out which models to remove
+	if (mapname == "horde1" && (self.model == "*7" || self.model == "*8" || self.model == "*22" || self.model == "*24" || self.model == "*4" || self.model == "*19"))
+	{
+	remove(self);
+	}
 
 	if (world.worldtype == 0)
 	{
