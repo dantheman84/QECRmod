@@ -434,6 +434,18 @@ void() func_door =
 	{
 	remove(self);
 	}
+	else if (mapname == "horde5" && (self.model == "*9" || self.model == "*17" || self.model == "*13" || self.model == "*14" || self.model == "*15" || self.model == "*18"))
+	{
+	remove(self);
+	}
+	else if (mapname == "horde6" && (self.model == "*49" || self.model == "*71" || self.model == "*10"|| self.model == "*11"))
+	{
+	remove(self);
+	}
+	else if (mapname == "horde7" && (self.model == "*16"  || self.model == "*18" || self.model == "*19" || self.model == "*20" || self.model == "*21" || self.model == "*22" || self.model == "*23" || self.model == "*24" || self.model == "*25" || self.model == "*26"))
+	{
+	remove(self);
+	}
 
 	if (world.worldtype == 0)
 	{

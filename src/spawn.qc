@@ -97,5 +97,20 @@ place_my_items =
 	{
 		spawn_item ("item_artifact_super_damage", 0, '10 14 217', 0);
 	}	
+	else if (mapname == "horde5")
+	{
+		spawn_item ("item_artifact_super_damage", 0, '-10 -84 280', 0);
+		//spawn_item ("weapon_rocketlauncher", 0, '-573 1031 238', 0);
+	}
+	else if (mapname == "horde6")
+	{
+		spawn_item ("item_artifact_super_damage", 0, '165 -9 24', 0);
+		//spawn_item ("weapon_rocketlauncher", 0, '-573 1031 238', 0);
+	}	
+	else if (mapname == "horde7")
+	{
+		spawn_item ("item_artifact_super_damage", 0, '-291 851 178', 0);
+		//spawn_item ("weapon_rocketlauncher", 0, '-573 1031 238', 0);
+	}
 
 };
