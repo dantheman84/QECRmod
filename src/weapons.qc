@@ -41,6 +41,10 @@ void() W_FireAxe =
 
 	makevectors (self.v_angle);
 	source = self.origin + '0 0 16';
+
+	// QCAntilag: Use the client's response time to temporarily move all other player entities back in time
+	antilag_rewind_players(self.responsetime, self);
+
 	traceline (source, source + v_forward*64, FALSE, self);
 	if (trace_fraction == 1.0)
 		return;
@@ -69,6 +73,10 @@ void() W_FireAxe =
 		WriteCoord (MSG_BROADCAST, org_y);
 		WriteCoord (MSG_BROADCAST, org_z);
 	}
+
+	// QCAntilag: Put all the player entities back to their actual (server) positions
+	antilag_restore_players();
+
 };
 
 
@@ -257,6 +265,9 @@ void(float shotcount, vector dir, vector spread) FireBullets =
 	src = self.origin + v_forward*10;
 	src_z = self.absmin_z + self.size_z * 0.7;
 
+	// QCAntilag: Use the client's response time to temporarily move all other player entities back in time
+	antilag_rewind_players(self.responsetime, self);
+
 	ClearMultiDamage ();
 	while (shotcount > 0)
 	{
@@ -269,6 +280,9 @@ void(float shotcount, vector dir, vector spread) FireBullets =
 		shotcount = shotcount - 1;
 	}
 	ApplyMultiDamage ();
+
+	// QCAntilag: Put all the player entities back to their actual (server) positions
+	antilag_restore_players();
 };
 
 /*
@@ -484,6 +498,24 @@ void() W_FireRocket =
 	setmodel (missile, "progs/missile.mdl");
 	setsize (missile, '0 0 0', '0 0 0');
 	setorigin (missile, self.origin + v_forward*8 + '0 0 16');
+
+	// QCAntilag: Set up missile antilag properties
+	if (self.flags & FL_CLIENT)
+	{
+		// use custom a movement .think
+		missile.movetype = MOVETYPE_NONE;
+		missile.think = ThinkMovetype_AntilagProjectile;
+		missile.nextthink = time + 0.01;
+
+		// set .responsetime to owner's so position can be compensated for antilag
+		missile.responsetime = self.responsetime;
+
+		// store the physics version of the missile's location
+		missile.hold_origin = missile.origin;
+		
+		// run extrapolation, so for QW clients we avoid visual strange-ness
+		Extrapolate_AntilagProjectile(missile);
+	}
 };
 
 /*
@@ -585,6 +617,9 @@ void() W_FireLightning =
 		self.currentammo = self.ammo_cells = self.ammo_cells - 1;
 	// END_MOD
 
+	// QCAntilag: Use the client's response time to temporarily move all other player entities back in time
+	antilag_rewind_players(self.responsetime, self);
+
 	org = self.origin + '0 0 16';
 
 	makevectors (self.v_angle); // ELOHIM_MOD - added this
@@ -607,6 +642,9 @@ void() W_FireLightning =
 		self.crmod_qdwep_y = self.crmod_qdwep_y + 120;             // CRMOD - stats
 
 	LightningDamage (self.origin, trace_endpos + v_forward*4, self, 30);
+
+	// QCAntilag: Put all the player entities back to their actual (server) positions
+	antilag_restore_players();
 };
 
 
@@ -764,6 +802,30 @@ void() W_FireSuperSpikes =
 	setmodel (newmis, "progs/s_spike.mdl");
 	setsize (newmis, VEC_ORIGIN, VEC_ORIGIN);
 	//self.punchangle_x = -2;
+
+	// QCAntilag: Set up missile antilag properties
+	if (self.flags & FL_CLIENT)
+	{
+		// use custom a movement .think
+		newmis.movetype = MOVETYPE_NONE;
+		newmis.think = ThinkMovetype_AntilagProjectile;
+		newmis.nextthink = time + 0.01;
+
+		// set .responsetime to owner's so position can be compensated for antilag
+		newmis.responsetime = self.responsetime;
+
+		// store the physics versino of the missile's location
+		newmis.hold_origin = newmis.origin;
+
+		// Run ThinkMovetype_AntilagProjectile once to match newmis behavior
+		float old_frametime = frametime;
+		frametime = 0.01667;
+		entity tmp = self;
+		self = newmis;
+		ThinkMovetype_AntilagProjectile();
+		self = tmp;
+		frametime = old_frametime;
+	}
 };
 
 void(float ox) W_FireSpikes =
@@ -809,6 +871,30 @@ void(float ox) W_FireSpikes =
 		self.crmod_qdwep_y = self.crmod_qdwep_y + 36;              // CRMOD - stats
 
 	//self.punchangle_x = -2;
+
+	// QCAntilag: Set up missile antilag properties
+	if (self.flags & FL_CLIENT)
+	{
+		// use custom a movement .think
+		newmis.movetype = MOVETYPE_NONE;
+		newmis.think = ThinkMovetype_AntilagProjectile;
+		newmis.nextthink = time + 0.01;
+
+		// set .responsetime to owner's so position can be compensated for antilag
+		newmis.responsetime = self.responsetime;
+
+		// store the physics versino of the missile's location
+		newmis.hold_origin = newmis.origin;
+		
+		// Run ThinkMovetype_AntilagProjectile once to match newmis behavior
+		float old_frametime = frametime;
+		frametime = 0.01667;
+		entity tmp = self;
+		self = newmis;
+		ThinkMovetype_AntilagProjectile();
+		self = tmp;
+		frametime = old_frametime;
+	}
 };
 
 

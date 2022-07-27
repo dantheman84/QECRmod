@@ -734,6 +734,24 @@ void() PutClientInServer =
 	self.fixangle = TRUE;		// turn this way immediately
 	self.velocity = '0 0 0'; // ELOHIM_MOD - bugfix
 
+// QCAntilag: Track spawn angles and time so we can determine ping time from fixangle if needed
+if (self.antilag_flags & ANTILAG_FL_SPAWNTEST) // send the angles manually if we're using spawntest ping check
+{
+	self.fixangle = FALSE;
+	self.spawn_angles = self.angles;
+	self.spawn_time = time;
+	
+	msg_entity = self;
+	
+	WriteByte(MSG_ONE, SVC_SETANGLES); // Modified from SVC_SETANGLE in QCAntilag
+	WriteAngle(MSG_ONE, self.angles[0]);
+	WriteAngle(MSG_ONE, self.angles[1]);
+	WriteAngle(MSG_ONE, self.angles[2]);
+}
+
+// QCAntilag: clear antilag rewind positions so we don't rewind players back to their dead positions after respawn
+ClearLastOrigin();
+
 // oh, this is a hack!
 	setmodel (self, "progs/eyes.mdl");
 	modelindex_eyes = self.modelindex;
@@ -1208,6 +1226,9 @@ void() PlayerPreThink =
 		return;		// intermission or finale
 	}
 
+	// QCAntilag: spawntest for cl_filterstuffcmd clients
+	CheckSpawnTest();
+
 	if (time > self.wait)
 	{
 		elohim_periodic_checks();
@@ -1474,12 +1495,31 @@ void() PlayerPostThink =
 		}
 	}
 
+	// QCAntilag: handle ping request and response impulses
+	if (self.impulse == 37)
+	{
+		client_responsetime_show();
+		self.impulse = 0;
+	}
+	else if (self.impulse == 38)
+	{
+		client_responsetime_set();
+		self.impulse = 0; // make sure we clear impulse, because it won't happen if we're reloading. Silly id1 code.
+	}
+
 	if (self.impulse)
 	{
 		if ((self.impulse >= 20) && (self.impulse <= 250))
 			elohim_impulse ();
 	}
 
+	// QCAntilag: in case client is running at very high fps, keep this reined in.
+	if (time > self.antilag_updatetime)
+	{
+		UpdateLastOrigin();
+		self.antilag_updatetime = time + 0.01;
+	}
+	
 	if (gameover)
 		return;     // intermission or finale
 	if (self.deadflag)
@@ -1534,6 +1574,30 @@ called when a player connects to a server
 */
 void() ClientConnect =
 {
+	// QCAntilag: tell ourselves which server we're in
+	if (is_running_fte) // if we're on FTE, we can use the QW way
+	{
+		sprint (self, "QCAntilag in FTE server mode\n");
+		string protocol = infokey(self, "protocol");
+		float is_qw_client = (strstrofs(protocol, "quakeworld") != -1);
+		
+		if (!self.playerexflags) 
+		{
+			if (infokey(self, "playerexflags") == "")
+			{
+				if (is_qw_client) // if we're QW and haven't gotten any exflags yet, assume never change
+					self.playerexflags |= PEF_CHANGENEVER;
+			}
+			else // if we have userinfo playerexflags, use those
+			{
+				self.playerexflags = infokeyf(self, "playerexflags");
+			}
+		}
+		
+	} else {
+		sprint (self, "QCAntilag in QE server mode\n");
+	}
+
 	// ELOHIM_MOD - do elohim specific stuff
 	elohim_client_connect();
 	// END_MOD

@@ -399,6 +399,11 @@ float   MSG_ONE                 = 1;            // reliable to one (msg_entity)
 float   MSG_ALL                 = 2;            // reliable to all
 float   MSG_INIT                = 3;            // write to the init string
 
+// Added for QCAntilag/QE support
+// player expanded settings flags
+float PEF_CHANGEONLYNEW	= 1;
+float PEF_CHANGENEVER   = 2;
+
 //================================================
 
 //
@@ -677,6 +682,9 @@ string(string s) precache_file2         = #77;          // registered version on
 void(entity e) setspawnparms            = #78;          // set parm1... to the
 												// values at level start
 												// for coop respawn
+
+// Added for QCAntilag to detect FTE server
+float checkextension( string s ) = #99;
 
 //============================================================================
 

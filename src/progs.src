@@ -3,7 +3,7 @@
 defs.qc
 maps.qc
 
-
+antilag.qc  // QCAntilag
 array.qc    // elohim mod
 userdefs.qc // elohim mod
 elodefs.qc  // elohim mod

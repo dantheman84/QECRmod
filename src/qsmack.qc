@@ -201,25 +201,26 @@ void () qsmack_impulse =
 		temps = ftos(tempf);
 		localcmd3("kick # ", temps, "\n");
 	}
-	else if (self.impulse == 37)
-	{
-		local entity aa;
-		aa = find(world, classname, "player");
-		while (aa != world)
-		{
-			if (aa.style & ELOHIM_CONNECTED)
-			{
-				if (aa.style & ELOHIM_ADMINISTRATOR)
-				{
-					// You must use this format!
-					sprint(aa, "#qsmack_command# ");
-					sprint(aa, self.netname);
-					sprint(aa, "\n");
-				}
-			}
-			aa = find(aa, classname, "player");
-		}
-	}
+	// Disabled for QCAntilag impulse
+	// else if (self.impulse == 37)
+	// {
+	// 	local entity aa;
+	// 	aa = find(world, classname, "player");
+	// 	while (aa != world)
+	// 	{
+	// 		if (aa.style & ELOHIM_CONNECTED)
+	// 		{
+	// 			if (aa.style & ELOHIM_ADMINISTRATOR)
+	// 			{
+	// 				// You must use this format!
+	// 				sprint(aa, "#qsmack_command# ");
+	// 				sprint(aa, self.netname);
+	// 				sprint(aa, "\n");
+	// 			}
+	// 		}
+	// 		aa = find(aa, classname, "player");
+	// 	}
+	// }
 
 	// JP - got rid of the '-1'.  What the heck was it for?
 	self.finaldest_x = time;

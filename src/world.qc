@@ -180,6 +180,12 @@ void() worldspawn =
 	else
 		cvar_set ("sv_gravity", "800");
 
+	// QCAntilag: Check for FTE server properties
+	if (cvar("pr_checkextension"))
+		is_running_fte = checkextension("FTE_MULTIPROGS");
+	if (is_running_fte)
+		cvar_set ("sv_gameplayfix_multiplethinks", "0");
+
 // custom map title
 	self.message = GetMapName(self.message);
 
@@ -355,6 +361,12 @@ void() StartFrame =
 	// ELOHIM_MOD - do elohim specific stuff
 	elohim_start_frame();
 	// END_MOD
+
+	// QCAntilag: Periodically get clients' ping (response) times
+	if (time > responsetimecheck)
+	{
+		client_responsetime_get_all();
+	}
 };
 
 /*

@@ -884,8 +884,9 @@ void () elohim_impulse =
 	// CRMOD Qsmack
 	if (self.style & CRMOD_DETECTING_QSMACK)
 		qsmack_detecting();
-	else if (self.impulse == 38) // used for sping (was 103)
-		elohim_ping_reply();
+	// Handled by QCAntilag code
+	// else if (self.impulse == 38) // used for sping (was 103)
+	// 	elohim_ping_reply();
 	else if (self.impulse == 39) // used for testing for disconnects (was 104)
 		self.finaldest_x = time;
 	else if (self.impulse < 100)
