@@ -470,6 +470,9 @@ void () elohim_init_think =
 		// Disable unicode font (allow quake characters/red letters)
 		stuffcmd(self, "scr_usekfont 0\n");
 
+		if (!(self.style & ELOHIM_HEADS_UP))
+			sprint(self, "type 'headsup' for enhanced HUD (QE only)\n");
+
 		self = temp;
 		self.think = elohim_pre_set_aliases;
 		self.nextthink = time + 1.5;
