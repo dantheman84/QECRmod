@@ -25,3 +25,7 @@ When you change to mpmod, it sets the root folder to be Saved Games, so next tim
 
 Credits
 JP Grossman
+
+License
+As QECRmod is derived from CRmod, which is GPLv3, QECRmod is licensed under GPLv3.
+See LICENSE.txt for details.
