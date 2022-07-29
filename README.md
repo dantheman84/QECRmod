@@ -11,8 +11,8 @@ http://www.crmod.com/manual.html
 # Original Github repo:
 https://github.com/jp-grossman/crmod/
 
-# QCAntilag v0.4
-https://github.com/ceeeKay/QCAntilag
+## Includes QCAntilag v0.4.1
+https://github.com/ceeeKay/QCAntilag/releases/tag/v0.4.1
 
 # How to install
 Go to your 'Saved games' quake folder, NOT THE STEAM FOLDER. You can go to it by pressing Windows+R and typing: %userprofile%\Saved Games\Nightdive Studios\Quake\Id1
