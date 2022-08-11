@@ -51,16 +51,16 @@ void () userdefs_init_world =
 
 	// User defined maps
 	// Manually controlled (at compile) as opposed to ltag0-ltag9 (config?)
-	array_set_user_map(0, "      aerowalk");
-	array_set_user_map(1, "      ztndm3");
-	array_set_user_map(2, "      ultrav");
-	array_set_user_map(3, "      aggressr");
-	array_set_user_map(4, "      cmt3");
-	array_set_user_map(5, "      schloss");
-	array_set_user_map(6, "      skull");
-	array_set_user_map(7, "      bravado");
-	array_set_user_map(8, "      ztndm4");
-	array_set_user_map(9, "      cmt4");
+	array_set_user_map(0, "aerowalk");
+	array_set_user_map(1, "ztndm3");
+	array_set_user_map(2, "aggressr");
+	array_set_user_map(3, "bravado");
+	array_set_user_map(4, "catalyst");
+	array_set_user_map(5, "ultrav");
+	array_set_user_map(6, "skull");
+	array_set_user_map(7, "q1q3monsoon");
+	array_set_user_map(8, "shifter_nq");
+	array_set_user_map(9, "castlev2");
 
 	// Intro message
 	temp = "0 ntag";
