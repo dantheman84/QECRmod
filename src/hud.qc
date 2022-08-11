@@ -51,6 +51,44 @@ void hud_update() =
 		their_team_score = elohim_teamfrags2;
 	}
 
+	// If headsup is off, just print a match timer
+	if (!(self.style & ELOHIM_HEADS_UP))
+	{
+		local string cur_min_pad;
+		if (cur_min < 10)
+		{
+			cur_min_pad = "  ";
+		}
+		else if (cur_min < 100)
+		{
+			cur_min_pad = " ";
+		}
+		else // >= 100
+		{
+			cur_min_pad = "";
+		}
+
+		local string cur_sec_pad;
+		if (cur_sec < 10)
+		{
+			// Leading zero on seconds
+			cur_sec_pad = "0";
+		}
+		else // >= 100
+		{
+			cur_sec_pad = "";
+		}
+
+		centerprint7(self,
+		"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+		cur_min_pad,ftos(cur_min),":",cur_sec_pad,ftos(cur_sec),
+		"                                            \n");
+		// Return for non-headsup mode (non-QE clients)
+		return;
+	}
+
+	// QE clients (or those that can handle QE-style centerprints) only from here!
+
 	// Reminder: centerprint can do 7 strings, 40 lines, 50 characters wide
 	msg_entity = self;
 	WriteByte (MSG_ONE, SVC_CENTERPRINT);

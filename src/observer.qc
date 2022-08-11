@@ -175,7 +175,7 @@ void () observer_walk_start =
 	stuffcmd(self, "v_centerspeed 500\n");
 	sprint(self, "walk mode - help-walk for help\n");
 	if (!(self.style & ELOHIM_HEADS_UP))
-		sprint(self, "type 'headsup' for fullscreen display\n");
+		sprint(self, "type 'headsup' for enhanced HUD (QE only)\n");
 };
 
 //
@@ -198,7 +198,7 @@ void () observer_fly_start =
 	stuffcmd(self, "v_centerspeed 500\n");
 	sprint(self, "fly mode - help-fly for help\n");
 	if (!(self.style & ELOHIM_HEADS_UP))
-		sprint(self, "type 'headsup' for fullscreen display\n");
+		sprint(self, "type 'headsup' for enhanced HUD (QE only)\n");
 };
 
 //
@@ -271,7 +271,7 @@ void () observer_camera_start =
 		sprint(self,"type 'autocam' for automatic camera switching\n");	// CRMOD
 
 	if (!(self.style & ELOHIM_HEADS_UP))
-		sprint(self, "type 'headsup' for fullscreen display\n");
+		sprint(self, "type 'headsup' for enhanced HUD (QE only)\n");
 	sprint(self, "type 'smooth' to eliminate choppines\n");
 };
 
@@ -316,7 +316,7 @@ void () observer_chase_start =
 	// END_CRMOD
 
 	if (!(self.style & ELOHIM_HEADS_UP))
-		sprint(self, "type 'headsup' for fullscreen display\n");
+		sprint(self, "type 'headsup' for enhanced HUD (QE only)\n");
 
 	sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
 	stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
@@ -375,7 +375,7 @@ void () observer_demo_start =
 	// END_CRMOD
 
 	if (!(self.style & ELOHIM_HEADS_UP))
-		sprint(self, "type 'headsup' for fullscreen display\n");
+		sprint(self, "type 'headsup' for enhanced HUD (QE only)\n");
 
 	sprint(self, "enabling 'smooth' mode to eliminate choppines\n");
 	stuffcmd(self, "cl_nolerp 1\n");		// CRMOD - interpolation buffering off
@@ -1142,7 +1142,7 @@ void () observer_help =
 	sprint(self, " autochase - automatic chasecam mode\n");
 	sprint(self, " camera    - camera mode\n");
 	sprint(self, " autocam   - automatic camera mode\n");
-	sprint(self, " headsup   - toggle heads up display\n");
+	sprint(self, " headsup   - toggle heads up display (QE only)\n");
 	sprint(self, " touney    - toggle tournament chase\n");
 };
 
@@ -1255,7 +1255,12 @@ void (float response) observer_confirm_leave_response =
 //
 void () observer_impulse =
 {
-	if (self.style & ELOHIM_OBSERVER)
+	// QECRmod allow players to toggle HUD
+	if (self.impulse == 148)
+	{
+		observer_heads_up();
+	}
+	else if (self.style & ELOHIM_OBSERVER)
 	{
 		if (self.impulse == 141)
 			observer_walk_start();
@@ -1263,8 +1268,7 @@ void () observer_impulse =
 			observer_fly_start();
 		else if (self.impulse == 143 || self.impulse == 226)
 			observer_chase_start();
-		else if (self.impulse == 148)
-			observer_heads_up();
+		// QECRmod allow players to use headsup (148)
 		else if (self.impulse == 149)
 			observer_demo_start();
 		else if (self.impulse == 150)
@@ -1386,7 +1390,7 @@ void () observer_check_size =
 //
 void () observer_update_display =
 {
-	// local string w, armour, aval, healthammo, ammo;
+	local string w, armour, aval, healthammo, ammo;
 	local entity player;	// CRMOD cameras
 	local string score, pad, teamname;
 
@@ -1423,46 +1427,46 @@ void () observer_update_display =
 	if ((player != world) && (player.classname == "elohim_camera"))
 		player = player.movetarget;
 
-	// New HUD
-	hud_update();
+	// QECRmod HUD
+	if (self.style & ELOHIM_HEADS_UP) {
+		hud_update();
 
-	// Skip old observer hud stuff below
-	return;
+		// Skip old observer hud stuff below
+		return;
+	}
 
-	// TODO come back and see if there's more to re-enable from this
+	if (!player)
+	{
+		if (elohim_state & ELOHIM_MATCH_STARTED)
+			centerprint4(self, "\n\n\n\n\n\n\n\n\n\n\n\n               ", teamname, score, pad);
+		else
+			centerprint(self, " ");
+	    return;
+	}
 
-	// if (!player)
-	// {
-	// 	if (elohim_state & ELOHIM_MATCH_STARTED)
-	// 		centerprint4(self, "\n\n\n\n\n\n\n\n\n\n\n\n               ", teamname, score, pad);
-	// 	else
-	// 		centerprint(self, " ");
-	//     return;
-	// }
+	if (self.style & ELOHIM_HEADS_UP)
+	{
+	    w = strings_get_weapon(player);
+	    armour = strings_get_armour_type(player);
+	    aval = strings_get_armour_val(player);
+	    healthammo = strings_get_health_ammo(player);
+	    ammo = ftos(player.currentammo);
 
-	// if (self.style & ELOHIM_HEADS_UP)
-	// {
-	//     w = strings_get_weapon(player);
-	//     armour = strings_get_armour_type(player);
-	//     aval = strings_get_armour_val(player);
-	//     healthammo = strings_get_health_ammo(player);
-	//     ammo = ftos(player.currentammo);
+	    centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\n\n\n",
+	        player.netname, w, armour, aval, healthammo, ammo);
+	}
+	else
+	{
+		local string othertarget;
 
-	//     centerprint7(self, "\n\n\n\n\n\n\n\n\n\n\n\n\n",
-	//         player.netname, w, armour, aval, healthammo, ammo);
-	// }
-	// else
-	// {
-	// 	local string othertarget;
+		if ((self.oflags & OBSERVER_TOURNEY) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
+			othertarget = self.crmod_othertarget.netname;
+		else
+			othertarget = "";
 
-	// 	if ((self.oflags & OBSERVER_TOURNEY) && (self.crmod_othertarget != world) && (self.movetarget.classname == "player"))
-	// 		othertarget = self.crmod_othertarget.netname;
-	// 	else
-	// 		othertarget = "";
-
-	// 	centerprint7(self, "\n\n\n\n\n\n\n\n\n\n", othertarget, "                       \n\n",
-	// 				 player.netname, teamname, score, pad);
-	// }
+		centerprint7(self, "\n\n\n\n\n\n\n\n\n\n", othertarget, "                       \n\n",
+					 player.netname, teamname, score, pad);
+	}
 };
 
 //

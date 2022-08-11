@@ -1490,7 +1490,7 @@ void() PlayerPostThink =
 				// Only update every 0.1 seconds
 				self.delay = time + 0.1;
 
-				// Recalculate/redraw player HUD
+				// Recalculate/redraw player QECRmod HUD, if enabled
 				hud_update();
 			}
 		}
